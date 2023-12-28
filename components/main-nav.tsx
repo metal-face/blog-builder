@@ -7,7 +7,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 export function MainNav() {
   return (
-    <div className="h-12  flex items-center justify-end">
+    <div className="h-12 flex items-center justify-end">
       <ThemeToggle />
       <Button variant="outline" className="m-2">
         Login
