@@ -1,17 +1,12 @@
-"use client"
+"use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import * as React from "react";
 
 export function MainNav() {
-  const pathname = usePathname(); 
-
   return (
-    <div className="border">
-      <Link href="/">
-        <span>Login</span>
-      </Link>
+    <div className="h-12 border flex items-center justify-end">
+      
+      <button className="text-pretty m-4">Login</button>
     </div>
-  )
+  );
 }
