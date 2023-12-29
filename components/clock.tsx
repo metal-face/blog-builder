@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TypographyH2 } from "./typography/typography-h2";
+import { TypographyH4 } from "./typography/typography-h4";
 
 export function Clock() {
   function updateTime() {
@@ -14,8 +14,8 @@ export function Clock() {
   }, []);
 
   return (
-    <div className="m-2 flex items-center justify-center">
-      <TypographyH2 props={{ text: time.toLocaleTimeString() }} />
+    <div className="m-1 flex items-center justify-center">
+      <TypographyH4 props={{ text: time.toLocaleTimeString() }} />
     </div>
   );
 }
