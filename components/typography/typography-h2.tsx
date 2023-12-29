@@ -1,3 +1,4 @@
+"use client";
 interface TypographyH2Props {
   props: {
     text: string;
