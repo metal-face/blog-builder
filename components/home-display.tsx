@@ -6,7 +6,6 @@ export function HomeDisplay() {
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center">
       <TypographyH1 props={{ text: "Build Your Own Blogs" }} />
-
       <TypographyH3 props={{ text: "Built with ❤️ by MetalFace" }} />
       <Clock />
     </div>
