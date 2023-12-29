@@ -1,3 +1,5 @@
+"use strict";
+
 import { AppBar } from "@/components/app-bar";
 import { HomeDisplay } from "@/components/home-display";
 
