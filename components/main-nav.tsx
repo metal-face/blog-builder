@@ -11,11 +11,11 @@ export function MainNav() {
             <Button variant="outline">
                 <Link href="/builder">Build 🛠️</Link>
             </Button>
-            <Button variant="outline" className="m-2">
+            <Button variant="outline" className="mx-1">
                 Login
-                <GitHubLogoIcon className="h-4 w-4 m-2" />
+                <GitHubLogoIcon className="h-4 w-4 ml-2" />
             </Button>
-            <div className="mr-2">
+            <div className="mr-1">
                 <ThemeToggle />
             </div>
         </div>
