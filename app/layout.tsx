@@ -5,20 +5,20 @@ import { Providers } from "@/components/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
-  children,
+    children,
 }: {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }) {
-  return (
-    <html suppressHydrationWarning lang="en">
-      <head>
-        <title>Blog Builder</title>
-      </head>
-      <body className={inter.className}>
-        <Providers>
-          <div className="h-full">{children}</div>
-        </Providers>
-      </body>
-    </html>
-  );
+    return (
+        <html suppressHydrationWarning lang="en">
+            <head>
+                <title>Blog Builder</title>
+            </head>
+            <body className={inter.className}>
+                <Providers>
+                    <div className="h-full">{children}</div>
+                </Providers>
+            </body>
+        </html>
+    );
 }
