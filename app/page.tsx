@@ -2,10 +2,9 @@ import { AppBar } from "@/components/app-bar";
 import { HomeDisplay } from "@/components/home-display";
 
 export default function Home() {
-  return (
-    <main>
-      <AppBar />
-      <HomeDisplay />
-    </main>
-  );
+    return (
+        <main>
+            <HomeDisplay />
+        </main>
+    );
 }
