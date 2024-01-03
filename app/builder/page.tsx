@@ -1,14 +1,13 @@
 "use client";
 
-import rehypeSanitize from "rehype-sanitize";
-import SlateEditor from "./slate-editor";
+import Tiptap from "@/components/tip-tap";
 
 function BlogBuilder() {
     return (
         <div>
             {/* TODO - figure out why I need app bar here */}
             <div className="h-full">
-                <SlateEditor></SlateEditor>
+                <Tiptap />
             </div>
         </div>
     );
