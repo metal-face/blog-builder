@@ -10,27 +10,34 @@ import {
     CodeIcon,
     ColorWheelIcon,
     Link1Icon,
+    ListBulletIcon,
 } from "@radix-ui/react-icons";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Code from "@tiptap/extension-code";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
-
-Underline.configure({
-    HTMLAttributes: {
-        class: "my-custom-class",
-    },
-});
-
-Code.configure({
-    HTMLAttributes: {
-        class: "my-custom-class",
-    },
-});
+import ListItem from "@tiptap/extension-list-item";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Document from "@tiptap/extension-document";
+import Text from "@tiptap/extension-text";
+import Paragraph from "@tiptap/extension-paragraph";
 
 Highlight.configure({
     multicolor: true,
+});
+
+BulletList.configure({
+    keepAttributes: true,
+    keepMarks: true,
+    itemTypeName: "bulletList",
+});
+
+ListItem.configure({
+    HTMLAttributes: {
+        class: "my-custom-class",
+    },
 });
 
 Link.configure({
@@ -49,13 +56,17 @@ Link.configure({
 
 const Tiptap = () => {
     const editor = useEditor({
-        extensions: [StarterKit, Underline, Code, Highlight],
+        extensions: [StarterKit, Underline, Highlight],
         content: "<p>Hello World! 🌎️</p>",
-    });
+    }); // 👈️               
+
+    if (!editor) {
+        return null;
+    }
 
     return (
         <div className="h-screen w-full">
-            <div className="w-full h-12 flex justify-start items-center">
+            <div className="w-screen h-12 flex flex-nowrap justify-around items-center">
                 <div className="m-1">
                     <Button
                         variant="outline"
@@ -97,7 +108,9 @@ const Tiptap = () => {
                 <div className="m-1">
                     <Button
                         variant="outline"
-                        onClick={() => editor.commands.toggleCode()}
+                        onClick={() =>
+                            editor.chain().focus().toggleCode().run()
+                        }
                     >
                         <CodeIcon className="w-4 h-4" />
                     </Button>
@@ -122,6 +135,19 @@ const Tiptap = () => {
                         <Link1Icon className="w-4 h-4" />
                     </Button>
                 </div> */}
+                <div className="m-1">
+                    <Button
+                        className={
+                            editor.isActive("bulletList") ? "is-active" : ""
+                        }
+                        variant="outline"
+                        onClick={() =>
+                            editor.chain().focus().toggleBulletList().run()
+                        }
+                    >
+                        <ListBulletIcon className="w-4 h-4" />
+                    </Button>
+                </div>
             </div>
             <div className="border h-full">
                 <EditorContent className="editor" editor={editor} />
