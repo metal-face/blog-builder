@@ -9,11 +9,13 @@ import {
     UnderlineIcon,
     CodeIcon,
     ColorWheelIcon,
+    Link1Icon,
 } from "@radix-ui/react-icons";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Code from "@tiptap/extension-code";
 import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
 
 Underline.configure({
     HTMLAttributes: {
@@ -29,6 +31,20 @@ Code.configure({
 
 Highlight.configure({
     multicolor: true,
+});
+
+Link.configure({
+    protocols: ["ftp", "mailto"],
+    openOnClick: true,
+    linkOnPaste: true,
+    HTMLAttributes: {
+        // Change rel to different value
+        // Allow search engines to follow links(remove nofollow)
+        rel: "noopener noreferrer",
+        // Remove target entirely so links open in current tab
+        target: null,
+    },
+    validate: (href) => /^https?:\/\//.test(href),
 });
 
 const Tiptap = () => {
@@ -98,6 +114,14 @@ const Tiptap = () => {
                         <ColorWheelIcon className="w-4 h-4" />
                     </Button>
                 </div>
+                {/* <div className="m-1">
+                    <Button
+                        variant="outline"
+                        onClick={() => editor.commands.toggleLink()}
+                    >
+                        <Link1Icon className="w-4 h-4" />
+                    </Button>
+                </div> */}
             </div>
             <div className="border h-full">
                 <EditorContent className="editor" editor={editor} />
