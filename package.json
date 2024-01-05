@@ -14,6 +14,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@tiptap/extension-bullet-list": "^2.1.13",
     "@tiptap/extension-code": "^2.1.13",
+    "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-document": "^2.1.13",
     "@tiptap/extension-highlight": "^2.1.13",
     "@tiptap/extension-link": "^2.1.13",
@@ -21,6 +22,7 @@
     "@tiptap/extension-ordered-list": "^2.1.13",
     "@tiptap/extension-paragraph": "^2.1.13",
     "@tiptap/extension-text": "^2.1.13",
+    "@tiptap/extension-text-style": "^2.1.13",
     "@tiptap/extension-underline": "^2.1.13",
     "@tiptap/pm": "^2.1.13",
     "@tiptap/react": "^2.1.13",
@@ -35,6 +37,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rehype-sanitize": "^6.0.0",
+    "sass": "^1.69.7",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7"
   },
