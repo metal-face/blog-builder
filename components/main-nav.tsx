@@ -4,9 +4,11 @@ import * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-import { Clock } from "@/components/clock";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const Clock = dynamic(() => import("@/components/clock"), { ssr: false });
 
 interface ConditionalButtonProps {
     name: string;
@@ -14,7 +16,7 @@ interface ConditionalButtonProps {
 }
 
 function ConditionalButton({ name, visible }: ConditionalButtonProps) {
-    return visible ? <Button variant="outline">{name}</Button> : <></>;
+    return visible ? <Button variant="outline">{name}</Button> : null;
 }
 
 export function MainNav() {
@@ -25,7 +27,7 @@ export function MainNav() {
                 <Clock />
             </div>
             <div className="h-full flex items-center">
-                <Link href="/builder" className="mx-1">
+                <Link href="/builder">
                     <ConditionalButton
                         name="Build 🛠️"
                         visible={currentPath !== "/builder"}
