@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/style.scss";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Button } from "./ui/button";
 import {
@@ -18,25 +19,16 @@ import Code from "@tiptap/extension-code";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import ListItem from "@tiptap/extension-list-item";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import Document from "@tiptap/extension-document";
-import Text from "@tiptap/extension-text";
-import Paragraph from "@tiptap/extension-paragraph";
+import TextStyle from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
 
 Highlight.configure({
     multicolor: true,
 });
 
-BulletList.configure({
-    keepAttributes: true,
-    keepMarks: true,
-    itemTypeName: "bulletList",
-});
-
 ListItem.configure({
     HTMLAttributes: {
-        class: "my-custom-class",
+        class: "listItem",
     },
 });
 
@@ -56,9 +48,25 @@ Link.configure({
 
 const Tiptap = () => {
     const editor = useEditor({
-        extensions: [StarterKit, Underline, Highlight],
+        extensions: [
+            Color.configure({ types: [TextStyle.name, ListItem.name] }),
+            TextStyle.configure({ types: [ListItem.name] }),
+            StarterKit.configure({
+                bulletList: {
+                    keepMarks: true,
+                    keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+                },
+                orderedList: {
+                    keepMarks: true,
+                    keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+                },
+            }),
+            Underline,
+            Highlight,
+        ],
+
         content: "<p>Hello World! 🌎️</p>",
-    }); // 👈️               
+    }); // 👈️
 
     if (!editor) {
         return null;
@@ -137,19 +145,19 @@ const Tiptap = () => {
                 </div> */}
                 <div className="m-1">
                     <Button
-                        className={
-                            editor.isActive("bulletList") ? "is-active" : ""
-                        }
                         variant="outline"
                         onClick={() =>
                             editor.chain().focus().toggleBulletList().run()
+                        }
+                        className={
+                            editor.isActive("bulletList") ? "is-active" : ""
                         }
                     >
                         <ListBulletIcon className="w-4 h-4" />
                     </Button>
                 </div>
             </div>
-            <div className="border h-full">
+            <div className="border container">
                 <EditorContent className="editor" editor={editor} />
             </div>
         </div>
