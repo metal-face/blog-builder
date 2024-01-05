@@ -49,7 +49,7 @@ const Tiptap = () => {
             }),
         ],
 
-        content: "<p>Hello World! 🌎️</p>",
+        content: "Hello World! 🌎️",
     }); // 👈️
 
     if (!editor) {
@@ -57,10 +57,10 @@ const Tiptap = () => {
     }
 
     return (
-        <div className=" ">
+        <>
             <Toolbar editor={editor} />
             <EditorContent editor={editor} />
-        </div>
+        </>
     );
 };
 
