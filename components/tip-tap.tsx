@@ -2,6 +2,7 @@
 
 import "@/app/style.css";
 import { useEditor, EditorContent } from "@tiptap/react";
+import { Fragment } from "react";
 
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -12,7 +13,7 @@ import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 
-import Toolbar from "./editor/toolbar";
+import Toolbar from "@/components/editor/toolbar";
 
 const Tiptap = () => {
     const editor = useEditor({
@@ -48,19 +49,18 @@ const Tiptap = () => {
                 multicolor: true,
             }),
         ],
-
         content: "Hello World! 🌎️",
-    }); // 👈️
+    });
 
     if (!editor) {
         return null;
     }
 
     return (
-        <>
+        <Fragment>
             <Toolbar editor={editor} />
             <EditorContent editor={editor} />
-        </>
+        </Fragment>
     );
 };
 
