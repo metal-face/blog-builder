@@ -1,6 +1,6 @@
 "use client";
 
-import "@/app/style.scss";
+import "@/app/style.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 
 import StarterKit from "@tiptap/starter-kit";
