@@ -3,8 +3,8 @@
 import * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import GitHubLogo from "@/components/icons/github";
 import { usePathname } from "next/navigation";
+import GitHubLogo from "@/components/icons/github";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
@@ -13,10 +13,15 @@ const Clock = dynamic(() => import("@/components/clock"), { ssr: false });
 interface ConditionalButtonProps {
     name: string;
     visible: boolean;
+    classes?: string;
 }
 
-function ConditionalButton({ name, visible }: ConditionalButtonProps) {
-    return visible ? <Button variant="outline">{name}</Button> : null;
+function ConditionalButton({ name, visible, classes }: ConditionalButtonProps) {
+    return visible ? (
+        <Button variant="outline" className={classes}>
+            {name}
+        </Button>
+    ) : null;
 }
 
 export function MainNav() {
@@ -29,12 +34,14 @@ export function MainNav() {
             <div className="h-full flex items-center">
                 <Link href="/builder">
                     <ConditionalButton
+                        classes="ml-1"
                         name="Build 🛠️"
                         visible={currentPath !== "/builder"}
                     />
                 </Link>
-                <Link href="/" className="ml-1">
+                <Link href="/">
                     <ConditionalButton
+                        classes="ml-1"
                         name="Home 🏠"
                         visible={currentPath !== "/"}
                     />
