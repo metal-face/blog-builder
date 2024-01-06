@@ -14,6 +14,18 @@ export default function RootLayout({
     return (
         <html suppressHydrationWarning lang="en">
             <head>
+                <meta charSet="UTF-8" />
+                <meta
+                    name="keywords"
+                    content="Blog, Blogging, blog, blogging, writing"
+                />
+                <meta name="author" content="metal-face" />
+                <meta name="darkreader-lock" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0"
+                />
+
                 <title>Blog Builder</title>
             </head>
             <body className={inter.className}>
