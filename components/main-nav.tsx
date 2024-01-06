@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { EnterIcon } from "@radix-ui/react-icons";
 import ConditionalButton from "@/components/conditional-button";
