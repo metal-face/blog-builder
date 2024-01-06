@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import GitHubLogo from "@/components/icons/github";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -33,16 +33,18 @@ export function MainNav() {
                         visible={currentPath !== "/builder"}
                     />
                 </Link>
-                <Link href="/">
+                <Link href="/" className="ml-1">
                     <ConditionalButton
                         name="Home 🏠"
                         visible={currentPath !== "/"}
                     />
                 </Link>
-                <Button variant="outline" className="mx-1">
-                    Login
-                    <GitHubLogoIcon className="h-4 w-4 ml-2" />
-                </Button>
+                <Link href="/login">
+                    <Button variant="outline" className="mx-1">
+                        Login
+                        <GitHubLogo classes={"ml-2"} />
+                    </Button>
+                </Link>
                 <div className="flex align-middle mr-1">
                     <ThemeToggle />
                 </div>
