@@ -1,6 +1,6 @@
 "use client";
 
-import "@/app/style.css";
+import "@/app/builder/style.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Fragment } from "react";
 
