@@ -3,5 +3,5 @@ interface TypographyPProps {
 }
 
 export function TypographyP({ text }: TypographyPProps) {
-    return <p className="leading-7 [&:not(:first-child)]:mt-6">{text}</p>;
+    return <p className="leading-7 [&:not(:first-child)]:my-1">{text}</p>;
 }
