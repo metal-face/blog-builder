@@ -4,32 +4,12 @@ import * as React from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import GitHubLogo from "@/components/icons/github";
+import { EnterIcon } from "@radix-ui/react-icons";
+import ConditionalButton from "@/components/conditional-button";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const Clock = dynamic(() => import("@/components/clock"), { ssr: false });
-
-interface ConditionalButtonProps {
-    name: string;
-    visible: boolean;
-    classes?: string;
-    children?: React.ReactNode;
-}
-
-function ConditionalButton({
-    name,
-    visible,
-    classes,
-    children,
-}: ConditionalButtonProps) {
-    return visible ? (
-        <Button variant="outline" className={classes}>
-            {name}
-            {children}
-        </Button>
-    ) : null;
-}
 
 export function MainNav() {
     const currentPath = usePathname();
@@ -55,10 +35,11 @@ export function MainNav() {
                 </Link>
                 <Link href="/login">
                     <ConditionalButton
+                        classes="ml-1"
                         name="Login"
                         visible={currentPath !== "/login"}
                     >
-                        <GitHubLogo classes={"ml-2"} />
+                        <EnterIcon className="ml-2" />
                     </ConditionalButton>
                 </Link>
                 <div className="flex align-middle mx-1">
