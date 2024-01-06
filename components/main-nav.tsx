@@ -14,12 +14,19 @@ interface ConditionalButtonProps {
     name: string;
     visible: boolean;
     classes?: string;
+    children?: React.ReactNode;
 }
 
-function ConditionalButton({ name, visible, classes }: ConditionalButtonProps) {
+function ConditionalButton({
+    name,
+    visible,
+    classes,
+    children,
+}: ConditionalButtonProps) {
     return visible ? (
         <Button variant="outline" className={classes}>
             {name}
+            {children}
         </Button>
     ) : null;
 }
@@ -47,12 +54,14 @@ export function MainNav() {
                     />
                 </Link>
                 <Link href="/login">
-                    <Button variant="outline" className="mx-1">
-                        Login
+                    <ConditionalButton
+                        name="Login"
+                        visible={currentPath !== "/login"}
+                    >
                         <GitHubLogo classes={"ml-2"} />
-                    </Button>
+                    </ConditionalButton>
                 </Link>
-                <div className="flex align-middle mr-1">
+                <div className="flex align-middle mx-1">
                     <ThemeToggle />
                 </div>
             </div>
