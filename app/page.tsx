@@ -1,9 +1,9 @@
-import { AppBar } from "@/components/app-bar";
 import { HomeDisplay } from "@/components/home-display";
+import "@/app/login/style.css";
 
 export default function Home() {
     return (
-        <main>
+        <main className="content">
             <HomeDisplay />
         </main>
     );
