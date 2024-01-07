@@ -11,13 +11,13 @@
   padding: 1.5px; /* control the border thickness */
   background: conic-gradient(
     from var(--angle),
-    #3178c622,
-    #3178c644 35%,
-    #3178c688 39%,
-    #3178c6,
-    #3178c688 61%,
-    #3178c644 65%,
-    #3178c622
+    #c6313122,
+    #c6313144 35%,
+    #c6313188 39%,
+    #c63131,
+    #c6313188 61%,
+    #c6313144 65%,
+    #c6313122
   );
   -webkit-mask-composite: xor;
   -webkit-mask:
