@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import { Providers } from "@/components/providers";
-import { AppBar } from "@/components/app-bar";
+import { AppBar } from "@/components/app-bar/app-bar";
 import "./globals.css";
 import "@/app/login/style.css";
 
