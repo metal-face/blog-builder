@@ -4,12 +4,13 @@ import Link from "next/link";
 import { EnterIcon } from "@radix-ui/react-icons";
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/options";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import Clock from "@/components/app-bar/clock";
 
 export async function MainNav() {
-    const session = await getServerSession(options);
+    const session = await getServerSession(authOptions);
+    console.log(session);
     return (
         <div className="h-12 w-full flex justify-between border-b">
             <div className="h-full flex justify-start align-middle">
@@ -26,8 +27,8 @@ export async function MainNav() {
                 <Link href="/">
                     <ConditionalButton classes="ml-1" name="Home 🏠" path="/" />
                 </Link>
-                {session ? (
-                    <Link href="/api/auth/signin">
+                {!session ? (
+                    <Link href="/login">
                         <ConditionalButton
                             classes="ml-1"
                             name="Login"
