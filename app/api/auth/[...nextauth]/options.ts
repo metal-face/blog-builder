@@ -1,4 +1,5 @@
 import GithubProvider from "next-auth/providers/github";
+
 export const options = {
     providers: [
         GithubProvider({
