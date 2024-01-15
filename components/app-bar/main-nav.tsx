@@ -1,20 +1,15 @@
-"use client";
-
-import * as React from "react";
-import { ThemeToggle } from "@/components/app-bar/theme-toggle";
-import { usePathname } from "next/navigation";
-import { EnterIcon } from "@radix-ui/react-icons";
+import React, { useEffect, useState } from "react";
 import ConditionalButton from "@/components/conditional-button";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-import BuilderButton from "./builder-button";
+import { EnterIcon } from "@radix-ui/react-icons";
+import { ThemeToggle } from "@/components/app-bar/theme-toggle";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 
-const Clock = dynamic(() => import("@/components/app-bar/clock"), {
-    ssr: false,
-});
+import Clock from "@/components/app-bar/clock";
 
-export function MainNav() {
-    const currentPath = usePathname();
+export async function MainNav() {
+    const session = await getServerSession(options);
     return (
         <div className="h-12 w-full flex justify-between border-b">
             <div className="h-full flex justify-start align-middle">
@@ -22,24 +17,28 @@ export function MainNav() {
             </div>
             <div className="h-full flex items-center">
                 <Link href="/builder">
-                    <BuilderButton />
-                </Link>
-                <Link href="/">
                     <ConditionalButton
                         classes="ml-1"
-                        name="Home 🏠"
-                        visible={currentPath !== "/"}
+                        name="Blog 🛠️"
+                        path="/builder"
                     />
                 </Link>
-                <Link href="/login">
-                    <ConditionalButton
-                        classes="ml-1"
-                        name="Login"
-                        visible={currentPath !== "/login"}
-                    >
-                        <EnterIcon className="ml-2" />
-                    </ConditionalButton>
+                <Link href="/">
+                    <ConditionalButton classes="ml-1" name="Home 🏠" path="/" />
                 </Link>
+                {session ? (
+                    <Link href="/api/auth/signin">
+                        <ConditionalButton
+                            classes="ml-1"
+                            name="Login"
+                            path="/login"
+                        >
+                            <EnterIcon className="ml-2" />
+                        </ConditionalButton>
+                    </Link>
+                ) : (
+                    <Link href="/api/auth/signout?callbackUrl=/">Logout</Link>
+                )}
                 <div className="flex align-middle mx-1">
                     <ThemeToggle />
                 </div>
