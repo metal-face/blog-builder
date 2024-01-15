@@ -1,6 +1,6 @@
 "use client";
 
-// import { signIn } from "@repo/auth/react";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import GitHubLogo from "./icons/github";
@@ -13,7 +13,7 @@ export function LoginButton({ redirectTo }: { redirectTo: string }) {
     const handleSignIn = async () => {
         try {
             setState("pending");
-            // await signIn("github", { callbackUrl: redirectTo });
+            await signIn("github", { callbackUrl: redirectTo });
         } catch (error) {
             setState("error");
         }
