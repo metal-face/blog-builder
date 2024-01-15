@@ -4,6 +4,8 @@ import { TypographyP } from "@/components/typography/typography-p";
 import { Fragment } from "react";
 import "@/app/login/style.css";
 
+// TODO: learn more about why async react components are not groovy for next.js
+
 export default async function Login() {
     return (
         <Fragment>
@@ -13,7 +15,7 @@ export default async function Login() {
                         <TypographyH1 text="Welcome!" />
                         <TypographyP text="Login to start building your own blogs." />
                     </div>
-                    <LoginButton redirectTo="/" />
+                    <LoginButton redirectTo="/api/auth/signin" />
                 </div>
             </div>
         </Fragment>
