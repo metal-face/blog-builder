@@ -3,6 +3,7 @@ import { Providers } from "@/components/providers";
 import { AppBar } from "@/components/app-bar/app-bar";
 import "./globals.css";
 import "@/app/login/style.css";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
