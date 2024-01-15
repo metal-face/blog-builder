@@ -25,11 +25,9 @@ export default function Clock() {
         return () => clearInterval(intervalID);
     }, [options]);
 
-    if (!time) return null;
-
-    return (
+    return time ? (
         <div className="ml-2 flex items-center justify-start">
             <TypographyH4 text={time} />
         </div>
-    );
+    ) : null;
 }
