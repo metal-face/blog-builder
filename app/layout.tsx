@@ -30,12 +30,12 @@ export default function RootLayout({
                 <title>Blog Builder</title>
             </head>
             <body className={inter.className}>
-                <div className="h-screen w-screen">
-                    <Providers>
+                <Providers>
+                    <main className="h-screen w-screen">
                         <AppBar />
                         <div className="content w-full">{children}</div>
-                    </Providers>
-                </div>
+                    </main>
+                </Providers>
             </body>
         </html>
     );
