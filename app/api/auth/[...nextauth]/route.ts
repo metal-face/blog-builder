@@ -1,16 +1,14 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import type { Awaitable, NextAuthOptions } from "next-auth";
-import { JWT } from "next-auth/jwt";
+import type { NextAuthOptions } from "next-auth";
 
-// TODO: Establish if options.ts is the correct file and this is obsolete
+
 
 export const authOptions: NextAuthOptions = {
-    // Configure one or more authentication providers
     providers: [
         GithubProvider({
             profile(profile) {
-                let userRole = "github user";
+                let userRole: string = "github user";
 
                 if (profile?.email === "hughesbryan3000@gmail.com") {
                     userRole = "admin";
@@ -19,13 +17,15 @@ export const authOptions: NextAuthOptions = {
                 return {
                     ...profile,
                     id: profile.id.toString(),
+                    name: profile.login,
+                    email: profile.email,
+                    image: profile.avatar_url,
                     role: userRole,
                 };
             },
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
-        // ...add more providers here
     ],
     callbacks: {
         async jwt({ token, user }) {
