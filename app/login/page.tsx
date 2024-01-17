@@ -15,7 +15,7 @@ export default async function Login() {
                         <TypographyH1 text="Welcome!" />
                         <TypographyP text="Login to start building your own blogs." />
                     </div>
-                    <LoginButton redirectTo="/api/auth/signin" />
+                    <LoginButton redirectTo="/" />
                 </div>
             </div>
         </Fragment>
