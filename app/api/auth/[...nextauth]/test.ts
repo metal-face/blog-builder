@@ -1,7 +1,10 @@
 import NextAuth from "next-auth/next";
-import * from ""
+import GithubProvider from "next-auth/providers/github";
+import PrismaAdapter from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client"
 
-export type { Session, DefaultSession as DefaultAuthSession } from 'next-auth';
+
+export type { Session, DefaultSession as DefaultAuthSession } from "next-auth";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -9,10 +12,10 @@ export type { Session, DefaultSession as DefaultAuthSession } from 'next-auth';
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module 'next-auth' {
-  interface Session {
-    user: User & { role: RoleTypes[] };
-  }
+declare module "next-auth" {
+    interface Session {
+        user: User & { role: RoleTypes[] };
+    }
 }
 
 if (!process.env.GITHUB_ID) {
@@ -22,6 +25,8 @@ if (!process.env.GITHUB_ID) {
 if (!process.env.GITHUB_SECRET) {
     throw new Error("No GITHUB_SECRET has been provided.");
 }
+
+const prisma = new PrismaClient();
 
 const cookiePrefix = "__Secure-";
 const cookieDomain = "metalface.ca";
@@ -61,23 +66,19 @@ export const {
             };
         },
     },
+    adapter: {
+        ...PrismaAdapter(prisma),
+    },
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID!,
             clientSecret: process.env.GITHUB_SECRET!,
-            profile: (p) => ({
-                id: p.id.toString(),
-                name: p.login,
-                email: p.email,
-                image: p.avatar_url,
+            profile: (profile) => ({
+                id: profile.id.toString(),
+                name: profile.login,
+                email: profile.email,
+                image: profile.avatar_url,
             }),
         }),
     ],
 });
-function GithubProvider(arg0: {
-    clientId: string;
-    clientSecret: string;
-    profile: (p: any) => { id: any; name: any; email: any; image: any };
-}): import("next-auth/providers/index").Provider {
-    throw new Error("Function not implemented.");
-}
