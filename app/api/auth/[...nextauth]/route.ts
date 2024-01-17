@@ -32,16 +32,6 @@ if (!process.env.GOOGLE_SECRET) {
 export const authOptions: NextAuthOptions = {
     providers: [
         TwitterProvider({
-            profile(profile) {
-                return {
-                    ...profile,
-                    id: profile.id,
-                    name: profile.screen_name,
-                    email: profile.email,
-                    image: profile.profile_image_url,
-                    role: "twitter user",
-                };
-            },
             clientId: process.env.TWITTER_ID as string,
             clientSecret: process.env.TWITTER_SECRET as string,
             version: "2.0",
