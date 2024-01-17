@@ -9,7 +9,7 @@ import "@/app/login/style.css";
 export default async function Login() {
     return (
         <div className="content flex items-center justify-center">
-            <div className="mx-auto flex w-full flex-col justify-center space-y-6 text-center">
+            <div className="flex h-fit w-full flex-col justify-center space-y-3  text-center">
                 <div className="flex flex-col space-y-0 text-center">
                     <TypographyH1 text="Welcome!" />
                     <TypographyP text="Login to start building your own blogs." />
