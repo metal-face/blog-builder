@@ -2,7 +2,13 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import type { NextAuthOptions } from "next-auth";
 
+if (!process.env.GITHUB_ID) {
+    throw new Error("No GITHUB_ID has been provided.");
+}
 
+if (!process.env.GITHUB_SECRET) {
+    throw new Error("No GITHUB_SECRET has been provided.");
+}
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -29,10 +35,12 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token, user }) {
+            console.log("jwt", token, user);
             if (user) token.role = user.role;
             return token;
         },
         async session({ session, token }: any) {
+            console.log("session", session, token);
             if (session?.user) session.user.role = token.role;
             return session;
         },
