@@ -6,6 +6,7 @@ import { useState } from "react";
 import GitHubLogo from "./icons/github";
 import { FaGoogle } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 
 type State = "error" | "idle" | "pending" | "success";
 
@@ -34,7 +35,18 @@ export function LoginButtons({ redirectTo }: { redirectTo: string }) {
                     Login with GitHub <GitHubLogo />
                 </Button>
             </div>
-
+            <div className="h-fit  mx-auto rounded-md duration-300 hover:shadow-[0_0_2rem_-0.5rem_#1DA1F2]">
+                <Button
+                    variant="outline"
+                    size="lg"
+                    onClick={() => handleSignIn("twitter")}
+                    disabled={state === "pending"}
+                    className="twitter hover:bg-background relative mx-auto flex gap-4 border-none"
+                >
+                    Login with Twitter
+                    <FaTwitter />
+                </Button>
+            </div>
             <div className="h-fit mx-auto rounded-md duration-300 hover:shadow-[0_0_2rem_-0.5rem_#5865F2]">
                 <Button
                     variant="outline"
