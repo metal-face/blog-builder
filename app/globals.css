@@ -11,10 +11,39 @@
   padding: 1.5px; /* control the border thickness */
   background: conic-gradient(
     from var(--angle),
-    #24292e 50%,
-    #2b3137 50%,
-    #fafbfc 50%,
-    #FFF 50%
+    #575d63,
+    #7e878f 35%,
+    #a3b2bf 40%,
+    #a3b2bf,
+    #a3b2bf 61%,
+    #eef7ffd3 65%,
+    #c2ccd6
+  );
+  -webkit-mask-composite: xor;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  animation: 3s rotate linear infinite;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.discord::before {
+  inset: 0;
+  content: '';
+  --angle: 0deg;
+  position: absolute;
+  border-radius: inherit;
+  padding: 1.5px; /* control the border thickness */
+  background: conic-gradient(
+    from var(--angle),
+    #5865f225,
+    #5865f245 35%,
+    #5865f291 40%,
+    #5865f2c0,
+    #5865f2c0 61%,
+    #5865f2de 65%,
+    #5865F2
   );
   -webkit-mask-composite: xor;
   -webkit-mask:
@@ -34,10 +63,10 @@
   padding: 1.5px; /* control the border thickness */
   background: conic-gradient(
     from var(--angle),
-    #ea4335 15%,
-    #4285f4 35%,
+    #ea4335 25%,
+    #4285f4 45%,
     #34a853 65%,
-    #fbbc05 39%
+    #fbbc05 85%
   );
   -webkit-mask-composite: xor;
   -webkit-mask:
