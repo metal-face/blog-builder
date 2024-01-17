@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import type { NextAuthOptions } from "next-auth";
 
 if (!process.env.GITHUB_ID) {
@@ -12,6 +13,25 @@ if (!process.env.GITHUB_SECRET) {
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        GoogleProvider({
+            profile(profile) {
+                let userRole: string = "google user";
+
+                if (profile?.email === "hughesbryan3000@gmail.com") {
+                    userRole = "admin";
+                }
+
+                console.log("Google Profile: ", profile);
+
+                return {
+                    ...profile,
+                    id: profile.sub,
+                    role: userRole,
+                };
+            },
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
+        }),
         GithubProvider({
             profile(profile) {
                 let userRole: string = "github user";
