@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
+import TwitterProvider from "next-auth/providers/twitter";
 import type { NextAuthOptions } from "next-auth";
 
 if (!process.env.DISCORD_CLIENT_ID) {
@@ -30,6 +31,21 @@ if (!process.env.GOOGLE_SECRET) {
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        TwitterProvider({
+            profile(profile) {
+                return {
+                    ...profile,
+                    id: profile.id,
+                    name: profile.screen_name,
+                    email: profile.email,
+                    image: profile.profile_image_url,
+                    role: "twitter user",
+                };
+            },
+            clientId: process.env.TWITTER_ID as string,
+            clientSecret: process.env.TWITTER_SECRET as string,
+            version: "2.0",
+        }),
         DiscordProvider({
             profile(profile) {
                 let userRole: string = "discord user";
@@ -49,13 +65,6 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
         }),
         GoogleProvider({
-            authorization: {
-                params: {
-                    prompt: "consent",
-                    access_type: "offline",
-                    response_type: "code",
-                },
-            },
             profile(profile) {
                 let userRole: string = "google user";
 
@@ -70,6 +79,13 @@ export const authOptions: NextAuthOptions = {
                     id: profile.sub,
                     role: userRole,
                 };
+            },
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code",
+                },
             },
             clientId: process.env.GOOGLE_ID as string,
             clientSecret: process.env.GOOGLE_SECRET as string,
