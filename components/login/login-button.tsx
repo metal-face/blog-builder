@@ -40,6 +40,8 @@ export default function LoginButton({
     redirectTo,
 }: LoginButtonProps) {
     const [state, setState] = useState<State>("idle");
+    const customClass = { "--color-code": colorCode } as React.CSSProperties;
+
     async function handleSignIn(provider: Providers) {
         try {
             setState("pending");
@@ -51,7 +53,8 @@ export default function LoginButton({
 
     return (
         <div
-            className={`h-fit  mx-auto rounded-md duration-300 hover:shadow-[0_0_2rem_-0.5rem_${colorCode}]`}
+            style={{ ...customClass }}
+            className={`login-button h-fit mx-auto rounded-md duration-300`}
         >
             <Button
                 variant="outline"
