@@ -1,4 +1,4 @@
-import { LoginButtons } from "@/components/login-buttons";
+import { LoginButtons } from "@/components/login/login-buttons";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { TypographyP } from "@/components/typography/typography-p";
 import "@/app/login/style.css";
