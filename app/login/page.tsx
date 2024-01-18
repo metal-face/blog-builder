@@ -1,10 +1,7 @@
 import { LoginButtons } from "@/components/login-buttons";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { TypographyP } from "@/components/typography/typography-p";
-import { Fragment } from "react";
 import "@/app/login/style.css";
-
-// TODO: learn more about why async react components are not groovy for next.js
 
 export default async function Login() {
     return (
