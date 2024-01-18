@@ -11,7 +11,7 @@ export default async function Login() {
                     <TypographyH1 text="Welcome!" />
                     <TypographyP text="Login to start building your own blogs." />
                 </div>
-                <LoginButtons redirectTo="/" />
+                <LoginButtons />
             </div>
         </div>
     );
