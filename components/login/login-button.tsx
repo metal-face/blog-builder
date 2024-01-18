@@ -11,6 +11,8 @@ interface LoginButtonProps {
     children?: React.ReactNode;
 }
 
+type State = "error" | "idle" | "pending" | "success";
+
 export enum Providers {
     GITHUB = "github",
     TWITTER = "twitter",
@@ -30,8 +32,6 @@ function providerToSignInWith(provider: Providers) {
             return "Google";
     }
 }
-
-type State = "error" | "idle" | "pending" | "success";
 
 export default function LoginButton({
     provider,
