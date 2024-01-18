@@ -7,7 +7,7 @@ import { FaTwitter } from "react-icons/fa";
 import { Providers } from "@/components/login/login-button";
 import LoginButton from "@/components/login/login-button";
 
-export function LoginButtons({ redirectTo }: { redirectTo: string }) {
+export function LoginButtons() {
     return (
         <>
             <LoginButton provider={Providers.GITHUB} colorCode="#b1d6fb">
