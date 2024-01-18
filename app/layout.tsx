@@ -1,9 +1,9 @@
+import React from "react";
 import { Inter } from "next/font/google";
 import { Providers } from "@/components/providers";
-import { AppBar } from "@/components/app-bar/app-bar";
+import { MainNav } from "@/components/app-bar/main-nav";
 import "./globals.css";
 import "@/app/login/style.css";
-import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,7 +32,7 @@ export default function RootLayout({
             <body className={inter.className}>
                 <Providers>
                     <main className="h-screen w-screen">
-                        <AppBar />
+                        <MainNav />
                         <div className="content w-full">{children}</div>
                     </main>
                 </Providers>
