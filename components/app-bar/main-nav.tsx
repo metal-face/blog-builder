@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ConditionalButton from "@/components/conditional-button";
+import ConditionalButton from "@/components/app-bar/conditional-button";
 import Link from "next/link";
 import { EnterIcon, ExitIcon } from "@radix-ui/react-icons";
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
