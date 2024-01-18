@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.login-button:hover {
+  box-shadow: 0 0 2rem -0.5rem var(--color-code);
+}
+
 .github::before {
   inset: 0;
   content: '';
