@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import ConditionalButton from "@/components/app-bar/conditional-button";
-import Link from "next/link";
 import { EnterIcon, ExitIcon } from "@radix-ui/react-icons";
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
+import React from "react";
+import ConditionalButton from "@/components/app-bar/conditional-button";
+import Link from "next/link";
+import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
 
 export async function MainNav() {
     const session = await getServerSession(authOptions);
-    console.log(session);
     return (
         <div className=" sticky top-0 z-40 inset-x-0 backdrop-blur transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent w-full no-flex border-b ">
             <div className="py-4  border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 px-4">
@@ -19,6 +18,8 @@ export async function MainNav() {
                         <Clock />
                     </div>
                     <div className="h-full flex items-center">
+                        {session ? <ProfileCard /> : null}
+
                         {session ? (
                             <Link href="/builder">
                                 <ConditionalButton
