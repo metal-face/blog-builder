@@ -6,7 +6,6 @@ import { signIn } from "next-auth/react";
 
 interface LoginButtonProps {
     provider: Providers;
-    redirectTo: string;
     colorCode: string;
     children?: React.ReactNode;
 }
@@ -37,7 +36,6 @@ export default function LoginButton({
     provider,
     children,
     colorCode,
-    redirectTo,
 }: LoginButtonProps) {
     const [state, setState] = useState<State>("idle");
     const customClass = { "--color-code": colorCode } as React.CSSProperties;
@@ -45,7 +43,7 @@ export default function LoginButton({
     async function handleSignIn(provider: Providers) {
         try {
             setState("pending");
-            await signIn(provider, { callbackUrl: redirectTo });
+            await signIn(provider, { callbackUrl: "/" });
         } catch (error) {
             setState("error");
         }
