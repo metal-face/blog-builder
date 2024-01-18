@@ -10,32 +10,16 @@ import LoginButton from "@/components/login/login-button";
 export function LoginButtons({ redirectTo }: { redirectTo: string }) {
     return (
         <>
-            <LoginButton
-                provider={Providers.GITHUB}
-                colorCode="#b1d6fb"
-                redirectTo={redirectTo}
-            >
+            <LoginButton provider={Providers.GITHUB} colorCode="#b1d6fb">
                 <FaGithub />
             </LoginButton>
-            <LoginButton
-                provider={Providers.TWITTER}
-                colorCode="#1DA1F2"
-                redirectTo={redirectTo}
-            >
+            <LoginButton provider={Providers.TWITTER} colorCode="#1DA1F2">
                 <FaTwitter />
             </LoginButton>
-            <LoginButton
-                provider={Providers.DISCORD}
-                colorCode={"#1DA1F2"}
-                redirectTo={redirectTo}
-            >
+            <LoginButton provider={Providers.DISCORD} colorCode={"#1DA1F2"}>
                 <FaDiscord />
             </LoginButton>
-            <LoginButton
-                provider={Providers.GOOGLE}
-                colorCode="#fbbc05"
-                redirectTo={redirectTo}
-            >
+            <LoginButton provider={Providers.GOOGLE} colorCode="#fbbc05">
                 <FaGoogle />
             </LoginButton>
         </>
