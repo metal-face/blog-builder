@@ -17,32 +17,33 @@ export default function ProfileCard({ session }: ProfileCardProps) {
     return (
         <HoverCard>
             <HoverCardTrigger className="text-sm">
-                {session?.user?.name}
-            </HoverCardTrigger>
-            <HoverCardContent className="flex text-xs">
-                <div className="w-1/3">
-                    {session?.user?.image ? (
-                        <Avatar>
-                            <AvatarImage
-                                src={session.user.image}
-                                alt="User Profile Image"
-                            />
-                            {/* <AvatarFallback>
+                {session?.user?.image ? (
+                    <Avatar className="mr-1">
+                        <AvatarImage
+                            src={session.user.image}
+                            alt="User Profile Image"
+                        />
+                        {/* <AvatarFallback>
                                 <Image
                                     src={session.user.image}
                                     alt="User Profile Image"
                                     layout="fill"
                                 />
                             </AvatarFallback> */}
-                        </Avatar>
-                    ) : null}
-                </div>
-                <div className="w-2/3 text-xs">
-                    {session?.user?.email ? (
-                        <TypographyP text={session.user.email} />
-                    ) : null}
-                </div>
-            </HoverCardContent>
+                    </Avatar>
+                ) : (
+                    <p className="text-xs cursor-pointer mr-1">
+                        {session?.user?.name}
+                    </p>
+                )}
+            </HoverCardTrigger>
+            {session?.user?.email ? (
+                <HoverCardContent className="text-xs">
+                    <div className="w-2/3 text-xs">
+                        <p>{session.user.email}</p>
+                    </div>
+                </HoverCardContent>
+            ) : null}
         </HoverCard>
     );
 }
