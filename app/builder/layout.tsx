@@ -3,5 +3,5 @@ export default function BuilderLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return <div>{children}</div>;
+    return <div className="h-screen">{children}</div>;
 }
