@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { FaCode } from "react-icons/fa";
+import {
+    FaCode,
+    FaLink,
+    FaBold,
+    FaItalic,
+    FaStrikethrough,
+    FaHighlighter,
+} from "react-icons/fa";
 import { MdFormatUnderlined } from "react-icons/md";
-import { FaStrikethrough } from "react-icons/fa";
-import { FaItalic } from "react-icons/fa";
-import { FaBold } from "react-icons/fa";
-import { FaHighlighter } from "react-icons/fa";
 import { MdFormatListNumbered } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
+import { useCallback } from "react";
 
 export default function Toolbar({ editor }: any) {
     return (
@@ -101,6 +105,15 @@ export default function Toolbar({ editor }: any) {
                     }
                 >
                     <MdFormatListNumbered />
+                </Button>
+            </div>
+            <div className="ml-1">
+                <Button
+                    size="sm"
+                    variant="outline"
+                    className={editor.isActive("link") ? "is-active" : ""}
+                >
+                    <FaLink />
                 </Button>
             </div>
         </div>
