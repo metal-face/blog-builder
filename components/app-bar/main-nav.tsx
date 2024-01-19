@@ -18,7 +18,7 @@ export async function MainNav() {
                         <Clock />
                     </div>
                     <div className="h-full flex items-center">
-                        {session ? <ProfileCard /> : null}
+                        {session ? <ProfileCard session={session} /> : null}
 
                         {session ? (
                             <Link href="/builder">
@@ -29,6 +29,7 @@ export async function MainNav() {
                                 />
                             </Link>
                         ) : null}
+
                         <Link href="/">
                             <ConditionalButton
                                 classes="ml-1"
@@ -36,6 +37,7 @@ export async function MainNav() {
                                 path="/"
                             />
                         </Link>
+
                         {!session ? (
                             <Link href="/login">
                                 <ConditionalButton
@@ -57,6 +59,7 @@ export async function MainNav() {
                                 </ConditionalButton>
                             </Link>
                         )}
+
                         <div className="flex align-middle mx-1">
                             <ThemeToggle />
                         </div>
