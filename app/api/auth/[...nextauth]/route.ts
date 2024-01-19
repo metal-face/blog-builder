@@ -28,6 +28,7 @@ if (!process.env.GOOGLE_ID) {
 if (!process.env.GOOGLE_SECRET) {
     throw new Error("No GOOGLE_SECRET has been provided.");
 }
+const scopes = ["identify", "email"];
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -37,20 +38,7 @@ export const authOptions: NextAuthOptions = {
             version: "2.0",
         }),
         DiscordProvider({
-            profile(profile) {
-                let userRole: string = "discord user";
-
-                if (profile?.email === "hughesbryan3000@gmail.com") {
-                    userRole = "admin";
-                }
-
-                console.log("Discord Profile: ", profile);
-                return {
-                    ...profile,
-                    id: profile.id.toString(),
-                    role: userRole,
-                };
-            },
+            authorization: { params: { scope: scopes.join(" ") } },
             clientId: process.env.DISCORD_CLIENT_ID as string,
             clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
         }),
@@ -107,10 +95,8 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({ session, token }: any) {
-            console.log(token);
             if (session?.user) {
                 session.user.role = token.role;
-                session.user.email = token.email;
             }
             return session;
         },
