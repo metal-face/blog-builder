@@ -18,6 +18,7 @@ export enum Providers {
     DISCORD = "discord",
     GOOGLE = "google",
     LINKEDIN = "linkedin",
+    TWITCH = "twitch",
 }
 
 function providerToSignInWith(provider: Providers) {
@@ -32,7 +33,9 @@ function providerToSignInWith(provider: Providers) {
             return "Google";
         case Providers.LINKEDIN:
             return "LinkedIn";
-    }   
+        case Providers.TWITCH:
+            return "Twitch";
+    }
 }
 
 export default function LoginButton({
@@ -55,14 +58,14 @@ export default function LoginButton({
     return (
         <div
             style={{ ...customClass }}
-            className={`login-button h-fit mx-auto rounded-md duration-300`}
+            className={`login-button h-fit w-64 mx-auto rounded-md duration-300`}
         >
             <Button
                 variant="outline"
                 size="lg"
                 onClick={() => handleSignIn(provider)}
                 disabled={state === "pending"}
-                className={`${provider} hover:bg-background relative mx-auto flex gap-4 border-none`}
+                className={`${provider} hover:bg-background relative mx-auto flex gap-4 border-none min-w-full`}
             >
                 Login with {providerToSignInWith(provider)}
                 {children}
