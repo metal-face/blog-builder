@@ -17,6 +17,7 @@ export enum Providers {
     TWITTER = "twitter",
     DISCORD = "discord",
     GOOGLE = "google",
+    LINKEDIN = "linkedin",
 }
 
 function providerToSignInWith(provider: Providers) {
@@ -29,7 +30,9 @@ function providerToSignInWith(provider: Providers) {
             return "Discord";
         case Providers.GOOGLE:
             return "Google";
-    }
+        case Providers.LINKEDIN:
+            return "LinkedIn";
+    }   
 }
 
 export default function LoginButton({
