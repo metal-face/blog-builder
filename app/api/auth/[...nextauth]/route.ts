@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
                     userRole = "admin";
                 }
 
-                console.log("Google Profile: ", profile);
+                console.log("Discord Profile: ", profile);
                 return {
                     ...profile,
                     id: profile.id.toString(),
@@ -102,14 +102,16 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            console.log("jwt", token, user);
+        async jwt({ token, user }: any) {
             if (user) token.role = user.role;
             return token;
         },
         async session({ session, token }: any) {
-            console.log("session", session, token);
-            if (session?.user) session.user.role = token.role;
+            console.log(token);
+            if (session?.user) {
+                session.user.role = token.role;
+                session.user.email = token.email;
+            }
             return session;
         },
     },
