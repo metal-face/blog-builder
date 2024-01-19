@@ -1,9 +1,10 @@
 "use client";
 
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaLink } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 import { Providers } from "@/components/login/login-button";
 import LoginButton from "@/components/login/login-button";
 
@@ -21,6 +22,9 @@ export function LoginButtons() {
             </LoginButton>
             <LoginButton provider={Providers.GOOGLE} colorCode="#fbbc05">
                 <FaGoogle />
+            </LoginButton>
+            <LoginButton provider={Providers.LINKEDIN} colorCode="#0077B5">
+                <FaLinkedin />
             </LoginButton>
         </>
     );
