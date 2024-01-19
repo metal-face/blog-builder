@@ -105,7 +105,7 @@
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
-  animation: 5s rotate linear infinite;
+  animation: 6s rotate linear infinite;
   mask-composite: exclude;
   pointer-events: none;
 }
