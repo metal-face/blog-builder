@@ -32,7 +32,7 @@ export default function ProfileCard({ session }: ProfileCardProps) {
                             </AvatarFallback> */}
                     </Avatar>
                 ) : (
-                    <p className="text-xs cursor-pointer mr-1">
+                    <p className="text-xs cursor-default mr-1">
                         {session?.user?.name}
                     </p>
                 )}
