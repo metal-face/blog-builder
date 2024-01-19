@@ -1,60 +1,70 @@
 import { Button } from "@/components/ui/button";
-import {
-    FontBoldIcon,
-    FontItalicIcon,
-    StrikethroughIcon,
-    UnderlineIcon,
-    CodeIcon,
-    ColorWheelIcon,
-    ListBulletIcon,
-} from "@radix-ui/react-icons";
-import { Editor } from "@tiptap/react";
+import { FaCode } from "react-icons/fa";
+import { MdFormatUnderlined } from "react-icons/md";
+import { FaStrikethrough } from "react-icons/fa";
+import { FaItalic } from "react-icons/fa";
+import { FaBold } from "react-icons/fa";
+import { FaHighlighter } from "react-icons/fa";
+import { MdFormatListNumbered } from "react-icons/md";
+import { CiBoxList } from "react-icons/ci";
 
 export default function Toolbar({ editor }: any) {
     return (
         <div className="w-screen h-12 flex flex-nowrap justify-start items-center">
+            {/* BOLD */}
             <div className="m-1">
                 <Button
                     variant="outline"
+                    size={"sm"}
                     onClick={() => editor.chain().focus().toggleBold().run()}
                 >
-                    <FontBoldIcon className="w-4 h-4" />
+                    <FaBold />
                 </Button>
             </div>
+            {/* ITALIC */}
             <div>
                 <Button
                     variant="outline"
+                    size={"sm"}
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                 >
-                    <FontItalicIcon className="w-4 h-4" />
+                    <FaItalic />
                 </Button>
             </div>
+            {/* UNDERLINE */}
             <div className="m-1">
                 <Button
+                    size="sm"
                     variant="outline"
                     onClick={() => editor.commands.toggleUnderline()}
                 >
-                    <UnderlineIcon className="w-4 h-4" />
+                    <MdFormatUnderlined />
                 </Button>
             </div>
+            {/* STRIKETHROUGH */}
             <div>
                 <Button
+                    size="sm"
                     variant="outline"
                     onClick={() => editor.chain().focus().toggleStrike().run()}
                 >
-                    <StrikethroughIcon className="w-4 h-4" />
+                    <FaStrikethrough />
                 </Button>
             </div>
+            {/* CODE */}
             <div className="m-1">
                 <Button
+                    size="sm"
                     variant="outline"
                     onClick={() => editor.chain().focus().toggleCode().run()}
                 >
-                    <CodeIcon className="w-4 h-4" />
+                    <FaCode />
                 </Button>
             </div>
+            {/* HIGHLIGHT */}
             <div>
                 <Button
+                    size="sm"
                     variant="outline"
                     onClick={() =>
                         editor.commands.toggleHighlight({
@@ -62,22 +72,26 @@ export default function Toolbar({ editor }: any) {
                         })
                     }
                 >
-                    <ColorWheelIcon className="w-4 h-4" />
+                    <FaHighlighter />
                 </Button>
             </div>
+            {/* BULLET LIST */}
             <div className="m-1">
                 <Button
+                    size="sm"
                     variant="outline"
                     onClick={() =>
                         editor.chain().focus().toggleBulletList().run()
                     }
                     className={editor.isActive("bulletList") ? "is-active" : ""}
                 >
-                    <ListBulletIcon className="w-4 h-4" />
+                    <CiBoxList />
                 </Button>
             </div>
+            {/* NUMBER LIST */}
             <div>
                 <Button
+                    size="sm"
                     variant="outline"
                     onClick={() =>
                         editor.chain().focus().toggleOrderedList().run()
@@ -86,7 +100,7 @@ export default function Toolbar({ editor }: any) {
                         editor.isActive("orderedList") ? "is-active" : ""
                     }
                 >
-                    1.
+                    <MdFormatListNumbered />
                 </Button>
             </div>
         </div>
