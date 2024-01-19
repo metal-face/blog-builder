@@ -17,11 +17,11 @@
   background: conic-gradient(
     from var(--angle),
     #c2ccd6,
-    #7e878f 35%,
-    #8e99a2 40%,
-    #a3b2bf,
-    #a3b2bf 61%,
-    #eef7ffd3 65%,
+    #c2ccd66b 35%,
+    #c2ccd693 40%,
+    #c2ccd6b6,
+    #c2ccd6cb 61%,
+    #c2ccd6e2 65%,
     #c2ccd6
   );
   -webkit-mask-composite: xor;
@@ -41,13 +41,39 @@
   padding: 1.5px; /* control the border thickness */
   background: conic-gradient(
     from var(--angle),
-    #1DA1F2,
-    #1da0f267 35%,
-    #1da0f256 40%,
-    #1da0f284,
-    #1da0f2ac 61%,
-    #1da0f2d6 65%,
-    #1DA1F2
+    #0077B5,
+    #0076b56f 35%,
+    #0076b58b 40%,
+    #0076b5a9,
+    #0076b5c3 61%,
+    #0076b5df 65%,
+    #0077B5
+  );
+  -webkit-mask-composite: xor;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  animation: 5s rotate linear infinite;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.linkedin::before {
+  inset: 0;
+  content: '';
+  --angle: 0deg;
+  position: absolute;
+  border-radius: inherit;
+  padding: 1.5px; /* control the border thickness */
+  background: conic-gradient(
+    from var(--angle),
+    #0077b5,
+    #0076b52d 35%,
+    #0076b551 40%,
+    #0076b594,
+    #0076b5b4 61%,
+    #0076b5e2 65%,
+    #0077b5
   );
   -webkit-mask-composite: xor;
   -webkit-mask:
@@ -68,9 +94,9 @@
   background: conic-gradient(
     from var(--angle),
     #5865F2,
-    #5865f245 35%,
+    #5865f272 35%,
     #5865f291 40%,
-    #5865f2a6,
+    #5865f2b5,
     #5865f2c6 61%,
     #5865f2de 65%,
     #5865F2
