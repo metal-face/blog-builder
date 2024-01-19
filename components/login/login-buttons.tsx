@@ -5,6 +5,7 @@ import { FaGoogle } from "react-icons/fa";
 import { FaDiscord } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { FaTwitch } from "react-icons/fa";
 import { Providers } from "@/components/login/login-button";
 import LoginButton from "@/components/login/login-button";
 
@@ -14,9 +15,6 @@ export function LoginButtons() {
             <LoginButton provider={Providers.GITHUB} colorCode="#b1d6fb">
                 <FaGithub />
             </LoginButton>
-            <LoginButton provider={Providers.TWITTER} colorCode="#1DA1F2">
-                <FaTwitter />
-            </LoginButton>
             <LoginButton provider={Providers.DISCORD} colorCode={"#1DA1F2"}>
                 <FaDiscord />
             </LoginButton>
@@ -25,6 +23,12 @@ export function LoginButtons() {
             </LoginButton>
             <LoginButton provider={Providers.LINKEDIN} colorCode="#0077B5">
                 <FaLinkedin />
+            </LoginButton>
+            <LoginButton provider={Providers.TWITCH} colorCode="#9146FF">
+                <FaTwitch />
+            </LoginButton>
+            <LoginButton provider={Providers.TWITTER} colorCode="#1DA1F2">
+                <FaTwitter />
             </LoginButton>
         </>
     );
