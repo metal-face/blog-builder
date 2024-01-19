@@ -32,6 +32,32 @@
   pointer-events: none;
 }
 
+.twitch::before {
+  inset: 0;
+  content: '';
+  --angle: 0deg;
+  position: absolute;
+  border-radius: inherit;
+  padding: 1.5px; /* control the border thickness */
+  animation: 5s rotate linear infinite;
+  background: conic-gradient(
+    from var(--angle),
+    #9146FF,
+    #9046ff81 35%,
+    #9046ff99 40%,
+    #9046ffa7,
+    #9046ffc2 61%,
+    #9046ffde 65%,
+    #9146FF
+  );
+  -webkit-mask-composite: xor;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 .twitter::before {
   inset: 0;
   content: '';
