@@ -1,5 +1,4 @@
 .ProseMirror {
-  height: 80vh;
 }
 
 .ProseMirror > * + * {
