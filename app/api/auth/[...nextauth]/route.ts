@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import TwitterProvider from "next-auth/providers/twitter";
 import LinkedInProvider from "next-auth/providers/linkedin";
-
+import TwitchProvider from "next-auth/providers/twitch";
 import type { NextAuthOptions } from "next-auth";
 
 if (!process.env.DISCORD_CLIENT_ID) {
@@ -34,6 +34,10 @@ const scopes = ["identify", "email"];
 
 export const authOptions: NextAuthOptions = {
     providers: [
+        TwitchProvider({
+            clientId: process.env.TWITCH_ID as string,
+            clientSecret: process.env.TWITCH_SECRET as string,
+        }),
         LinkedInProvider({
             clientId: process.env.LINKEDIN_ID as string,
             clientSecret: process.env.LINKEDIN_SECRET as string,
