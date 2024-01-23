@@ -2,9 +2,6 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
-import TwitterProvider from "next-auth/providers/twitter";
-import LinkedInProvider from "next-auth/providers/linkedin";
-import TwitchProvider from "next-auth/providers/twitch";
 import type { NextAuthOptions } from "next-auth";
 
 if (!process.env.DISCORD_CLIENT_ID) {
@@ -34,36 +31,6 @@ const scopes = ["identify", "email"];
 
 export const authOptions: NextAuthOptions = {
     providers: [
-        TwitchProvider({
-            clientId: process.env.TWITCH_ID as string,
-            clientSecret: process.env.TWITCH_SECRET as string,
-        }),
-        LinkedInProvider({
-            clientId: process.env.LINKEDIN_ID as string,
-            clientSecret: process.env.LINKEDIN_SECRET as string,
-            authorization: {
-                params: {
-                    scope: "openid profile email",
-                },
-            },
-            issuer: "https://www.linkedin.com",
-            jwks_endpoint: "https://www.linkedin.com/oauth/openid/jwks",
-            profile(profile, tokens) {
-                const defaultImage =
-                    "https://cdn-icons-png.flaticon.com/512/174/174857.png";
-                return {
-                    id: profile.sub,
-                    name: profile.name,
-                    email: profile.email,
-                    image: profile.picture ?? defaultImage,
-                };
-            },
-        }),
-        TwitterProvider({
-            clientId: process.env.TWITTER_ID as string,
-            clientSecret: process.env.TWITTER_SECRET as string,
-            version: "2.0",
-        }),
         DiscordProvider({
             authorization: { params: { scope: scopes.join(" ") } },
             clientId: process.env.DISCORD_CLIENT_ID as string,
@@ -122,6 +89,7 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({ session, token }: any) {
+            console.log("session", session, "token", token);
             if (session?.user) {
                 session.user.role = token.role;
             }
