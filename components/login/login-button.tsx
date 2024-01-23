@@ -14,27 +14,18 @@ type State = "error" | "idle" | "pending" | "success";
 
 export enum Providers {
     GITHUB = "github",
-    TWITTER = "twitter",
     DISCORD = "discord",
     GOOGLE = "google",
-    LINKEDIN = "linkedin",
-    TWITCH = "twitch",
 }
 
 function providerToSignInWith(provider: Providers) {
     switch (provider) {
         case Providers.GITHUB:
             return "GitHub";
-        case Providers.TWITTER:
-            return "Twitter";
         case Providers.DISCORD:
             return "Discord";
         case Providers.GOOGLE:
             return "Google";
-        case Providers.LINKEDIN:
-            return "LinkedIn";
-        case Providers.TWITCH:
-            return "Twitch";
     }
 }
 
