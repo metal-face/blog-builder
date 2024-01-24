@@ -2,6 +2,15 @@
 
 import "@/app/builder/style.css";
 import { useEditor, EditorContent } from "@tiptap/react";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Highlight from "@tiptap/extension-highlight";
@@ -11,6 +20,13 @@ import Color from "@tiptap/extension-color";
 import Toolbar from "@/components/editor/toolbar";
 
 export default function Tiptap() {
+    const form = useForm({
+        mode: "onChange",
+        defaultValues: {
+            title: "Blog Title",
+            content: "Hello World 🌎️",
+        },
+    });
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
