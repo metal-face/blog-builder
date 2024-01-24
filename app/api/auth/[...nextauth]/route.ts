@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 import type { NextAuthOptions } from "next-auth";
 
 if (!process.env.DISCORD_CLIENT_ID) {
@@ -27,7 +29,10 @@ if (!process.env.GOOGLE_ID) {
 if (!process.env.GOOGLE_SECRET) {
     throw new Error("No GOOGLE_SECRET has been provided.");
 }
+
 const scopes = ["identify", "email"];
+
+const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -83,6 +88,7 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
     ],
+    adapter: PrismaAdapter(prisma),
     callbacks: {
         async jwt({ token, user }: any) {
             if (user) token.role = user.role;
