@@ -32,7 +32,7 @@ if (!process.env.GOOGLE_SECRET) {
 
 const scopes = ["identify", "email"];
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -42,21 +42,8 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
         }),
         GoogleProvider({
-            profile(profile) {
-                let userRole: string = "google user";
-
-                if (profile?.email === "hughesbryan3000@gmail.com") {
-                    userRole = "admin";
-                }
-
-                console.log("Google Profile: ", profile);
-
-                return {
-                    ...profile,
-                    id: profile.sub,
-                    role: userRole,
-                };
-            },
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
             authorization: {
                 params: {
                     prompt: "consent",
@@ -64,8 +51,6 @@ export const authOptions: NextAuthOptions = {
                     response_type: "code",
                 },
             },
-            clientId: process.env.GOOGLE_ID as string,
-            clientSecret: process.env.GOOGLE_SECRET as string,
         }),
         GithubProvider({
             profile(profile) {
@@ -88,7 +73,7 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
     ],
-    adapter: PrismaAdapter(prisma),
+    // adapter: PrismaAdapter(prisma),
     callbacks: {
         async jwt({ token, user }: any) {
             if (user) token.role = user.role;
