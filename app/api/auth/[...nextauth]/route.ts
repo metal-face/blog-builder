@@ -37,9 +37,9 @@ const scopes = ["identify", "email"];
 export const authOptions: NextAuthOptions = {
     providers: [
         DiscordProvider({
-            authorization: { params: { scope: scopes.join(" ") } },
             clientId: process.env.DISCORD_CLIENT_ID as string,
             clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+            authorization: { params: { scope: scopes.join(" ") } },
         }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
@@ -53,22 +53,6 @@ export const authOptions: NextAuthOptions = {
             },
         }),
         GithubProvider({
-            profile(profile) {
-                let userRole: string = "github user";
-
-                if (profile?.email === "hughesbryan3000@gmail.com") {
-                    userRole = "admin";
-                }
-
-                return {
-                    ...profile,
-                    id: profile.id.toString(),
-                    name: profile.login,
-                    email: profile.email,
-                    image: profile.avatar_url,
-                    role: userRole,
-                };
-            },
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
@@ -80,10 +64,13 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
         async session({ session, token }: any) {
-            console.log("session", session, "token", token);
-            if (session?.user) {
-                session.user.role = token.role;
+            if (
+                session.user.email === "hughesbryan3000@gmail.com" ||
+                session.user.email === "mail@bryanhughes.net"
+            ) {
+                session.user.role = "admin";
             }
+
             return session;
         },
     },
