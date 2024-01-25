@@ -7,6 +7,8 @@ import ConditionalButton from "@/components/app-bar/conditional-button";
 import Link from "next/link";
 import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
+import { IoIosConstruct } from "react-icons/io";
+import { FaHome } from "react-icons/fa";
 
 export async function MainNav() {
     const session = await getServerSession(authOptions);
@@ -18,24 +20,26 @@ export async function MainNav() {
                         <Clock />
                     </div>
                     <div className="h-full flex items-center">
-                        {session ? <ProfileCard session={session} /> : null}
-
                         {session ? (
                             <Link href="/builder">
                                 <ConditionalButton
                                     classes="ml-1"
-                                    name="Blog 🛠️"
+                                    name="Blog "
                                     path="/builder"
-                                />
+                                >
+                                    <IoIosConstruct className="ml-2" />
+                                </ConditionalButton>
                             </Link>
                         ) : null}
 
                         <Link href="/">
                             <ConditionalButton
                                 classes="ml-1"
-                                name="Home 🏠"
+                                name="Home"
                                 path="/"
-                            />
+                            >
+                                <FaHome className="ml-2" />
+                            </ConditionalButton>
                         </Link>
 
                         {!session ? (
@@ -48,21 +52,12 @@ export async function MainNav() {
                                     <EnterIcon className="ml-2" />
                                 </ConditionalButton>
                             </Link>
-                        ) : (
-                            <Link href="/api/auth/signout?callbackUrl=/">
-                                <ConditionalButton
-                                    classes="ml-1 text-red-700 hover:text-red-500"
-                                    name="Logout"
-                                    path="/api/auth/signout?callbackUrl=/"
-                                >
-                                    <ExitIcon className="ml-2" />
-                                </ConditionalButton>
-                            </Link>
-                        )}
+                        ) : null}
 
                         <div className="flex align-middle mx-1">
                             <ThemeToggle />
                         </div>
+                        {session ? <ProfileCard session={session} /> : null}
                     </div>
                 </div>
             </div>
