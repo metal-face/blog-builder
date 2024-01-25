@@ -50,7 +50,7 @@ export default function Tiptap() {
         ],
         editorProps: {
             attributes: {
-                class: "rounded border border-gray-300 focus:outline-none p-2 h-screen m-2 p-2",
+                class: "w-2/3 h-full mx-auto my-2 rounded border border-gray-300 focus:outline-none  p-2",
             },
         },
         content: "Hello World! 🌎️",
