@@ -32,9 +32,10 @@ if (!process.env.GOOGLE_SECRET) {
 
 const scopes = ["identify", "email"];
 
-// const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
+    adapter: PrismaAdapter(prisma),
     providers: [
         DiscordProvider({
             clientId: process.env.DISCORD_CLIENT_ID as string,
@@ -57,19 +58,18 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
     ],
-    // adapter: PrismaAdapter(prisma),
     callbacks: {
         async jwt({ token, user }: any) {
-            if (user) token.role = user.role;
+            // if (user) token.role = user.role;
             return token;
         },
         async session({ session, token }: any) {
-            if (
-                session.user.email === "hughesbryan3000@gmail.com" ||
-                session.user.email === "mail@bryanhughes.net"
-            ) {
-                session.user.role = "admin";
-            }
+            // if (
+            //     session.user.email === "hughesbryan3000@gmail.com" ||
+            //     session.user.email === "mail@bryanhughes.net"
+            // ) {
+            //     session.user.role = "admin";
+            // }
 
             return session;
         },
