@@ -18,6 +18,7 @@ import Link from "@tiptap/extension-link";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import Toolbar from "@/components/editor/toolbar";
+import Heading from "@tiptap/extension-heading";
 
 export default function Tiptap() {
     const form = useForm({
@@ -47,10 +48,13 @@ export default function Tiptap() {
                 openOnClick: false,
                 autolink: true,
             }),
+            Heading.configure({
+                levels: [1, 2, 3],
+            }),
         ],
         editorProps: {
             attributes: {
-                class: "w-2/3 h-full mx-auto my-2 rounded border border-gray-300 focus:outline-none  p-2",
+                class: "w-2/3 h-64 mx-auto my-2 rounded border border-gray-300 focus:outline-none  p-2",
             },
         },
         content: "Hello World! 🌎️",
