@@ -1,19 +1,20 @@
-import { EnterIcon, ExitIcon } from "@radix-ui/react-icons";
+import { EnterIcon } from "@radix-ui/react-icons";
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { IoIosConstruct } from "react-icons/io";
+import { FaHome } from "react-icons/fa";
 import React from "react";
 import ConditionalButton from "@/components/app-bar/conditional-button";
 import Link from "next/link";
 import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
-import { IoIosConstruct } from "react-icons/io";
-import { FaHome } from "react-icons/fa";
 
 export async function MainNav() {
     const session = await getServerSession(authOptions);
+
     return (
-        <div className=" sticky top-0 z-40 inset-x-0 backdrop-blur transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent w-full no-flex border-b ">
+        <div className="sticky top-0 z-40 inset-x-0 backdrop-blur transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent w-full no-flex border-b ">
             <div className="py-4  border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 px-4">
                 <div className="relative flex justify-between items-center">
                     <div className="h-full flex justify-start align-middle">
