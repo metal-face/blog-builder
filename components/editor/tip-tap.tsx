@@ -54,7 +54,7 @@ export default function Tiptap() {
         ],
         editorProps: {
             attributes: {
-                class: "w-screen h-64 mx-auto my-2 rounded border border-gray-300 focus:outline-none  p-2",
+                class: "editor w-4/5 h-64 mx-auto rounded border border-gray-800 focus:outline-none  p-2",
             },
         },
         content: "Hello World! 🌎️",
@@ -65,9 +65,9 @@ export default function Tiptap() {
     }
 
     return (
-        <>
+        <div className="custom-container flex justify-center flex-col">
             <Toolbar editor={editor} />
             <EditorContent editor={editor} />
-        </>
+        </div>
     );
 }
