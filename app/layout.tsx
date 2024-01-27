@@ -31,8 +31,10 @@ export default function RootLayout({
             </head>
             <body className={inter.className}>
                 <Providers>
-                    <MainNav />
-                    <div className="content h-screen w-full">{children}</div>
+                    <main className="h-screen w-screen">
+                        <MainNav />
+                        {children}
+                    </main>
                 </Providers>
             </body>
         </html>
