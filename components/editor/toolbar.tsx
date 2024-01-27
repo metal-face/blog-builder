@@ -10,6 +10,7 @@ import {
 import { MdFormatUnderlined } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
+import { AiFillPicture } from "react-icons/ai";
 
 export default function Toolbar({ editor }: any) {
     return (
@@ -95,6 +96,13 @@ export default function Toolbar({ editor }: any) {
                 className={editor.isActive("link") ? "m-1 is-active" : "m-1"}
             >
                 <FaLink />
+            </Button>
+            <Button
+                size="sm"
+                variant="outline"
+                onClick={addImage}
+            >
+                <AiFillPicture />
             </Button>
         </div>
     );
