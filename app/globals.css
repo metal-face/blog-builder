@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+}
+
 .login-button:hover {
   box-shadow: 0 0 2rem -0.5rem var(--color-code);
+}
+
+.custom-container {
+  height: calc(100vh - 5rem)
+}
+
+.editor {
+  height: calc(100vh - 10rem)
 }
 
 .github::before {
