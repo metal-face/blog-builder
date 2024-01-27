@@ -1,5 +1,3 @@
-"use client";
-
 import Tiptap from "@/components/editor/tip-tap";
 
 function BlogBuilder() {
