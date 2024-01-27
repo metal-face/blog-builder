@@ -62,8 +62,10 @@ export default function Tiptap() {
             Underline,
             Highlight,
             Link.configure({
-                openOnClick: false,
+                protocols: ["ftp", "mailto"],
+                openOnClick: true,
                 autolink: true,
+                validate: (href) => /^https?:\/\//.test(href),
             }),
             Image,
         ],
@@ -83,12 +85,38 @@ export default function Tiptap() {
         }
     }, [editor]);
 
+    const setLink = useCallback(() => {
+        const previousUrl = editor?.getAttributes("link").href;
+        const url = window.prompt("URL", previousUrl);
+
+        // cancelled
+        if (url === null) {
+            return;
+        }
+
+        // empty
+        if (url === "") {
+            editor?.chain().focus().extendMarkRange("link").unsetLink().run();
+
+            return;
+        }
+
+        // update link
+        editor
+            ?.chain()
+            .focus()
+            .extendMarkRange("link")
+            .setLink({ href: url })
+            .run();
+    }, [editor]);
+
     if (!editor) {
         return null;
     }
 
     return (
         <div className="custom-container flex justify-center flex-col">
+            {/* TOOLBAR */}
             <div className="w-screen h-12 flex flex-nowrap justify-center items-center">
                 {/* BOLD */}
                 <Button
@@ -174,6 +202,7 @@ export default function Tiptap() {
                 <Button
                     size="sm"
                     variant="outline"
+                    onClick={setLink}
                     className={
                         editor.isActive("link") ? "m-1 is-active" : "m-1"
                     }
