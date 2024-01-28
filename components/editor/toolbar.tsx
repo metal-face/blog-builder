@@ -16,6 +16,11 @@ import { MdFormatListNumbered } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
 import { AiFillPicture } from "react-icons/ai";
 import { useCallback } from "react";
+import {
+    Tooltip,
+    TooltipTrigger,
+    TooltipContent,
+} from "@/components/ui/tooltip";
 
 export default function Toolbar({ editor }: any) {
     const addImage = useCallback(() => {
@@ -54,18 +59,29 @@ export default function Toolbar({ editor }: any) {
     return (
         <div className="w-screen h-12 flex flex-nowrap justify-center items-center">
             {/* HEADING 1 */}
-            <Button
-                onClick={() =>
-                    editor.chain().focus().toggleHeading({ level: 1 }).run()
-                }
-                className={
-                    editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-                }
-                variant="outline"
-                size={"sm"}
-            >
-                <LuHeading1 />
-            </Button>
+            <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                    <Button
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 1 })
+                                .run()
+                        }
+                        className={
+                            editor.isActive("heading", { level: 1 })
+                                ? "is-active"
+                                : ""
+                        }
+                        variant="outline"
+                        size={"sm"}
+                    >
+                        <LuHeading1 />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Heading 1</TooltipContent>
+            </Tooltip>
             {/* HEADING 2 */}
             <Button
                 onClick={() =>
