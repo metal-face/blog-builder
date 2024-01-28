@@ -58,6 +58,10 @@ export default function Toolbar({ editor }: any) {
 
     return (
         <div className="w-screen h-12 flex flex-nowrap justify-center items-center">
+            <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild></TooltipTrigger>
+                <TooltipContent></TooltipContent>
+            </Tooltip>
             {/* HEADING 1 */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
@@ -83,35 +87,53 @@ export default function Toolbar({ editor }: any) {
                 <TooltipContent>Heading 1</TooltipContent>
             </Tooltip>
             {/* HEADING 2 */}
-            <Button
-                onClick={() =>
-                    editor.chain().focus().toggleHeading({ level: 2 }).run()
-                }
-                className={
-                    editor.isActive("heading", { level: 2 })
-                        ? "is-active ml-1"
-                        : "ml-1"
-                }
-                variant="outline"
-                size={"sm"}
-            >
-                <LuHeading2 />
-            </Button>
+            <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                    <Button
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 2 })
+                                .run()
+                        }
+                        className={
+                            editor.isActive("heading", { level: 2 })
+                                ? "is-active ml-1"
+                                : "ml-1"
+                        }
+                        variant="outline"
+                        size={"sm"}
+                    >
+                        <LuHeading2 />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Heading 2</TooltipContent>
+            </Tooltip>
             {/* HEADING 3 */}
-            <Button
-                onClick={() =>
-                    editor.chain().focus().toggleHeading({ level: 3 }).run()
-                }
-                className={
-                    editor.isActive("heading", { level: 3 })
-                        ? "is-active ml-1"
-                        : "ml-1"
-                }
-                variant="outline"
-                size={"sm"}
-            >
-                <LuHeading3 />
-            </Button>
+            <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                    <Button
+                        onClick={() =>
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 3 })
+                                .run()
+                        }
+                        className={
+                            editor.isActive("heading", { level: 3 })
+                                ? "is-active ml-1"
+                                : "ml-1"
+                        }
+                        variant="outline"
+                        size={"sm"}
+                    >
+                        <LuHeading3 />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Heading 3</TooltipContent>
+            </Tooltip>
             {/* BOLD */}
             <Button
                 className="m-1"
