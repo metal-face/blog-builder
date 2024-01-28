@@ -5,7 +5,8 @@ import {
     FaBold,
     FaItalic,
     FaStrikethrough,
-    FaHighlighter,
+    FaSubscript,
+    FaSuperscript,
 } from "react-icons/fa";
 import { MdFormatUnderlined } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
@@ -85,24 +86,12 @@ export default function Toolbar({ editor }: any) {
             </Button>
             {/* CODE */}
             <Button
-                className="m-1"
+                className="ml-1"
                 size="sm"
                 variant="outline"
                 onClick={() => editor.chain().focus().toggleCode().run()}
             >
                 <FaCode />
-            </Button>
-            {/* HIGHLIGHT */}
-            <Button
-                size="sm"
-                variant="outline"
-                onClick={() =>
-                    editor.commands.toggleHighlight({
-                        color: "#ffcc00",
-                    })
-                }
-            >
-                <FaHighlighter />
             </Button>
             {/* BULLET LIST */}
             <Button
@@ -123,6 +112,24 @@ export default function Toolbar({ editor }: any) {
                 className={editor.isActive("orderedList") ? "is-active" : ""}
             >
                 <MdFormatListNumbered />
+            </Button>
+            {/* SUBSCRIPT */}
+            <Button
+                size="sm"
+                className="ml-1"
+                variant="outline"
+                onClick={() => editor.chain().focus().toggleSubscript().run()}
+            >
+                <FaSubscript />
+            </Button>
+            {/* SUPERSCRIPT */}
+            <Button
+                size="sm"
+                className="ml-1"
+                variant="outline"
+                onClick={() => editor.chain().focus().toggleSuperscript().run()}
+            >
+                <FaSuperscript />
             </Button>
             {/* LINK */}
             <Button
