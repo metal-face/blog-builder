@@ -8,6 +8,9 @@ import {
     FaSubscript,
     FaSuperscript,
 } from "react-icons/fa";
+import { LuHeading1 } from "react-icons/lu";
+import { LuHeading2 } from "react-icons/lu";
+import { LuHeading3 } from "react-icons/lu";
 import { MdFormatUnderlined } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
@@ -50,6 +53,49 @@ export default function Toolbar({ editor }: any) {
 
     return (
         <div className="w-screen h-12 flex flex-nowrap justify-center items-center">
+            {/* HEADING 1 */}
+            <Button
+                onClick={() =>
+                    editor.chain().focus().toggleHeading({ level: 1 }).run()
+                }
+                className={
+                    editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+                }
+                variant="outline"
+                size={"sm"}
+            >
+                <LuHeading1 />
+            </Button>
+            {/* HEADING 2 */}
+            <Button
+                onClick={() =>
+                    editor.chain().focus().toggleHeading({ level: 2 }).run()
+                }
+                className={
+                    editor.isActive("heading", { level: 2 })
+                        ? "is-active ml-1"
+                        : "ml-1"
+                }
+                variant="outline"
+                size={"sm"}
+            >
+                <LuHeading2 />
+            </Button>
+            {/* HEADING 3 */}
+            <Button
+                onClick={() =>
+                    editor.chain().focus().toggleHeading({ level: 3 }).run()
+                }
+                className={
+                    editor.isActive("heading", { level: 3 })
+                        ? "is-active ml-1"
+                        : "ml-1"
+                }
+                variant="outline"
+                size={"sm"}
+            >
+                <LuHeading3 />
+            </Button>
             {/* BOLD */}
             <Button
                 className="m-1"
