@@ -77,38 +77,38 @@ export default function Tiptap() {
         content: "Hello World! 🌎️",
     });
 
-    const addImage = useCallback(() => {
-        const url = window.prompt("URL");
+    // const addImage = useCallback(() => {
+    //     const url = window.prompt("URL");
 
-        if (url) {
-            editor?.chain().focus().setImage({ src: url }).run();
-        }
-    }, [editor]);
+    //     if (url) {
+    //         editor?.chain().focus().setImage({ src: url }).run();
+    //     }
+    // }, [editor]);
 
-    const setLink = useCallback(() => {
-        const previousUrl = editor?.getAttributes("link").href;
-        const url = window.prompt("URL", previousUrl);
+    // const setLink = useCallback(() => {
+    //     const previousUrl = editor?.getAttributes("link").href;
+    //     const url = window.prompt("URL", previousUrl);
 
-        // cancelled
-        if (url === null) {
-            return;
-        }
+    //     // cancelled
+    //     if (url === null) {
+    //         return;
+    //     }
 
-        // empty
-        if (url === "") {
-            editor?.chain().focus().extendMarkRange("link").unsetLink().run();
+    //     // empty
+    //     if (url === "") {
+    //         editor?.chain().focus().extendMarkRange("link").unsetLink().run();
 
-            return;
-        }
+    //         return;
+    //     }
 
-        // update link
-        editor
-            ?.chain()
-            .focus()
-            .extendMarkRange("link")
-            .setLink({ href: url })
-            .run();
-    }, [editor]);
+    //     // update link
+    //     editor
+    //         ?.chain()
+    //         .focus()
+    //         .extendMarkRange("link")
+    //         .setLink({ href: url })
+    //         .run();
+    // }, [editor]);
 
     if (!editor) {
         return null;
@@ -117,102 +117,8 @@ export default function Tiptap() {
     return (
         <div className="custom-container flex justify-center flex-col">
             {/* TOOLBAR */}
-            <div className="w-screen h-12 flex flex-nowrap justify-center items-center">
-                {/* BOLD */}
-                <Button
-                    className="m-1"
-                    variant="outline"
-                    size={"sm"}
-                    onClick={() => editor.chain().focus().toggleBold().run()}
-                >
-                    <FaBold />
-                </Button>
-                {/* ITALIC */}
-                <Button
-                    variant="outline"
-                    size={"sm"}
-                    onClick={() => editor.chain().focus().toggleItalic().run()}
-                >
-                    <FaItalic />
-                </Button>
-                {/* UNDERLINE */}
-                <Button
-                    className="m-1"
-                    size="sm"
-                    variant="outline"
-                    onClick={() => editor.commands.toggleUnderline()}
-                >
-                    <MdFormatUnderlined />
-                </Button>
-                {/* STRIKETHROUGH */}
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => editor.chain().focus().toggleStrike().run()}
-                >
-                    <FaStrikethrough />
-                </Button>
-                {/* CODE */}
-                <Button
-                    className="m-1"
-                    size="sm"
-                    variant="outline"
-                    onClick={() => editor.chain().focus().toggleCode().run()}
-                >
-                    <FaCode />
-                </Button>
-                {/* HIGHLIGHT */}
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                        editor.commands.toggleHighlight({
-                            color: "#ffcc00",
-                        })
-                    }
-                >
-                    <FaHighlighter />
-                </Button>
-                {/* BULLET LIST */}
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                        editor.chain().focus().toggleBulletList().run()
-                    }
-                    className={
-                        editor.isActive("bulletList") ? "m-1 is-active" : "m-1"
-                    }
-                >
-                    <CiBoxList />
-                </Button>
-                {/* NUMBER LIST */}
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() =>
-                        editor.chain().focus().toggleOrderedList().run()
-                    }
-                    className={
-                        editor.isActive("orderedList") ? "is-active" : ""
-                    }
-                >
-                    <MdFormatListNumbered />
-                </Button>
-                <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={setLink}
-                    className={
-                        editor.isActive("link") ? "m-1 is-active" : "m-1"
-                    }
-                >
-                    <FaLink />
-                </Button>
-                <Button size="sm" variant="outline" onClick={addImage}>
-                    <AiFillPicture />
-                </Button>
-            </div>
+            <Toolbar editor={editor} />
+            {/* EDITOR */}
             <EditorContent editor={editor} />
         </div>
     );
