@@ -13,26 +13,13 @@ import {
 import { useForm } from "react-hook-form";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
-import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import TextStyle from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import Toolbar from "@/components/editor/toolbar";
 import Image from "@tiptap/extension-image";
-import { useCallback } from "react";
-import { Button } from "@/components/ui/button";
-import {
-    FaCode,
-    FaLink,
-    FaBold,
-    FaItalic,
-    FaStrikethrough,
-    FaHighlighter,
-} from "react-icons/fa";
-import { MdFormatUnderlined } from "react-icons/md";
-import { MdFormatListNumbered } from "react-icons/md";
-import { CiBoxList } from "react-icons/ci";
-import { AiFillPicture } from "react-icons/ai";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 
 export default function Tiptap() {
     const form = useForm({
@@ -60,7 +47,6 @@ export default function Tiptap() {
             Color,
             TextStyle,
             Underline,
-            Highlight,
             Link.configure({
                 protocols: ["ftp", "mailto"],
                 openOnClick: true,
@@ -68,47 +54,16 @@ export default function Tiptap() {
                 validate: (href) => /^https?:\/\//.test(href),
             }),
             Image,
+            Subscript,
+            Superscript,
         ],
         editorProps: {
             attributes: {
-                class: "editor w-4/5 h-64 mx-auto rounded border border-gray-800 focus:outline-none  p-2",
+                class: "editor overflow-y-auto w-4/5 h-64 mx-auto rounded border border-gray-800 focus:outline-none  p-2",
             },
         },
         content: "Hello World! 🌎️",
     });
-
-    // const addImage = useCallback(() => {
-    //     const url = window.prompt("URL");
-
-    //     if (url) {
-    //         editor?.chain().focus().setImage({ src: url }).run();
-    //     }
-    // }, [editor]);
-
-    // const setLink = useCallback(() => {
-    //     const previousUrl = editor?.getAttributes("link").href;
-    //     const url = window.prompt("URL", previousUrl);
-
-    //     // cancelled
-    //     if (url === null) {
-    //         return;
-    //     }
-
-    //     // empty
-    //     if (url === "") {
-    //         editor?.chain().focus().extendMarkRange("link").unsetLink().run();
-
-    //         return;
-    //     }
-
-    //     // update link
-    //     editor
-    //         ?.chain()
-    //         .focus()
-    //         .extendMarkRange("link")
-    //         .setLink({ href: url })
-    //         .run();
-    // }, [editor]);
 
     if (!editor) {
         return null;
