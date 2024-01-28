@@ -1,6 +1,7 @@
 "use client";
 import { ThemeProvider } from "next-themes";
 import { SessionProvider, useSession } from "next-auth/react";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface ProviderProps {
     children: React.ReactNode;
@@ -14,7 +15,9 @@ export function Providers({ children }: ProviderProps) {
             enableSystem
             disableTransitionOnChange
         >
-            <SessionProvider>{children}</SessionProvider>
+            <TooltipProvider>
+                <SessionProvider>{children}</SessionProvider>
+            </TooltipProvider>
         </ThemeProvider>
     );
 }
