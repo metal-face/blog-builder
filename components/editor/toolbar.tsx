@@ -135,22 +135,36 @@ export default function Toolbar({ editor }: any) {
                 <TooltipContent>Heading 3</TooltipContent>
             </Tooltip>
             {/* BOLD */}
-            <Button
-                className="m-1"
-                variant="outline"
-                size={"sm"}
-                onClick={() => editor.chain().focus().toggleBold().run()}
-            >
-                <FaBold />
-            </Button>
+            <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                    <Button
+                        className="m-1"
+                        variant="outline"
+                        size={"sm"}
+                        onClick={() =>
+                            editor.chain().focus().toggleBold().run()
+                        }
+                    >
+                        <FaBold />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Bold</TooltipContent>
+            </Tooltip>
             {/* ITALIC */}
-            <Button
-                variant="outline"
-                size={"sm"}
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-            >
-                <FaItalic />
-            </Button>
+            <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+                    <Button
+                        variant="outline"
+                        size={"sm"}
+                        onClick={() =>
+                            editor.chain().focus().toggleItalic().run()
+                        }
+                    >
+                        <FaItalic />
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>Italic</TooltipContent>
+            </Tooltip>
             {/* UNDERLINE */}
             <Button
                 className="m-1"
