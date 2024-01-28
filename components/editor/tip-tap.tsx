@@ -59,7 +59,7 @@ export default function Tiptap() {
         ],
         editorProps: {
             attributes: {
-                class: "editor overflow-y-auto w-4/5 h-64 mx-auto rounded border border-gray-800 focus:outline-none  p-2",
+                class: "editor overflow-y-auto w-4/5 h-64 mx-auto rounded border border-gray-800 p-4",
             },
         },
         content: "Hello World! 🌎️",
