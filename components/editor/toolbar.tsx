@@ -22,8 +22,13 @@ import {
     TooltipContent,
 } from "@/components/ui/tooltip";
 import { Toggle } from "@/components/ui/toggle";
+import { Editor } from "@tiptap/react";
 
-export default function Toolbar({ editor }: any) {
+type Props = {
+    editor: Editor | null;
+};
+
+export default function Toolbar({ editor }: Props) {
     const addImage = useCallback(() => {
         const url = window.prompt("URL");
 
@@ -56,6 +61,10 @@ export default function Toolbar({ editor }: any) {
             .setLink({ href: url })
             .run();
     }, [editor]);
+
+    if (!editor) {
+        return null;
+    }
 
     return (
         <div className="w-full h-12 flex flex-nowrap justify-center items-center">
