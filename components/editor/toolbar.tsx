@@ -65,7 +65,12 @@ export default function Toolbar({ editor }: any) {
                     <Toggle
                         size="sm"
                         variant={"outline"}
-                        aria-label="Toggle heading 1"
+                        aria-label="Toggle Heading 1"
+                        className={
+                            editor.isActive("heading", { level: 1 })
+                                ? "is-active ml-1"
+                                : "ml-1"
+                        }
                         pressed={editor.isActive("heading")}
                         onPressedChange={() => {
                             editor
@@ -83,31 +88,33 @@ export default function Toolbar({ editor }: any) {
             {/* HEADING 2 */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        onClick={() =>
-                            editor
-                                .chain()
-                                .focus()
-                                .toggleHeading({ level: 2 })
-                                .run()
-                        }
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Heading 2"
+                        pressed={editor.isActive("heading", { level: 2 })}
                         className={
                             editor.isActive("heading", { level: 2 })
                                 ? "is-active ml-1"
                                 : "ml-1"
                         }
-                        variant="outline"
-                        size={"sm"}
+                        onPressedChange={() => {
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 2 })
+                                .run();
+                        }}
                     >
                         <LuHeading2 />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Heading 2</TooltipContent>
             </Tooltip>
             {/* HEADING 3 */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
+                    {/* <Button
                         onClick={() =>
                             editor
                                 .chain()
@@ -124,7 +131,7 @@ export default function Toolbar({ editor }: any) {
                         size={"sm"}
                     >
                         <LuHeading3 />
-                    </Button>
+                    </Button> */}
                 </TooltipTrigger>
                 <TooltipContent>Heading 3</TooltipContent>
             </Tooltip>
