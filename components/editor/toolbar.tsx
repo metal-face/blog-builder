@@ -209,22 +209,6 @@ export default function Toolbar({ editor }: any) {
                 </TooltipTrigger>
                 <TooltipContent>Strikethrough</TooltipContent>
             </Tooltip>
-            {/* CODE */}
-            <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-                    <Button
-                        className="ml-1"
-                        size="sm"
-                        variant="outline"
-                        onClick={() =>
-                            editor.chain().focus().toggleCode().run()
-                        }
-                    >
-                        <FaCode />
-                    </Button>
-                </TooltipTrigger>
-                <TooltipContent>Code Block</TooltipContent>
-            </Tooltip>
             {/* BULLET LIST */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
