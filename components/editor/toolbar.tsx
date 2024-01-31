@@ -266,16 +266,18 @@ export default function Toolbar({ editor }: any) {
             {/* SUPERSCRIPT */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        size="sm"
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Superscript"
                         className="ml-1"
-                        variant="outline"
-                        onClick={() =>
-                            editor.chain().focus().toggleSuperscript().run()
-                        }
+                        pressed={editor.isActive("superscript")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleSuperscript().run();
+                        }}
                     >
                         <FaSuperscript />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Superscript</TooltipContent>
             </Tooltip>
