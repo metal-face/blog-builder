@@ -176,14 +176,18 @@ export default function Toolbar({ editor }: any) {
             {/* UNDERLINE */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        className="m-1"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => editor.commands.toggleUnderline()}
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Underline"
+                        className="ml-1"
+                        pressed={editor.isActive("underline")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleUnderline().run();
+                        }}
                     >
                         <MdFormatUnderlined />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Underline</TooltipContent>
             </Tooltip>
