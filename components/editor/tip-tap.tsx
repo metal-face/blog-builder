@@ -99,7 +99,7 @@ export default function Tiptap({
         ],
         editorProps: {
             attributes: {
-                class: "editor overflow-y-auto w-4/5 h-64 mx-auto rounded border border-gray-800 p-4",
+                class: "editor overflow-y-auto w-4/5 mx-auto rounded border border-gray-800 p-4",
             },
         },
         content: blogPost,
@@ -113,7 +113,7 @@ export default function Tiptap({
     }
 
     return (
-        <div className="custom-container flex justify-center flex-col">
+        <div className="my-2">
             {/* TOOLBAR */}
             <Toolbar editor={editor} />
             {/* EDITOR */}
