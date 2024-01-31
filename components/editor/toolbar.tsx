@@ -248,16 +248,18 @@ export default function Toolbar({ editor }: any) {
             {/* SUBSCRIPT */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        size="sm"
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Subscript"
                         className="ml-1"
-                        variant="outline"
-                        onClick={() =>
-                            editor.chain().focus().toggleSubscript().run()
-                        }
+                        pressed={editor.isActive("subscript")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleSubscript().run();
+                        }}
                     >
                         <FaSubscript />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Subscript</TooltipContent>
             </Tooltip>
