@@ -9,7 +9,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
@@ -18,7 +17,8 @@ export default function BlogBuilder() {
     const FormSchema = z.object({
         blogTitle: z
             .string()
-            .min(4, { message: "Title must be at least 4 characters" }),
+            .min(4, { message: "Title must be at least 4 characters" })
+            .max(100, { message: "Title must be less than 100 characters" }),
         blogPost: z
             .string()
             .min(20, { message: "Blog post must be at least 20 characters" })
@@ -34,28 +34,36 @@ export default function BlogBuilder() {
         },
     });
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {}
+    function onSubmit(data: z.infer<typeof FormSchema>) {
+        // Sanatize data
+        // Send data to server
+    }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                    control={form.control}
-                    name="blogTitle"
-                    render={({ field }) => {
-                        <FormItem>
-                            <FormLabel>Blog Title</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter a blog title" />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>;
-                    }}
-                />
+                <div className="w-4/5 mx-auto">
+                    <FormField
+                        control={form.control}
+                        name="blogTitle"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input
+                                        type="text"
+                                        placeholder="Enter a blog title"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
                 <FormField
                     control={form.control}
                     name="blogPost"
-                    render={({ field }) => {
+                    render={({ field }) => (
                         <FormItem>
                             <FormControl>
                                 <Tiptap
@@ -63,13 +71,15 @@ export default function BlogBuilder() {
                                     onChange={field.onChange}
                                 />
                             </FormControl>
-                            <FormMessage />
-                        </FormItem>;
-                    }}
+                            <FormMessage className="m-0 p-0" />
+                        </FormItem>
+                    )}
                 />
-                <Button type="submit" variant="outline">
-                    Submit
-                </Button>
+                <div className="w-4/5 mx-auto">
+                    <Button type="submit" className="w-full py-1">
+                        Submit
+                    </Button>
+                </div>
             </form>
         </Form>
     );
