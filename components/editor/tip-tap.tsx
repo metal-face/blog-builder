@@ -2,18 +2,6 @@
 
 import "@/app/builder/style.css";
 import { useEditor, EditorContent } from "@tiptap/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { z } from "zod";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -24,7 +12,6 @@ import Image from "@tiptap/extension-image";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import BaseHeading from "@tiptap/extension-heading";
-
 import { mergeAttributes } from "@tiptap/core";
 
 type Levels = 1 | 2 | 3;
@@ -52,16 +39,13 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
     },
 });
 
-const FormSchema = z.object({
-    blogTitle: z
-        .string()
-        .min(3, { message: "Title must be at least 3 characters" }),
-    blogPost: z
-        .string()
-        .min(20, { message: "Post must be at least 20 characters" }),
-});
-
-export default function Tiptap() {
+export default function Tiptap({
+    blogPost,
+    onChange,
+}: {
+    blogPost: string;
+    onChange: (richText: string) => void;
+}) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -115,33 +99,21 @@ export default function Tiptap() {
         ],
         editorProps: {
             attributes: {
-                class: "editor overflow-y-auto w-4/5 h-64 mx-auto rounded border border-gray-800 p-4",
+                class: "editor overflow-y-auto w-4/5 mx-auto rounded border border-gray-800 p-4",
             },
         },
-        content: "Hello World! 🌎️",
-    });
-
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            blogTitle: "Add a title!",
-            blogPost: "Hello World! 🌎️",
+        content: blogPost,
+        onUpdate({ editor }) {
+            onChange(editor?.getHTML());
         },
     });
-
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        
-    }
 
     if (!editor) {
         return null;
     }
 
     return (
-        <div className="custom-container flex justify-center flex-col">
-            <div className="w-4/5 mx-auto">
-                <Input />
-            </div>
+        <div className="my-2">
             {/* TOOLBAR */}
             <Toolbar editor={editor} />
             {/* EDITOR */}
