@@ -194,15 +194,18 @@ export default function Toolbar({ editor }: any) {
             {/* STRIKETHROUGH */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() =>
-                            editor.chain().focus().toggleStrike().run()
-                        }
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Strikethrough"
+                        className="ml-1"
+                        pressed={editor.isActive("strike")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleStrike().run();
+                        }}
                     >
                         <FaStrikethrough />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Strikethrough</TooltipContent>
             </Tooltip>
