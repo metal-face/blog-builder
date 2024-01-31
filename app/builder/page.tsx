@@ -76,7 +76,11 @@ export default function BlogBuilder() {
                     )}
                 />
                 <div className="w-4/5 mx-auto">
-                    <Button type="submit" className="w-full py-1">
+                    <Button
+                        type="submit"
+                        variant="secondary"
+                        className="w-full py-1"
+                    >
                         Submit
                     </Button>
                 </div>
