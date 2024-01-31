@@ -2,6 +2,7 @@
 
 import "@/app/builder/style.css";
 import { useEditor, EditorContent } from "@tiptap/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
     Form,
     FormControl,
@@ -11,6 +12,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -49,14 +52,16 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
     },
 });
 
+const FormSchema = z.object({
+    blogTitle: z
+        .string()
+        .min(3, { message: "Title must be at least 3 characters" }),
+    blogPost: z
+        .string()
+        .min(20, { message: "Post must be at least 20 characters" }),
+});
+
 export default function Tiptap() {
-    const form = useForm({
-        mode: "onChange",
-        defaultValues: {
-            title: "Blog Title",
-            content: "Hello World 🌎️",
-        },
-    });
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
@@ -116,12 +121,27 @@ export default function Tiptap() {
         content: "Hello World! 🌎️",
     });
 
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+            blogTitle: "Add a title!",
+            blogPost: "Hello World! 🌎️",
+        },
+    });
+
+    function onSubmit(data: z.infer<typeof FormSchema>) {
+        
+    }
+
     if (!editor) {
         return null;
     }
 
     return (
         <div className="custom-container flex justify-center flex-col">
+            <div className="w-4/5 mx-auto">
+                <Input />
+            </div>
             {/* TOOLBAR */}
             <Toolbar editor={editor} />
             {/* EDITOR */}
