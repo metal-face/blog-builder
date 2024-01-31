@@ -158,15 +158,18 @@ export default function Toolbar({ editor }: any) {
             {/* ITALIC */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        variant="outline"
+                    <Toggle
                         size={"sm"}
-                        onClick={() =>
-                            editor.chain().focus().toggleItalic().run()
-                        }
+                        variant={"outline"}
+                        aria-label="Toggle Italic"
+                        className="ml-1"
+                        pressed={editor.isActive("italic")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleItalic().run();
+                        }}
                     >
                         <FaItalic />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Italic</TooltipContent>
             </Tooltip>
