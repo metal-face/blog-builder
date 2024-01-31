@@ -60,21 +60,23 @@ export default function BlogBuilder() {
                         )}
                     />
                 </div>
-                <FormField
-                    control={form.control}
-                    name="blogPost"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <Tiptap
-                                    blogPost={field.name}
-                                    onChange={field.onChange}
-                                />
-                            </FormControl>
-                            <FormMessage className="m-0 p-0" />
-                        </FormItem>
-                    )}
-                />
+                <div className="w-4/5 mx-auto">
+                    <FormField
+                        control={form.control}
+                        name="blogPost"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Tiptap
+                                        blogPost={field.value}
+                                        onChange={field.onChange}
+                                    />
+                                </FormControl>
+                                <FormMessage className="m-0 p-0" />
+                            </FormItem>
+                        )}
+                    />
+                </div>
                 <div className="w-4/5 mx-auto">
                     <Button
                         type="submit"
