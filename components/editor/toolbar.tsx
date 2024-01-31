@@ -230,18 +230,18 @@ export default function Toolbar({ editor }: any) {
             {/* NUMBER LIST */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() =>
-                            editor.chain().focus().toggleOrderedList().run()
-                        }
-                        className={
-                            editor.isActive("orderedList") ? "is-active" : ""
-                        }
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Number List"
+                        className="ml-1"
+                        pressed={editor.isActive("orderedList")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleOrderedList().run();
+                        }}
                     >
                         <MdFormatListNumbered />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Number List</TooltipContent>
             </Tooltip>
