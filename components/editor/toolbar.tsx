@@ -21,6 +21,7 @@ import {
     TooltipTrigger,
     TooltipContent,
 } from "@/components/ui/tooltip";
+import { Toggle } from "@/components/ui/toggle";
 
 export default function Toolbar({ editor }: any) {
     const addImage = useCallback(() => {
@@ -57,28 +58,25 @@ export default function Toolbar({ editor }: any) {
     }, [editor]);
 
     return (
-        <div className="w-screen h-12 flex flex-nowrap justify-center items-center">
+        <div className="w-full h-12 flex flex-nowrap justify-center items-center">
             {/* HEADING 1 */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        onClick={() =>
+                    <Toggle
+                        size="sm"
+                        variant={"outline"}
+                        aria-label="Toggle heading 1"
+                        pressed={editor.isActive("heading")}
+                        onPressedChange={() => {
                             editor
                                 .chain()
                                 .focus()
                                 .toggleHeading({ level: 1 })
-                                .run()
-                        }
-                        className={
-                            editor.isActive("heading", { level: 1 })
-                                ? "is-active"
-                                : ""
-                        }
-                        variant="outline"
-                        size={"sm"}
+                                .run();
+                        }}
                     >
                         <LuHeading1 />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Heading 1</TooltipContent>
             </Tooltip>
