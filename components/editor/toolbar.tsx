@@ -284,16 +284,16 @@ export default function Toolbar({ editor }: any) {
             {/* LINK */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        onClick={setLink}
-                        size="sm"
-                        variant="outline"
-                        className={
-                            editor.isActive("link") ? "m-1 is-active" : "m-1"
-                        }
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Link"
+                        className="ml-1"
+                        pressed={editor.isActive("link")}
+                        onPressedChange={setLink}
                     >
                         <FaLink />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Insert Link</TooltipContent>
             </Tooltip>
