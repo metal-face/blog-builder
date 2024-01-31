@@ -300,9 +300,15 @@ export default function Toolbar({ editor }: any) {
             {/* IMAGE */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button size="sm" variant="outline" onClick={addImage}>
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Image"
+                        className="ml-1"
+                        onPressedChange={addImage}
+                    >
                         <AiFillPicture />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Insert Image (from URL)</TooltipContent>
             </Tooltip>
