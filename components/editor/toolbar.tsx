@@ -114,40 +114,44 @@ export default function Toolbar({ editor }: any) {
             {/* HEADING 3 */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    {/* <Button
-                        onClick={() =>
-                            editor
-                                .chain()
-                                .focus()
-                                .toggleHeading({ level: 3 })
-                                .run()
-                        }
+                    <Toggle
+                        size={"sm"}
+                        variant={"outline"}
+                        aria-label="Toggle Heading 3"
+                        pressed={editor.isActive("heading", { level: 3 })}
                         className={
                             editor.isActive("heading", { level: 3 })
                                 ? "is-active ml-1"
                                 : "ml-1"
                         }
-                        variant="outline"
-                        size={"sm"}
+                        onPressedChange={() => {
+                            editor
+                                .chain()
+                                .focus()
+                                .toggleHeading({ level: 3 })
+                                .run();
+                        }}
                     >
                         <LuHeading3 />
-                    </Button> */}
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Heading 3</TooltipContent>
             </Tooltip>
             {/* BOLD */}
             <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
-                    <Button
-                        className="m-1"
-                        variant="outline"
+                    <Toggle
                         size={"sm"}
-                        onClick={() =>
-                            editor.chain().focus().toggleBold().run()
-                        }
+                        variant={"outline"}
+                        aria-label="Toggle Bold"
+                        className="ml-1"
+                        pressed={editor.isActive("bold")}
+                        onPressedChange={() => {
+                            editor.chain().focus().toggleBold().run();
+                        }}
                     >
                         <FaBold />
-                    </Button>
+                    </Toggle>
                 </TooltipTrigger>
                 <TooltipContent>Bold</TooltipContent>
             </Tooltip>
