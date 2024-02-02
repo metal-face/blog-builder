@@ -7,6 +7,12 @@ import {
     FaSuperscript,
 } from "react-icons/fa";
 
+import {
+    Tooltip,
+    TooltipTrigger,
+    TooltipContent,
+} from "@/components/ui/tooltip";
+
 import { LuHeading1 } from "react-icons/lu";
 import { LuHeading2 } from "react-icons/lu";
 import { LuHeading3 } from "react-icons/lu";
@@ -14,13 +20,6 @@ import { MdFormatUnderlined } from "react-icons/md";
 import { MdFormatListNumbered } from "react-icons/md";
 import { CiBoxList } from "react-icons/ci";
 import { AiFillPicture } from "react-icons/ai";
-
-import {
-    Tooltip,
-    TooltipTrigger,
-    TooltipContent,
-} from "@/components/ui/tooltip";
-
 import { useCallback } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Editor, BubbleMenu } from "@tiptap/react";
@@ -68,19 +67,22 @@ export default function Toolbar({ editor }: Props) {
     }
 
     return (
-        <BubbleMenu editor={editor} tippyOptions={{ duration: 50 }}>
-            <div className="w-screen mx-auto h-12 my-1 py-1 flex flex-wrap justify-start items-center">
+        <BubbleMenu
+            editor={editor}
+            tippyOptions={{ duration: 50 }}
+            className="bg-gray-800"
+        >
+            <div className="w-fit h-auto bg-gray-800 flex flex-nowrap justify-start items-center">
                 {/* HEADING 1 */}
                 <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                         <Toggle
                             size="sm"
-                            variant={"outline"}
                             aria-label="Toggle Heading 1"
                             className={
                                 editor.isActive("heading", { level: 1 })
-                                    ? "is-active ml-1"
-                                    : "ml-1"
+                                    ? "is-active rounded-none"
+                                    : "rounded-none"
                             }
                             pressed={editor.isActive("heading")}
                             onPressedChange={() => {
@@ -101,13 +103,14 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
                             aria-label="Toggle Heading 2"
-                            pressed={editor.isActive("heading", { level: 2 })}
+                            pressed={editor.isActive("heading", {
+                                level: 2,
+                            })}
                             className={
                                 editor.isActive("heading", { level: 2 })
-                                    ? "is-active ml-1"
-                                    : "ml-1"
+                                    ? "is-active rounded-none"
+                                    : "rounded-none"
                             }
                             onPressedChange={() => {
                                 editor
@@ -127,13 +130,14 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
                             aria-label="Toggle Heading 3"
-                            pressed={editor.isActive("heading", { level: 3 })}
+                            pressed={editor.isActive("heading", {
+                                level: 3,
+                            })}
                             className={
                                 editor.isActive("heading", { level: 3 })
-                                    ? "is-active ml-1"
-                                    : "ml-1"
+                                    ? "is-active rounded-none"
+                                    : "rounded-none"
                             }
                             onPressedChange={() => {
                                 editor
@@ -153,9 +157,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Bold"
-                            className="ml-1"
                             pressed={editor.isActive("bold")}
                             onPressedChange={() => {
                                 editor.chain().focus().toggleBold().run();
@@ -171,9 +174,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Italic"
-                            className="ml-1"
                             pressed={editor.isActive("italic")}
                             onPressedChange={() => {
                                 editor.chain().focus().toggleItalic().run();
@@ -189,9 +191,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Underline"
-                            className="ml-1"
                             pressed={editor.isActive("underline")}
                             onPressedChange={() => {
                                 editor.chain().focus().toggleUnderline().run();
@@ -207,9 +208,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Strikethrough"
-                            className="ml-1"
                             pressed={editor.isActive("strike")}
                             onPressedChange={() => {
                                 editor.chain().focus().toggleStrike().run();
@@ -225,9 +225,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Bullet List"
-                            className="ml-1"
                             pressed={editor.isActive("bulletList")}
                             onPressedChange={() => {
                                 editor.chain().focus().toggleBulletList().run();
@@ -243,9 +242,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Number List"
-                            className="ml-1"
                             pressed={editor.isActive("orderedList")}
                             onPressedChange={() => {
                                 editor
@@ -265,9 +263,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Subscript"
-                            className="ml-1"
                             pressed={editor.isActive("subscript")}
                             onPressedChange={() => {
                                 editor.chain().focus().toggleSubscript().run();
@@ -283,9 +280,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Superscript"
-                            className="ml-1"
                             pressed={editor.isActive("superscript")}
                             onPressedChange={() => {
                                 editor
@@ -305,9 +301,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Link"
-                            className="ml-1"
                             pressed={editor.isActive("link")}
                             onPressedChange={setLink}
                         >
@@ -321,9 +316,8 @@ export default function Toolbar({ editor }: Props) {
                     <TooltipTrigger asChild>
                         <Toggle
                             size={"sm"}
-                            variant={"outline"}
+                            className="rounded-none"
                             aria-label="Toggle Image"
-                            className="ml-1"
                             onPressedChange={addImage}
                         >
                             <AiFillPicture />
