@@ -42,7 +42,7 @@ export default function BlogBuilder() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="w-4/5 mx-auto">
+                <div className="w-4/5 my-2  mx-auto h-fit">
                     <FormField
                         control={form.control}
                         name="blogTitle"
