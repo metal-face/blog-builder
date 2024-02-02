@@ -6,7 +6,6 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import TextStyle from "@tiptap/extension-text-style";
-import Color from "@tiptap/extension-color";
 import Toolbar from "@/components/editor/toolbar";
 import Image from "@tiptap/extension-image";
 import Subscript from "@tiptap/extension-subscript";
@@ -59,7 +58,6 @@ export default function Tiptap({
                 },
                 heading: false,
             }),
-            Color,
             TextStyle,
             Underline,
             Link.configure({
@@ -72,7 +70,6 @@ export default function Tiptap({
             Subscript,
             Superscript,
             Heading.configure({ levels: [1, 2, 3] }).extend({
-                levels: [1, 2, 3],
                 renderHTML({ node, HTMLAttributes }) {
                     const level = this.options.levels.includes(node.attrs.level)
                         ? node.attrs.level
@@ -99,7 +96,7 @@ export default function Tiptap({
         ],
         editorProps: {
             attributes: {
-                class: "editor overflow-y-auto w-full mx-auto rounded border border-gray-800 p-4",
+                class: "editor overflow-y-auto w-full mx-auto rounded border border-gray-700 p-4",
             },
         },
         content: blogPost,
@@ -113,10 +110,8 @@ export default function Tiptap({
     }
 
     return (
-        <div className="my-2 ">
-            {/* TOOLBAR */}
+        <div className="my-2">
             <Toolbar editor={editor} />
-            {/* EDITOR */}
             <EditorContent editor={editor} />
         </div>
     );
