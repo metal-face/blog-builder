@@ -67,15 +67,11 @@ export default function Toolbar({ editor }: Props) {
     }
 
     return (
-        <BubbleMenu
-            editor={editor}
-            tippyOptions={{ duration: 50 }}
-            className="bg-gray-800"
-        >
+        <BubbleMenu editor={editor} tippyOptions={{ duration: 50 }}>
             <div className="w-fit h-auto bg-gray-800 flex flex-nowrap justify-start items-center">
                 {/* HEADING 1 */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size="sm"
                             aria-label="Toggle Heading 1"
@@ -84,7 +80,7 @@ export default function Toolbar({ editor }: Props) {
                                     ? "is-active rounded-none"
                                     : "rounded-none"
                             }
-                            pressed={editor.isActive("heading")}
+                            pressed={editor.isActive("heading", { level: 1 })}
                             onPressedChange={() => {
                                 editor
                                     .chain()
@@ -100,7 +96,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* HEADING 2 */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             aria-label="Toggle Heading 2"
@@ -127,7 +123,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* HEADING 3 */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             aria-label="Toggle Heading 3"
@@ -154,7 +150,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* BOLD */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -171,7 +167,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* ITALIC */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -188,7 +184,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* UNDERLINE */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -205,7 +201,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* STRIKETHROUGH */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -222,7 +218,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* BULLET LIST */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -239,7 +235,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* NUMBER LIST */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -260,7 +256,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* SUBSCRIPT */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -277,7 +273,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* SUPERSCRIPT */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -298,7 +294,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* LINK */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
@@ -313,7 +309,7 @@ export default function Toolbar({ editor }: Props) {
                 </Tooltip>
                 {/* IMAGE */}
                 <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
+                    <TooltipTrigger>
                         <Toggle
                             size={"sm"}
                             className="rounded-none"
