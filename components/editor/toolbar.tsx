@@ -68,7 +68,7 @@ export default function Toolbar({ editor }: Props) {
 
     return (
         <BubbleMenu editor={editor} tippyOptions={{ duration: 50 }}>
-            <div className="w-fit h-auto bg-gray-800 flex flex-nowrap justify-start items-center">
+            <div className="w-fit h-auto dark:bg-zinc-700 bg-zinc-200 rounded flex flex-nowrap justify-start items-center">
                 {/* HEADING 1 */}
                 <Tooltip delayDuration={100}>
                     <TooltipTrigger>
