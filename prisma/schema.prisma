@@ -55,3 +55,11 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model BlogPost {
+  blogTitle String
+  blogPost String
+  createdAt DateTime
+  updatedAt DateTime
+  user User @relation(fields: [userId], references: [id])
+}
