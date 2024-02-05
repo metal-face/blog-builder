@@ -69,8 +69,8 @@ export default function Toolbar({ editor }: Props) {
                     aria-label="Toggle Heading 1"
                     className={
                         editor.isActive("heading", { level: 1 })
-                            ? "is-active rounded-none"
-                            : "rounded-none"
+                            ? "is-active rounded-tl rounded-bl rounded-tr-none rounded-br-none" 
+                            : "rounded-tr-none rounded-br-none rounded-bl rounded-tl"
                     }
                     pressed={editor.isActive("heading", { level: 1 })}
                     onPressedChange={() => {
@@ -236,7 +236,7 @@ export default function Toolbar({ editor }: Props) {
                 {/* IMAGE */}
                 <Toggle
                     size={"sm"}
-                    className="rounded-none"
+                    className="rounded-bl-none rounded-tl-none rounded-tr rounded-br"
                     aria-label="Toggle Image"
                     onPressedChange={addImage}
                 >
