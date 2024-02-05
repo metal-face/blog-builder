@@ -1,4 +1,5 @@
 "use client";
+
 import Tiptap from "@/components/editor/tip-tap";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +12,7 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
+import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
 
 export default function BlogBuilder() {
@@ -27,7 +29,6 @@ export default function BlogBuilder() {
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        mode: "onChange",
         defaultValues: {
             blogTitle: "Add a title!",
             blogPost: "Hello World! 🌎️",
@@ -35,14 +36,14 @@ export default function BlogBuilder() {
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        // Sanatize data
-        // Send data to server
+        DOMPurify.sanitize(data.blogPost, {USE_PROFILES: {html: true}}); 
+        console.log(data.blogPost);
     }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="w-4/5 my-2  mx-auto h-fit">
+                <div className="w-4/5 my-2 mx-auto h-fit">
                     <FormField
                         control={form.control}
                         name="blogTitle"
