@@ -1,4 +1,4 @@
-import "@/app/builder/style.css";
+import "@/app/globals.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
