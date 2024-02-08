@@ -1,19 +1,19 @@
 import {
-    FaLink,
-    FaBold,
-    FaItalic,
-    FaStrikethrough,
-    FaSubscript,
-    FaSuperscript,
-} from "react-icons/fa";
+    Heading1,
+    Heading2,
+    Heading3,
+    Bold,
+    Italic,
+    Underline,
+    Strikethrough,
+    List,
+    ListOrdered,
+    Subscript,
+    Superscript,
+    Link,
+    Image as ImageIcon,
+} from "lucide-react";
 
-import { LuHeading1 } from "react-icons/lu";
-import { LuHeading2 } from "react-icons/lu";
-import { LuHeading3 } from "react-icons/lu";
-import { MdFormatUnderlined } from "react-icons/md";
-import { MdFormatListNumbered } from "react-icons/md";
-import { CiBoxList } from "react-icons/ci";
-import { AiFillPicture } from "react-icons/ai";
 import { useCallback } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Editor, BubbleMenu } from "@tiptap/react";
@@ -69,7 +69,7 @@ export default function Toolbar({ editor }: Props) {
                     aria-label="Toggle Heading 1"
                     className={
                         editor.isActive("heading", { level: 1 })
-                            ? "is-active rounded-tl rounded-bl rounded-tr-none rounded-br-none" 
+                            ? "is-active rounded-tl rounded-bl rounded-tr-none rounded-br-none"
                             : "rounded-tr-none rounded-br-none rounded-bl rounded-tl"
                     }
                     pressed={editor.isActive("heading", { level: 1 })}
@@ -81,7 +81,7 @@ export default function Toolbar({ editor }: Props) {
                             .run();
                     }}
                 >
-                    <LuHeading1 />
+                    <Heading1 />
                 </Toggle>
                 {/* HEADING 2 */}
                 <Toggle
@@ -103,7 +103,7 @@ export default function Toolbar({ editor }: Props) {
                             .run();
                     }}
                 >
-                    <LuHeading2 />
+                    <Heading2 />
                 </Toggle>
                 {/* HEADING 3 */}
                 <Toggle
@@ -125,7 +125,7 @@ export default function Toolbar({ editor }: Props) {
                             .run();
                     }}
                 >
-                    <LuHeading3 />
+                    <Heading3 />
                 </Toggle>
                 {/* BOLD */}
                 <Toggle
@@ -137,7 +137,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleBold().run();
                     }}
                 >
-                    <FaBold />
+                    <Bold />
                 </Toggle>
                 {/* ITALIC */}
                 <Toggle
@@ -149,7 +149,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleItalic().run();
                     }}
                 >
-                    <FaItalic />
+                    <Italic />
                 </Toggle>
                 {/* UNDERLINE */}
                 <Toggle
@@ -161,7 +161,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleUnderline().run();
                     }}
                 >
-                    <MdFormatUnderlined />
+                    <Underline />
                 </Toggle>
                 {/* STRIKETHROUGH */}
                 <Toggle
@@ -173,7 +173,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleStrike().run();
                     }}
                 >
-                    <FaStrikethrough />
+                    <Strikethrough />
                 </Toggle>
                 {/* BULLET LIST */}
                 <Toggle
@@ -185,7 +185,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleBulletList().run();
                     }}
                 >
-                    <CiBoxList />
+                    <List />
                 </Toggle>
                 {/* NUMBER LIST */}
                 <Toggle
@@ -197,7 +197,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleOrderedList().run();
                     }}
                 >
-                    <MdFormatListNumbered />
+                    <ListOrdered />
                 </Toggle>
                 {/* SUBSCRIPT */}
                 <Toggle
@@ -209,7 +209,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleSubscript().run();
                     }}
                 >
-                    <FaSubscript />
+                    <Subscript />
                 </Toggle>
                 {/* SUPERSCRIPT */}
                 <Toggle
@@ -221,7 +221,7 @@ export default function Toolbar({ editor }: Props) {
                         editor.chain().focus().toggleSuperscript().run();
                     }}
                 >
-                    <FaSuperscript />
+                    <Superscript />
                 </Toggle>
                 {/* LINK */}
                 <Toggle
@@ -231,7 +231,7 @@ export default function Toolbar({ editor }: Props) {
                     pressed={editor.isActive("link")}
                     onPressedChange={setLink}
                 >
-                    <FaLink />
+                    <Link />
                 </Toggle>
                 {/* IMAGE */}
                 <Toggle
@@ -240,7 +240,7 @@ export default function Toolbar({ editor }: Props) {
                     aria-label="Toggle Image"
                     onPressedChange={addImage}
                 >
-                    <AiFillPicture />
+                    <ImageIcon />
                 </Toggle>
             </div>
         </BubbleMenu>
