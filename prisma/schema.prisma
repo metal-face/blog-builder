@@ -38,15 +38,15 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   role          String?
   accounts      Account[]
   sessions      Session[]
-  BlogPost      BlogPost[]
+  BlogPost      BlogPosts[]
 }
 
 model VerificationToken {
@@ -57,7 +57,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model BlogPost {
+model BlogPosts {
   id        String    @id @default(cuid())
   blogTitle String?
   blogPost  String?
