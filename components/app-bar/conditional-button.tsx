@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 
-interface ConditionalButtonProps {
-    name: string;
+interface Props {
+    name?: string;
     path: string;
     classes?: string;
     children?: React.ReactNode;
@@ -14,12 +14,12 @@ export default function ConditionalButton({
     path,
     classes,
     children,
-}: ConditionalButtonProps) {
+}: Props) {
     const currentPath = usePathname();
 
     return path !== currentPath ? (
         <Button variant="outline" className={classes}>
-            {name}
+            {name ? name : null}
             {children}
         </Button>
     ) : null;
