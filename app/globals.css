@@ -2,36 +2,114 @@
 @tailwind components;
 @tailwind utilities;
 
+.ProseMirror>*+* {
+  margin-top: 0.75em;
+}
+
+.ProseMirror ul {
+  padding: 0 1rem;
+  list-style: disc;
+}
+
+.ProseMirror ol {
+  padding: 0 1rem;
+  list-style: decimal;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  line-height: 1.1;
+}
+
+.ProseMirror code {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #616161;
+}
+
+.ProseMirror pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.ProseMirror pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ProseMirror blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(13, 13, 13, 0.1);
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid rgba(13, 13, 13, 0.1);
+  margin: 2rem 0;
+}
+
+.tiptap {
+  >*+* {
+    margin-top: 0.75em;
+  }
+
+  a {
+    color: #68cef8;
+    cursor: pointer;
+  }
+
+  code {
+    background-color: rgba(#616161, 0.1);
+    border-radius: 0.25em;
+    box-decoration-break: clone;
+    color: #616161;
+    font-size: 0.9rem;
+    padding: 0.25em;
+  }
+}
+
 .login-button:hover {
   box-shadow: 0 0 2rem -0.5rem var(--color-code);
 }
 
 .custom-container {
-  height: calc(100vh - 5rem)
+  height: calc(100vh - 5rem);
 }
 
 .editor {
-  height: calc(100vh - 15rem)
+  height: calc(100vh - 15rem);
 }
 
 .github::before {
   inset: 0;
-  content: '';
+  content: "";
   --angle: 0deg;
   position: absolute;
   border-radius: inherit;
-  padding: 1.5px; /* control the border thickness */
+  padding: 1.5px;
+  /* control the border thickness */
   animation: 5s rotate linear infinite;
-  background: conic-gradient(
-    from var(--angle),
-    #c2ccd6,
-    #c2ccd66b 35%,
-    #c2ccd693 40%,
-    #c2ccd6b6,
-    #c2ccd6cb 61%,
-    #c2ccd6e2 65%,
-    #c2ccd6
-  );
+  background: conic-gradient(from var(--angle),
+      #c2ccd6,
+      #c2ccd66b 35%,
+      #c2ccd693 40%,
+      #c2ccd6b6,
+      #c2ccd6cb 61%,
+      #c2ccd6e2 65%,
+      #c2ccd6);
   -webkit-mask-composite: xor;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -42,21 +120,20 @@
 
 .discord::before {
   inset: 0;
-  content: '';
+  content: "";
   --angle: 0deg;
   position: absolute;
   border-radius: inherit;
-  padding: 1.5px; /* control the border thickness */
-  background: conic-gradient(
-    from var(--angle),
-    #5865F2,
-    #5865f272 35%,
-    #5865f291 40%,
-    #5865f2b5,
-    #5865f2c6 61%,
-    #5865f2de 65%,
-    #5865F2
-  );
+  padding: 1.5px;
+  /* control the border thickness */
+  background: conic-gradient(from var(--angle),
+      #5865f2,
+      #5865f272 35%,
+      #5865f291 40%,
+      #5865f2b5,
+      #5865f2c6 61%,
+      #5865f2de 65%,
+      #5865f2);
   -webkit-mask-composite: xor;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -68,21 +145,20 @@
 
 .google::before {
   inset: 0;
-  content: '';
+  content: "";
   --angle: 0deg;
   position: absolute;
   border-radius: inherit;
-  padding: 1.5px; /* control the border thickness */
-  background: conic-gradient(
-    from var(--angle),
-    #ea4335,
-    #ea4335 25%,
-    #4285f4 45%,
-    #4285f4,
-    #34a853 65%,
-    #34a853,
-    #fbbc05 85%
-  );
+  padding: 1.5px;
+  /* control the border thickness */
+  background: conic-gradient(from var(--angle),
+      #ea4335,
+      #ea4335 25%,
+      #4285f4 45%,
+      #4285f4,
+      #34a853 65%,
+      #34a853,
+      #fbbc05 85%);
   -webkit-mask-composite: xor;
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -99,7 +175,7 @@
 }
 
 @property --angle {
-  syntax: '<angle>';
+  syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
 }
@@ -178,6 +254,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
