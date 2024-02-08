@@ -5,10 +5,9 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Session } from "next-auth";
-import { ExitIcon } from "@radix-ui/react-icons";
-import Image from "next/image";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 
 interface ProfileCardProps {
@@ -44,7 +43,7 @@ export default function ProfileCard({ session }: ProfileCardProps) {
                     <DropdownMenuItem className="cursor-pointer">
                         Logout
                         <DropdownMenuShortcut>
-                            <ExitIcon />
+                            <LogOut />
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </Link>
