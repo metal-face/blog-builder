@@ -94,7 +94,7 @@ export default function Tiptap({
         ],
         editorProps: {
             attributes: {
-                class: "editor overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-700 p-4",
+                class: "editor shadow-2xl overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-300 p-4",
             },
         },
         content: blogPost,
