@@ -1,9 +1,8 @@
-import { EnterIcon } from "@radix-ui/react-icons";
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { IoIosConstruct } from "react-icons/io";
-import { FaHome } from "react-icons/fa";
+import { Hammer, Home, LogIn } from "lucide-react";
+
 import React from "react";
 import ConditionalButton from "@/components/app-bar/conditional-button";
 import Link from "next/link";
@@ -27,14 +26,14 @@ export async function MainNav() {
                                 name="Blog "
                                 path="/builder"
                             >
-                                <IoIosConstruct className="ml-2" />
+                                <Hammer className="ml-2" />
                             </ConditionalButton>
                         </Link>
                     ) : null}
 
                     <Link href="/">
-                        <ConditionalButton classes="ml-1" name="Home" path="/">
-                            <FaHome className="ml-2" />
+                        <ConditionalButton classes="ml-1" path="/">
+                            <Home />
                         </ConditionalButton>
                     </Link>
 
@@ -45,7 +44,7 @@ export async function MainNav() {
                                 name="Login"
                                 path="/login"
                             >
-                                <EnterIcon className="ml-2" />
+                                <LogIn className="ml-2" />
                             </ConditionalButton>
                         </Link>
                     ) : null}
