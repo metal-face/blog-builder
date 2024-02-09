@@ -13,6 +13,7 @@ import {
     Link,
     Image as ImageIcon,
     ListTodo,
+    Minus,
 } from "lucide-react";
 
 import { useCallback } from "react";
@@ -186,6 +187,17 @@ export default function Toolbar({ editor }: Props) {
                 }}
             >
                 <ListTodo />
+            </Toggle>
+            <Toggle
+                size="sm"
+                className="rounded-none"
+                aria-label="Toggle Horizontal Rule"
+                pressed={editor.isActive("horizontalRule")}
+                onPressedChange={() => {
+                    editor.chain().focus().setHorizontalRule().run();
+                }}
+            >
+                <Minus />
             </Toggle>
             {/* STRIKETHROUGH */}
             <Toggle
