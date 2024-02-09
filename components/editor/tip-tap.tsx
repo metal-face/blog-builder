@@ -10,6 +10,11 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import BaseHeading from "@tiptap/extension-heading";
 import { mergeAttributes } from "@tiptap/core";
+import Typography from "@tiptap/extension-typography";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
 
 type Levels = 1 | 2 | 3;
 
@@ -46,25 +51,37 @@ export default function Tiptap({
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                bulletList: {
-                    keepMarks: true,
-                    keepAttributes: false,
-                },
-                orderedList: {
-                    keepMarks: true,
-                    keepAttributes: false,
-                },
+                bulletList: false,
+                orderedList: false,
                 heading: false,
             }),
+            OrderedList.configure({
+                HTMLAttributes: {
+                    class: "list-decimal pl-2 ml-2",
+                },
+            }),
+            BulletList.configure({
+                HTMLAttributes: {
+                    class: "list-disc pl-2 ml-2",
+                },
+            }),
+            Typography,
             TextStyle,
             Underline,
             Link.configure({
+                HTMLAttributes: {
+                    class: "text-blue-300 cursor-pointer",
+                },
                 protocols: ["ftp", "mailto"],
                 openOnClick: true,
-                autolink: true,
+                autolink: false,
                 validate: (href) => /^https?:\/\//.test(href),
             }),
-            Image,
+            Image.configure({
+                HTMLAttributes: {
+                    class: "mx-auto m-2 p-2",
+                },
+            }),
             Subscript,
             Superscript,
             Heading.configure({ levels: [1, 2, 3] }).extend({
@@ -91,10 +108,14 @@ export default function Tiptap({
                     ];
                 },
             }),
+            TaskList,
+            TaskItem.configure({
+                nested: true,
+            }),
         ],
         editorProps: {
             attributes: {
-                class: "editor shadow-2xl overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-300 p-4",
+                class: "editor rounded-tl-none rounded-tr-none active:border-gray-300 shadow-2xl overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-300 p-4",
             },
         },
         content: blogPost,
