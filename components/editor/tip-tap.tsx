@@ -15,6 +15,7 @@ import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
 
 type Levels = 1 | 2 | 3;
 
@@ -65,9 +66,6 @@ export default function Tiptap({
                     class: "list-disc pl-2 ml-2",
                 },
             }),
-            Typography,
-            TextStyle,
-            Underline,
             Link.configure({
                 HTMLAttributes: {
                     class: "text-blue-300 cursor-pointer",
@@ -82,8 +80,6 @@ export default function Tiptap({
                     class: "mx-auto m-2 p-2",
                 },
             }),
-            Subscript,
-            Superscript,
             Heading.configure({ levels: [1, 2, 3] }).extend({
                 renderHTML({ node, HTMLAttributes }) {
                     const level = this.options.levels.includes(node.attrs.level)
@@ -108,10 +104,16 @@ export default function Tiptap({
                     ];
                 },
             }),
-            TaskList,
             TaskItem.configure({
                 nested: true,
             }),
+            TaskList,
+            HorizontalRule,
+            Typography,
+            TextStyle,
+            Underline,
+            Subscript,
+            Superscript,
         ],
         editorProps: {
             attributes: {
