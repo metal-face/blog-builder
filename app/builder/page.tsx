@@ -27,7 +27,7 @@ export default function BlogBuilder() {
             .trim(),
     });
 
-    const form = useForm<z.infer<typeof FormSchema>>({
+    const form = useForm < z.infer < typeof FormSchema >> ({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             blogTitle: "Add a title!",
@@ -36,7 +36,7 @@ export default function BlogBuilder() {
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        DOMPurify.sanitize(data.blogPost, {USE_PROFILES: {html: true}}); 
+        DOMPurify.sanitize(data.blogPost, { USE_PROFILES: { html: true } });
         console.log(data.blogPost);
     }
 
