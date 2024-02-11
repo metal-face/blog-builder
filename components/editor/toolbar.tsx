@@ -6,38 +6,23 @@ import TextDropdown from "@/components/editor/text-dropdown";
 import ColorDropdown from "@/components/editor/color-dropdown";
 import TextToggleGroup from "@/components/editor/text-toggle-group";
 import LinkDialog from "@/components/editor/link-dialog";
+import ImageDialog from "@/components/editor/image-dialog";
 
 type Props = {
     editor: Editor | null;
 };
 
 export default function Toolbar({ editor }: Props) {
-    const addImage = useCallback(() => {
-        const url = window.prompt("URL");
-
-        if (url) {
-            editor?.chain().focus().setImage({ src: url }).run();
-        }
-    }, [editor]);
-
     if (!editor) {
         return null;
     }
 
     return (
-        <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-center items-center">
+        <div className="w-full rounded-bl-none rounded-br-none h-auto bg-transparent rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
             <TextToggleGroup editor={editor} />
             <LinkDialog editor={editor} />
-            {/* IMAGE */}
-            <Toggle
-                size={"sm"}
-                className="rounded-bl-none rounded-tl-none rounded-tr rounded-br"
-                aria-label="Toggle Image"
-                onPressedChange={addImage}
-            >
-                <ImageIcon />
-            </Toggle>
+            <ImageDialog editor={editor} />
             <ColorDropdown editor={editor} />
         </div>
     );
