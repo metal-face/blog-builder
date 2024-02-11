@@ -11,12 +11,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, Check } from "lucide-react";
+import { useState } from "react";
 
 type Props = {
     editor: Editor | null;
 };
 
 export default function LinkDialog({ editor }: Props) {
+    const [input, setInput] = useState<string>("");
+
+    if (!editor) return null;
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -32,9 +37,20 @@ export default function LinkDialog({ editor }: Props) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
-                    <Input />
+                    <Input
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                    />
                     <DialogClose asChild>
-                        <Button variant={"outline"}>
+                        <Button
+                            onClick={() =>
+                                editor.commands.toggleLink({
+                                    href: input,
+                                    target: "_blank",
+                                })
+                            }
+                            variant={"outline"}
+                        >
                             <Check />
                         </Button>
                     </DialogClose>
