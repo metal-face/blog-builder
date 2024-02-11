@@ -20,31 +20,6 @@ export default function Toolbar({ editor }: Props) {
         }
     }, [editor]);
 
-    const setLink = useCallback(() => {
-        const previousUrl = editor?.getAttributes("link").href;
-        const url = window.prompt("URL", previousUrl);
-
-        // cancelled
-        if (url === null) {
-            return;
-        }
-
-        // empty
-        if (url === "") {
-            editor?.chain().focus().extendMarkRange("link").unsetLink().run();
-
-            return;
-        }
-
-        // update link
-        editor
-            ?.chain()
-            .focus()
-            .extendMarkRange("link")
-            .setLink({ href: url })
-            .run();
-    }, [editor]);
-
     if (!editor) {
         return null;
     }
@@ -53,15 +28,6 @@ export default function Toolbar({ editor }: Props) {
         <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
             <TextToggleGroup editor={editor} />
-            {/* LINK */}
-            {/* <Toggle
-                size={"sm"}
-                aria-label="Toggle Link"
-                pressed={editor.isActive("link")}
-                onPressedChange={setLink}
-            >
-                <Link />
-            </Toggle> */}
             <LinkDialog editor={editor} />
             {/* IMAGE */}
             <Toggle
