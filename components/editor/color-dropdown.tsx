@@ -2,7 +2,6 @@ import { Editor } from "@tiptap/react";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuCheckboxItem,
     DropdownMenuTrigger,
     DropdownMenuShortcut,
     DropdownMenuLabel,
@@ -58,6 +57,56 @@ export default function ColorDropdown({ editor }: Props) {
                         Red
                         <DropdownMenuShortcut>
                             <Baseline color="#FF0000" />
+                        </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            editor.chain().focus().setColor("#FFFF00").run()
+                        }
+                    >
+                        Yellow
+                        <DropdownMenuShortcut>
+                            <Baseline color="#FFFF00" />
+                        </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            editor.chain().focus().setColor("#0000FF").run()
+                        }
+                    >
+                        Blue
+                        <DropdownMenuShortcut>
+                            <Baseline color="#0000FF" />
+                        </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            editor.chain().focus().setColor("#008000").run()
+                        }
+                    >
+                        Green
+                        <DropdownMenuShortcut>
+                            <Baseline color="#008000" />
+                        </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            editor.chain().focus().setColor("#FFA500").run()
+                        }
+                    >
+                        Orange
+                        <DropdownMenuShortcut>
+                            <Baseline color="#FFA500" />
+                        </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        onClick={() =>
+                            editor.chain().focus().setColor("#FFC0CB").run()
+                        }
+                    >
+                        Pink
+                        <DropdownMenuShortcut>
+                            <Baseline color="#FFC0CB" />
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
