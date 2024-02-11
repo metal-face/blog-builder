@@ -4,8 +4,18 @@ import {
     DropdownMenuContent,
     DropdownMenuCheckboxItem,
     DropdownMenuTrigger,
+    DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import {
+    ChevronDown,
+    Heading1,
+    Heading2,
+    Heading3,
+    ListTodo,
+    List,
+    ListOrdered,
+    Minus,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -21,7 +31,7 @@ export default function TextDropdown({ editor }: Props) {
                     Text <ChevronDown className="ml-1" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="w-56">
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("heading", { level: 1 })}
                     onCheckedChange={() =>
@@ -29,6 +39,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Heading 1
+                    <DropdownMenuShortcut>
+                        <Heading1 />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("heading", { level: 2 })}
@@ -37,6 +50,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Heading 2
+                    <DropdownMenuShortcut>
+                        <Heading2 />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("heading", { level: 3 })}
@@ -45,6 +61,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Heading 3
+                    <DropdownMenuShortcut>
+                        <Heading3 />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("taskList")}
@@ -53,6 +72,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Check List
+                    <DropdownMenuShortcut>
+                        <ListTodo />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("bulletList")}
@@ -61,6 +83,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Bullet List
+                    <DropdownMenuShortcut>
+                        <List />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("orderedList")}
@@ -69,6 +94,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Numbered List
+                    <DropdownMenuShortcut>
+                        <ListOrdered />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem
                     checked={editor.isActive("horizontalRule")}
@@ -77,6 +105,9 @@ export default function TextDropdown({ editor }: Props) {
                     }
                 >
                     Horizontal Line
+                    <DropdownMenuShortcut>
+                        <Minus />
+                    </DropdownMenuShortcut>
                 </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
         </DropdownMenu>
