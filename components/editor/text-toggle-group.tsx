@@ -20,7 +20,6 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* BOLD */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Bold"
                 pressed={editor.isActive("bold")}
                 onPressedChange={() => {
@@ -32,7 +31,6 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* ITALIC */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Italic"
                 pressed={editor.isActive("italic")}
                 onPressedChange={() => {
@@ -44,7 +42,6 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* UNDERLINE */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Underline"
                 pressed={editor.isActive("underline")}
                 onPressedChange={() => {
@@ -56,7 +53,6 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* STRIKETHROUGH */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Strikethrough"
                 pressed={editor.isActive("strike")}
                 onPressedChange={() => {
@@ -68,7 +64,6 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* SUBSCRIPT */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Subscript"
                 pressed={editor.isActive("subscript")}
                 onPressedChange={() => {
@@ -80,7 +75,6 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* SUPERSCRIPT */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Superscript"
                 pressed={editor.isActive("superscript")}
                 onPressedChange={() => {
