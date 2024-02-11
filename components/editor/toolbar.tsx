@@ -5,6 +5,7 @@ import { Editor } from "@tiptap/react";
 import TextDropdown from "@/components/editor/text-dropdown";
 import ColorDropdown from "@/components/editor/color-dropdown";
 import TextToggleGroup from "@/components/editor/text-toggle-group";
+import LinkDialog from "@/components/editor/link-dialog";
 
 type Props = {
     editor: Editor | null;
@@ -53,14 +54,15 @@ export default function Toolbar({ editor }: Props) {
             <TextDropdown editor={editor} />
             <TextToggleGroup editor={editor} />
             {/* LINK */}
-            <Toggle
+            {/* <Toggle
                 size={"sm"}
                 aria-label="Toggle Link"
                 pressed={editor.isActive("link")}
                 onPressedChange={setLink}
             >
                 <Link />
-            </Toggle>
+            </Toggle> */}
+            <LinkDialog editor={editor} />
             {/* IMAGE */}
             <Toggle
                 size={"sm"}
