@@ -15,7 +15,7 @@ import {
     ListTodo,
     Minus,
 } from "lucide-react";
-
+import TextDropdown from "@/components/editor/text-dropdown";
 import { useCallback } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Editor } from "@tiptap/react";
@@ -63,59 +63,9 @@ export default function Toolbar({ editor }: Props) {
     }
 
     return (
-        <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-center items-center">
-            {/* HEADING 1 */}
-            <Toggle
-                size="sm"
-                aria-label="Toggle Heading 1"
-                className={
-                    editor.isActive("heading", { level: 1 })
-                        ? "is-active rounded-tl rounded-bl rounded-tr-none rounded-br-none"
-                        : "rounded-tr-none rounded-br-none rounded-bl rounded-tl"
-                }
-                pressed={editor.isActive("heading", { level: 1 })}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleHeading({ level: 1 }).run();
-                }}
-            >
-                <Heading1 />
-            </Toggle>
-            {/* HEADING 2 */}
-            <Toggle
-                size={"sm"}
-                aria-label="Toggle Heading 2"
-                pressed={editor.isActive("heading", {
-                    level: 2,
-                })}
-                className={
-                    editor.isActive("heading", { level: 2 })
-                        ? "is-active rounded-none"
-                        : "rounded-none"
-                }
-                onPressedChange={() => {
-                    editor.chain().focus().toggleHeading({ level: 2 }).run();
-                }}
-            >
-                <Heading2 />
-            </Toggle>
-            {/* HEADING 3 */}
-            <Toggle
-                size={"sm"}
-                aria-label="Toggle Heading 3"
-                pressed={editor.isActive("heading", {
-                    level: 3,
-                })}
-                className={
-                    editor.isActive("heading", { level: 3 })
-                        ? "is-active rounded-none"
-                        : "rounded-none"
-                }
-                onPressedChange={() => {
-                    editor.chain().focus().toggleHeading({ level: 3 }).run();
-                }}
-            >
-                <Heading3 />
-            </Toggle>
+        <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-start items-center">
+            <TextDropdown editor={editor} />
+
             {/* BOLD */}
             <Toggle
                 size={"sm"}
@@ -151,53 +101,6 @@ export default function Toolbar({ editor }: Props) {
                 }}
             >
                 <Underline />
-            </Toggle>
-            {/* BULLET LIST */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Bullet List"
-                pressed={editor.isActive("bulletList")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleBulletList().run();
-                }}
-            >
-                <List />
-            </Toggle>
-            {/* NUMBER LIST */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Number List"
-                pressed={editor.isActive("orderedList")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleOrderedList().run();
-                }}
-            >
-                <ListOrdered />
-            </Toggle>
-            {/* TASK LIST */}
-            <Toggle
-                size="sm"
-                className="rounded-none"
-                aria-label="Toggle Task List"
-                pressed={editor.isActive("taskList")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleTaskList().run();
-                }}
-            >
-                <ListTodo />
-            </Toggle>
-            <Toggle
-                size="sm"
-                className="rounded-none"
-                aria-label="Toggle Horizontal Rule"
-                pressed={editor.isActive("horizontalRule")}
-                onPressedChange={() => {
-                    editor.chain().focus().setHorizontalRule().run();
-                }}
-            >
-                <Minus />
             </Toggle>
             {/* STRIKETHROUGH */}
             <Toggle
