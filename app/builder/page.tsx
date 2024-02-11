@@ -38,7 +38,7 @@ export default function BlogBuilder() {
         },
     });
 
-    const [editable, setEditable] = useState(true);
+    const [editable, setEditable] = useState(false);
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         DOMPurify.sanitize(data.blogPost, { USE_PROFILES: { html: true } });
