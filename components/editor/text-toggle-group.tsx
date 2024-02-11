@@ -7,6 +7,7 @@ import {
     Strikethrough,
     Subscript,
     Superscript,
+    Code,
 } from "lucide-react";
 
 type Props = {
@@ -60,6 +61,16 @@ export default function TextToggleGroup({ editor }: Props) {
                 }}
             >
                 <Strikethrough />
+            </Toggle>
+            <Toggle
+                size={"sm"}
+                aria-label="Toggle Code Block"
+                pressed={editor.isActive("codeBlock")}
+                onPressedChange={() =>
+                    editor.chain().focus().toggleCodeBlock().run()
+                }
+            >
+                <Code />
             </Toggle>
             {/* SUBSCRIPT */}
             <Toggle
