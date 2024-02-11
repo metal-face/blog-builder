@@ -1,19 +1,12 @@
 import {
-    Heading1,
-    Heading2,
-    Heading3,
     Bold,
     Italic,
     Underline,
     Strikethrough,
-    List,
-    ListOrdered,
     Subscript,
     Superscript,
     Link,
     Image as ImageIcon,
-    ListTodo,
-    Minus,
 } from "lucide-react";
 import TextDropdown from "@/components/editor/text-dropdown";
 import { useCallback } from "react";
