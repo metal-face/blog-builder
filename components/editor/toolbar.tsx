@@ -1,18 +1,10 @@
-import {
-    Bold,
-    Italic,
-    Underline,
-    Strikethrough,
-    Subscript,
-    Superscript,
-    Link,
-    Image as ImageIcon,
-} from "lucide-react";
+import { Link, Image as ImageIcon } from "lucide-react";
 import { useCallback } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Editor } from "@tiptap/react";
 import TextDropdown from "@/components/editor/text-dropdown";
 import ColorDropdown from "@/components/editor/color-dropdown";
+import TextToggleGroup from "@/components/editor/text-toggle-group";
 
 type Props = {
     editor: Editor | null;
@@ -59,83 +51,10 @@ export default function Toolbar({ editor }: Props) {
     return (
         <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
-
-            {/* BOLD */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Bold"
-                pressed={editor.isActive("bold")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleBold().run();
-                }}
-            >
-                <Bold />
-            </Toggle>
-            {/* ITALIC */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Italic"
-                pressed={editor.isActive("italic")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleItalic().run();
-                }}
-            >
-                <Italic />
-            </Toggle>
-            {/* UNDERLINE */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Underline"
-                pressed={editor.isActive("underline")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleUnderline().run();
-                }}
-            >
-                <Underline />
-            </Toggle>
-            {/* STRIKETHROUGH */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Strikethrough"
-                pressed={editor.isActive("strike")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleStrike().run();
-                }}
-            >
-                <Strikethrough />
-            </Toggle>
-            {/* SUBSCRIPT */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Subscript"
-                pressed={editor.isActive("subscript")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleSubscript().run();
-                }}
-            >
-                <Subscript />
-            </Toggle>
-            {/* SUPERSCRIPT */}
-            <Toggle
-                size={"sm"}
-                className="rounded-none"
-                aria-label="Toggle Superscript"
-                pressed={editor.isActive("superscript")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleSuperscript().run();
-                }}
-            >
-                <Superscript />
-            </Toggle>
+            <TextToggleGroup editor={editor} />
             {/* LINK */}
             <Toggle
                 size={"sm"}
-                className="rounded-none"
                 aria-label="Toggle Link"
                 pressed={editor.isActive("link")}
                 onPressedChange={setLink}
