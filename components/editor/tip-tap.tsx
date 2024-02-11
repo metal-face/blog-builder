@@ -2,6 +2,9 @@ import "@/app/globals.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
 import { Color } from "@tiptap/extension-color";
+import { common, createLowlight } from "lowlight";
+import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
+
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -19,6 +22,8 @@ import TaskItem from "@tiptap/extension-task-item";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 
 type Levels = 1 | 2 | 3;
+
+const lowlight = createLowlight(common);
 
 const classes: Record<Levels, string> = {
     1: "text-4xl",
@@ -107,6 +112,9 @@ export default function Tiptap({
             }),
             TaskItem.configure({
                 nested: true,
+            }),
+            CodeBlockLowlight.configure({
+                lowlight,
             }),
             TaskList,
             HorizontalRule,
