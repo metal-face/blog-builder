@@ -8,10 +8,11 @@ import {
     Link,
     Image as ImageIcon,
 } from "lucide-react";
-import TextDropdown from "@/components/editor/text-dropdown";
 import { useCallback } from "react";
 import { Toggle } from "@/components/ui/toggle";
 import { Editor } from "@tiptap/react";
+import TextDropdown from "@/components/editor/text-dropdown";
+import ColorDropdown from "@/components/editor/color-dropdown";
 
 type Props = {
     editor: Editor | null;
@@ -150,6 +151,7 @@ export default function Toolbar({ editor }: Props) {
             >
                 <ImageIcon />
             </Toggle>
+            <ColorDropdown editor={editor} />
         </div>
     );
 }
