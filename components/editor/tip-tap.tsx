@@ -1,5 +1,7 @@
 import "@/app/globals.css";
 import { useEditor, EditorContent } from "@tiptap/react";
+import { mergeAttributes } from "@tiptap/core";
+import { Color } from "@tiptap/extension-color";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -9,7 +11,6 @@ import Image from "@tiptap/extension-image";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import BaseHeading from "@tiptap/extension-heading";
-import { mergeAttributes } from "@tiptap/core";
 import Typography from "@tiptap/extension-typography";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
@@ -111,6 +112,7 @@ export default function Tiptap({
             HorizontalRule,
             Typography,
             TextStyle,
+            Color,
             Underline,
             Subscript,
             Superscript,
