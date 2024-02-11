@@ -1,7 +1,5 @@
 "use client";
 
-import Tiptap from "@/components/editor/tip-tap";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -12,8 +10,13 @@ import {
     FormItem,
     FormMessage,
 } from "@/components/ui/form";
-import DOMPurify from "dompurify";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Check } from "lucide-react";
+import * as z from "zod";
+import Tiptap from "@/components/editor/tip-tap";
+import DOMPurify from "dompurify";
+import BlogTitle from "@/components/editor/blog-title";
 
 export default function BlogBuilder() {
     const FormSchema = z.object({
@@ -27,13 +30,15 @@ export default function BlogBuilder() {
             .trim(),
     });
 
-    const form = useForm < z.infer < typeof FormSchema >> ({
+    const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             blogTitle: "Add a title!",
             blogPost: "Hello World! 🌎️",
         },
     });
+
+    const [editable, setEditable] = useState(true);
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
         DOMPurify.sanitize(data.blogPost, { USE_PROFILES: { html: true } });
@@ -43,24 +48,44 @@ export default function BlogBuilder() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="w-4/5 my-2 mx-auto h-fit">
-                    <FormField
-                        control={form.control}
-                        name="blogTitle"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Input
-                                        type="text"
-                                        placeholder="Enter a blog title"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
+                {editable ? (
+                    <div className="w-4/5 my-2 mx-auto flex h-fit">
+                        <div className="w-full">
+                            <FormField
+                                control={form.control}
+                                name="blogTitle"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                type="text"
+                                                placeholder="Enter a blog title"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="ml-1">
+                            <Button
+                                variant={"outline"}
+                                onClick={() => setEditable(!editable)}
+                            >
+                                <Check />
+                            </Button>
+                        </div>
+                    </div>
+                ) : null}
+                {!editable ? (
+                    <div
+                        onClick={() => setEditable(true)}
+                        className="w-4/5 mx-auto cursor-pointer my-2"
+                    >
+                        <BlogTitle blogTitle={form.getValues().blogTitle} />
+                    </div>
+                ) : null}
                 <div className="w-4/5 mx-auto">
                     <FormField
                         control={form.control}
