@@ -57,7 +57,7 @@ export default function Toolbar({ editor }: Props) {
     }
 
     return (
-        <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-start items-center">
+        <div className="w-full rounded-bl-none rounded-br-none h-auto dark:bg-transparent bg-zinc-200 rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
 
             {/* BOLD */}
