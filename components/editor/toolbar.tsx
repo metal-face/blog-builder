@@ -1,6 +1,3 @@
-import { Link, Image as ImageIcon } from "lucide-react";
-import { useCallback } from "react";
-import { Toggle } from "@/components/ui/toggle";
 import { Editor } from "@tiptap/react";
 import TextDropdown from "@/components/editor/text-dropdown";
 import ColorDropdown from "@/components/editor/color-dropdown";
