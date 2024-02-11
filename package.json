@@ -21,7 +21,7 @@
     "@radix-ui/react-toggle": "^1.0.3",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@supabase/supabase-js": "^2.39.3",
-    "@tiptap/extension-color": "^2.1.13",
+    "@tiptap/extension-color": "^2.2.2",
     "@tiptap/extension-heading": "^2.1.16",
     "@tiptap/extension-horizontal-rule": "^2.2.2",
     "@tiptap/extension-image": "^2.1.16",
