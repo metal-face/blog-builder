@@ -13,6 +13,7 @@ import {
 type Props = {
     editor: Editor | null;
 };
+
 export default function TextToggleGroup({ editor }: Props) {
     if (!editor) return null;
 
@@ -71,17 +72,6 @@ export default function TextToggleGroup({ editor }: Props) {
                 }
             >
                 <Code />
-            </Toggle>
-            {/* SUBSCRIPT */}
-            <Toggle
-                size={"sm"}
-                aria-label="Toggle Subscript"
-                pressed={editor.isActive("subscript")}
-                onPressedChange={() => {
-                    editor.chain().focus().toggleSubscript().run();
-                }}
-            >
-                <Subscript />
             </Toggle>
             {/* SUPERSCRIPT */}
             <Toggle
