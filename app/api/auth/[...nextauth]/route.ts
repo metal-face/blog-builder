@@ -3,8 +3,8 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
 import type { NextAuthOptions } from "next-auth";
+import prisma from "@/lib/prisma";
 
 if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("No DISCORD_CLIENT_ID has been provided.");
@@ -32,7 +32,7 @@ if (!process.env.GOOGLE_SECRET) {
 
 const scopes = ["identify", "email"];
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
