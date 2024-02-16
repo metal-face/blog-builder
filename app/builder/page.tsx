@@ -41,8 +41,14 @@ export default function BlogBuilder() {
     const [editable, setEditable] = useState(false);
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        DOMPurify.sanitize(data.blogPost, { USE_PROFILES: { html: true } });
-        console.log(data.blogPost);
+        const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
+            USE_PROFILES: { html: true },
+        });
+        prisma?.blogPosts.create({
+            blogTitle: data.blogTitle,
+            blogPost: sanitizedPost,
+            userId: "",
+        });
     }
 
     return (
