@@ -40,14 +40,20 @@ export default function BlogBuilder() {
 
     const [editable, setEditable] = useState(false);
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             USE_PROFILES: { html: true },
         });
-        prisma?.blogPosts.create({
-            blogTitle: data.blogTitle,
-            blogPost: sanitizedPost,
-            userId: "",
+        const response = await fetch("/api/blogs", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                blogTitle: data.blogTitle,
+                blogPost: data.blogPost,
+                userId: "",
+            }),
         });
     }
 
