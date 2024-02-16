@@ -4,10 +4,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 type PostData = {
     blogTitle: string;
     blogPost: string;
-    updatedAt: Date;
+    userId: string;
 };
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
-    const { blogTitle, blogPost } = req.body as PostData;
+    const { blogTitle, blogPost, userId } = req.body as PostData;
     const updatedAt = new Date();
 
     try {
@@ -15,7 +15,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             data: {
                 blogTitle,
                 blogPost,
-                updatedAt,
+                userId,
+                updatedAt
             },
         });
         res.status(200).json(newPost);
