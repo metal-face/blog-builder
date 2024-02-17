@@ -21,6 +21,7 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import TextAlign from "@tiptap/extension-text-align";
+import WordCounter from "./word-counter";
 
 type Levels = 1 | 2 | 3;
 
@@ -48,6 +49,7 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
         ];
     },
 });
+import CharacterCount from '@tiptap/extension-character-count';
 
 export default function Tiptap({
     blogPost,
@@ -128,6 +130,7 @@ export default function Tiptap({
             Underline,
             Subscript,
             Superscript,
+            CharacterCount
         ],
         editorProps: {
             attributes: {
@@ -148,6 +151,7 @@ export default function Tiptap({
         <div className="my-2 overflow-x-hidden overflow-y-hidden">
             <Toolbar editor={editor} />
             <EditorContent editor={editor} />
+            <WordCounter editor={editor} />
         </div>
     );
 }
