@@ -23,7 +23,7 @@ export default function ImageDialog({ editor }: Props) {
     if (!editor) return null;
     return (
         <Dialog>
-            <DialogTrigger>
+            <DialogTrigger asChild>
                 <Button size={"sm"} variant={"ghost"}>
                     <ImageIcon />
                 </Button>
