@@ -11,7 +11,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import {  useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import * as z from "zod";
 import Tiptap from "@/components/editor/tip-tap";
@@ -57,11 +57,18 @@ export default function BlogBuilder() {
         });
     }
 
-    return (
+    function handleClick() {
+        const watcher = form.watch("blogTitle");
+        if (watcher.length < 4) {
+            return;
+        }
+        setEditable(!editable);
+    }
+       return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 {editable ? (
-                    <div className="w-4/5 my-2 mx-auto flex h-fit">
+                    <div className="w-3/5 my-3 mx-auto flex h-fit">
                         <div className="w-full">
                             <FormField
                                 control={form.control}
@@ -80,10 +87,10 @@ export default function BlogBuilder() {
                                 )}
                             />
                         </div>
-                        <div className="ml-1">
+                        <div className="ml-2">
                             <Button
                                 variant={"outline"}
-                                onClick={() => setEditable(!editable)}
+                                onClick={handleClick}
                             >
                                 <Check />
                             </Button>
@@ -93,7 +100,7 @@ export default function BlogBuilder() {
                 {!editable ? (
                     <div
                         onClick={() => setEditable(true)}
-                        className="w-4/5 mx-auto cursor-pointer my-2"
+                        className="w-4/5 mx-auto cursor-pointer my-3"
                     >
                         <BlogTitle blogTitle={form.getValues().blogTitle} />
                     </div>
@@ -110,7 +117,7 @@ export default function BlogBuilder() {
                                         onChange={field.onChange}
                                     />
                                 </FormControl>
-                                <FormMessage className="m-0 p-0" />
+                                <FormMessage className="text-xs m-0 p-0" />
                             </FormItem>
                         )}
                     />
