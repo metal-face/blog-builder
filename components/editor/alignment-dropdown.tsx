@@ -18,7 +18,7 @@ export default function AlignmentDropdown({ editor }: Props) {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
                 <Button size={"sm"} variant={"ghost"}>
                     <AlignCenter />
                 </Button>
