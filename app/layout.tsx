@@ -29,7 +29,7 @@ export default function RootLayout({
 
                 <title>Blog Builder</title>
             </head>
-            <body className={inter.className}>
+            <body className={inter.className + " overflow-x-hidden"}>
                 <Providers>
                     <main className="h-screen w-screen">
                         <MainNav />
