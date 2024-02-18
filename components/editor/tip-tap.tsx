@@ -134,7 +134,7 @@ export default function Tiptap({
             Subscript,
             Superscript,
             CharacterCount,
-            YouTube,
+            YouTube.configure({ inline: false, height: 320}),
         ],
         editorProps: {
             attributes: {
