@@ -5,6 +5,7 @@ import TextToggleGroup from "@/components/editor/text-toggle-group";
 import LinkDialog from "@/components/editor/link-dialog";
 import ImageDialog from "@/components/editor/image-dialog";
 import AlignmentDropdown from "@/components/editor/alignment-dropdown";
+import YoutubeDialog from "./youtube-dialog";
 
 type Props = {
     editor: Editor | null;
@@ -22,6 +23,7 @@ export default function Toolbar({ editor }: Props) {
             <TextToggleGroup editor={editor} />
             <LinkDialog editor={editor} />
             <ImageDialog editor={editor} />
+            <YoutubeDialog editor={editor} />
             <ColorDropdown editor={editor} />
         </div>
     );
