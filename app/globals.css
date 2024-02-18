@@ -21,15 +21,15 @@
         padding: 0.75rem 1rem;
 
         code {
-          background: none;
-          color: inherit;
-          font-size: 0.8rem;
-          padding: 0;
+            background: none;
+            color: inherit;
+            font-size: 0.8rem;
+            padding: 0;
         }
 
         .hljs-comment,
         .hljs-quote {
-          color: #616161;
+            color: #616161;
         }
 
         .hljs-variable,
@@ -42,7 +42,7 @@
         .hljs-name,
         .hljs-selector-id,
         .hljs-selector-class {
-          color: #f98181;
+            color: #f98181;
         }
 
         .hljs-number,
@@ -52,33 +52,33 @@
         .hljs-literal,
         .hljs-type,
         .hljs-params {
-          color: #fbbc88;
+            color: #fbbc88;
         }
 
         .hljs-string,
         .hljs-symbol,
         .hljs-bullet {
-          color: #b9f18d;
+            color: #b9f18d;
         }
 
         .hljs-title,
         .hljs-section {
-          color: #faf594;
+            color: #faf594;
         }
 
         .hljs-keyword,
         .hljs-selector-tag {
-          color: #70cff8;
+            color: #70cff8;
         }
 
         .hljs-emphasis {
-          font-style: italic;
+            font-style: italic;
         }
 
         .hljs-strong {
-          font-weight: 700;
+            font-weight: 700;
         }
-      }
+    }
 }
 
 ul[data-type="taskList"] {
@@ -198,6 +198,17 @@ ul[data-type="taskList"] {
     animation: 6s rotate linear infinite;
     mask-composite: exclude;
     pointer-events: none;
+}
+
+iframe {
+    min-width: 200px;
+    min-height: 200px;
+    display: block;
+    outline: 0px solid transparent;
+}
+
+div[data-youtube-video] {
+    cursor: move;
 }
 
 @keyframes rotate {
