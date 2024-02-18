@@ -21,7 +21,8 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import TextAlign from "@tiptap/extension-text-align";
-import WordCounter from "./word-counter";
+import YouTube from "@tiptap/extension-youtube";
+import WordCounter from "@/components/editor/word-counter";
 
 type Levels = 1 | 2 | 3;
 
@@ -49,7 +50,7 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
         ];
     },
 });
-import CharacterCount from '@tiptap/extension-character-count';
+import CharacterCount from "@tiptap/extension-character-count";
 
 export default function Tiptap({
     blogPost,
@@ -65,7 +66,7 @@ export default function Tiptap({
                 orderedList: false,
                 heading: false,
                 codeBlock: false,
-                horizontalRule: false
+                horizontalRule: false,
             }),
             OrderedList.configure({
                 HTMLAttributes: {
@@ -132,7 +133,8 @@ export default function Tiptap({
             Underline,
             Subscript,
             Superscript,
-            CharacterCount
+            CharacterCount,
+            YouTube,
         ],
         editorProps: {
             attributes: {
