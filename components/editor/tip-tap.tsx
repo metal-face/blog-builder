@@ -64,6 +64,8 @@ export default function Tiptap({
                 bulletList: false,
                 orderedList: false,
                 heading: false,
+                codeBlock: false,
+                horizontalRule: false
             }),
             OrderedList.configure({
                 HTMLAttributes: {
