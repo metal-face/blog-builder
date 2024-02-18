@@ -1,17 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, Form as ReactForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import * as z from "zod";
 import Tiptap from "@/components/editor/tip-tap";
@@ -19,6 +14,8 @@ import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 
 export default function BlogBuilder() {
+    const { toast } = useToast();
+
     const FormSchema = z.object({
         blogTitle: z
             .string()
@@ -38,6 +35,25 @@ export default function BlogBuilder() {
         },
     });
 
+    const blogPostErrors = form.formState.errors.blogPost?.message;
+    const blogTitleErrors = form.formState.errors.blogTitle?.message;
+
+    useEffect(() => {
+        if (!blogPostErrors) return;
+        toast({
+            variant: "destructive",
+            description: blogPostErrors,
+        });
+    }, [blogPostErrors, toast]);
+
+    useEffect(() => {
+        if (!blogTitleErrors) return;
+        toast({
+            variant: "destructive",
+            description: blogTitleErrors,
+        });
+    }, [blogTitleErrors, toast]);
+
     const [editable, setEditable] = useState(false);
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -51,20 +67,20 @@ export default function BlogBuilder() {
             },
             body: JSON.stringify({
                 blogTitle: data.blogTitle,
-                blogPost: data.blogPost,
+                blogPost: sanitizedPost,
                 userId: "",
             }),
         });
     }
 
-    function handleClick() {
+    function handleTitleClick() {
         const watcher = form.watch("blogTitle");
         if (watcher.length < 4) {
             return;
         }
         setEditable(!editable);
     }
-       return (
+    return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 {editable ? (
@@ -82,7 +98,6 @@ export default function BlogBuilder() {
                                                 {...field}
                                             />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -90,7 +105,7 @@ export default function BlogBuilder() {
                         <div className="ml-2">
                             <Button
                                 variant={"outline"}
-                                onClick={handleClick}
+                                onClick={handleTitleClick}
                             >
                                 <Check />
                             </Button>
@@ -111,23 +126,18 @@ export default function BlogBuilder() {
                         name="blogPost"
                         render={({ field }) => (
                             <FormItem>
-                                <FormControl>
+                                <FormControl onError={() => toast("")}>
                                     <Tiptap
                                         blogPost={field.value}
                                         onChange={field.onChange}
                                     />
                                 </FormControl>
-                                <FormMessage className="text-xs m-0 p-0" />
                             </FormItem>
                         )}
                     />
                 </div>
-                <div className="w-4/5 mx-auto">
-                    <Button
-                        type="submit"
-                        variant="secondary"
-                        className="w-full py-1"
-                    >
+                <div className="w-4/5 mx-auto flex justify-end items-center">
+                    <Button type="submit" variant="secondary" className=" py-1">
                         Submit
                     </Button>
                 </div>
