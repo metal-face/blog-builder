@@ -3,8 +3,9 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions, User } from "next-auth";
 import prisma from "@/lib/prisma";
+import { AdapterUser } from "next-auth/adapters";
 
 if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("No DISCORD_CLIENT_ID has been provided.");
@@ -30,9 +31,18 @@ if (!process.env.GOOGLE_SECRET) {
     throw new Error("No GOOGLE_SECRET has been provided.");
 }
 
-const scopes = ["identify", "email"];
+declare module "next-auth" {
+    interface Session {
+        user: User & { role: string };
+    }
+}
 
-// const prisma = new PrismaClient();
+declare module "@/lib/prisma" {
+    interface AdapterUser extends User {
+        role: string;
+    }
+}
+const scopes = ["identify", "email"];
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -120,9 +130,23 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async session({ session, user }: any) {
-            session.user.role = user.role;
-            return session;
+        session: async (opts) => {
+            console.log({ opts });
+            if (!("user" in opts)) {
+                throw new Error("unreachable, we're not using JWT");
+            }
+
+            const { session, user } = opts;
+
+            return {
+                ...session,
+                user: {
+                    ...session.user,
+                    id: user.id,
+                    // @ts-ignore
+                    role: user.role,
+                },
+            };
         },
     },
     secret: process.env.NEXTAUTH_SECRET as string,
