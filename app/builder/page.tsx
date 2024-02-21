@@ -1,12 +1,17 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, Form as ReactForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Check } from "lucide-react";
 import * as z from "zod";
 import Tiptap from "@/components/editor/tip-tap";
@@ -14,8 +19,6 @@ import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 
 export default function BlogBuilder() {
-    const { toast } = useToast();
-
     const FormSchema = z.object({
         blogTitle: z
             .string()
@@ -35,25 +38,6 @@ export default function BlogBuilder() {
         },
     });
 
-    const blogPostErrors = form.formState.errors.blogPost?.message;
-    const blogTitleErrors = form.formState.errors.blogTitle?.message;
-
-    useEffect(() => {
-        if (!blogPostErrors) return;
-        toast({
-            variant: "destructive",
-            description: blogPostErrors,
-        });
-    }, [blogPostErrors, toast]);
-
-    useEffect(() => {
-        if (!blogTitleErrors) return;
-        toast({
-            variant: "destructive",
-            description: blogTitleErrors,
-        });
-    }, [blogTitleErrors, toast]);
-
     const [editable, setEditable] = useState(false);
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -68,9 +52,9 @@ export default function BlogBuilder() {
             body: JSON.stringify({
                 blogTitle: data.blogTitle,
                 blogPost: sanitizedPost,
-                userId: "",
             }),
         });
+        console.log(response);
     }
 
     function handleTitleClick() {
@@ -98,6 +82,7 @@ export default function BlogBuilder() {
                                                 {...field}
                                             />
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -126,12 +111,13 @@ export default function BlogBuilder() {
                         name="blogPost"
                         render={({ field }) => (
                             <FormItem>
-                                <FormControl onError={() => toast("")}>
+                                <FormControl>
                                     <Tiptap
                                         blogPost={field.value}
                                         onChange={field.onChange}
                                     />
                                 </FormControl>
+                                <FormMessage />
                             </FormItem>
                         )}
                     />
