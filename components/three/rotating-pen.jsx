@@ -2,7 +2,7 @@ import React from "react";
 import { useGLTF } from "@react-three/drei";
 
 export default function RotatingPen(props) {
-  const { nodes, materials } = useGLTF("/Fountain_Pen.gltf");
+  const { nodes, materials } = useGLTF("/Fountain_Pen.gltf 2");
   return (
     <group {...props} dispose={null}>
       <mesh
