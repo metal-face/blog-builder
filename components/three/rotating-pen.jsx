@@ -1,8 +1,10 @@
 import React from "react";
 import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 
 export default function RotatingPen(props) {
-  const { nodes, materials } = useGLTF("/Fountain_Pen.gltf 2");
+  const { nodes, materials, scene } = useGLTF("/Fountain_Pen.gltf 2");
+  scene.add(new THREE.AmbientLight(0x666666, 2))
   return (
     <group {...props} dispose={null}>
       <mesh
