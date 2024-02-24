@@ -16,14 +16,14 @@ const PenCanvas = () => {
                 dpr={[1, 1.5]}
                 camera={{ position: [0, 0, 150], fov: 50 }}
             >
-                <ambientLight intensity={0.25} />
+                <ambientLight color={0xfff} intensity={2} />
                 <Suspense fallback={null}>
                     <Stage
                         controls={ref}
                         intensity={{
-                            value: 1,
-                            min: 0,
-                            max: 2,
+                            value: 20,
+                            min: 10,
+                            max: 20,
                             step: 0.1,
                             label: "light intensity",
                         }}
