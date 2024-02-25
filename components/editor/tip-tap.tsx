@@ -138,7 +138,7 @@ export default function Tiptap({
         ],
         editorProps: {
             attributes: {
-                class: "editor active:border-gray-300 overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-300 p-4",
+                class: "editor border overflow-y-auto overflow-x-hidden rounded p-4",
             },
         },
         content: blogPost,
