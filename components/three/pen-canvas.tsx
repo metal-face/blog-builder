@@ -16,7 +16,7 @@ const PenCanvas: FC = () => {
                 shadows
                 dpr={[1, 1.5]}
                 camera={{
-                    position: [50, 90, 150],
+                    position: [50, 200, 150],
                     near: 0,
                     far: 100,
                     fov: 50,
@@ -25,11 +25,12 @@ const PenCanvas: FC = () => {
             >
                 <Suspense fallback={null}>
                     <Stage
-                        intensity={25}
+                        intensity={23}
                         shadows
                         castShadow
                         receiveShadow
                         adjustCamera
+                        environment={"park"}
                     >
                         <A11y
                             role="content"
@@ -43,6 +44,9 @@ const PenCanvas: FC = () => {
                     ref={ref.current}
                     autoRotate
                     enableZoom={false}
+                    enableRotate
+                    enablePan
+                    enableDamping
                     autoRotateSpeed={1.5}
                 />
             </Canvas>
