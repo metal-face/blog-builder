@@ -26,11 +26,14 @@ export default function TextStylesDropdown({ editor }: Props) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant={"ghost"} size={"sm"}>
-                    Styles <ChevronDown className="ml-1" />
+                <Button className="text-xs" variant={"ghost"} size={"sm"}>
+                    Styles <ChevronDown className="ml-1" size={15} />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent
+                className="w-56"
+                onCloseAutoFocus={(e) => e.preventDefault()}
+            >
                 {/* BOLD */}
                 <DropdownMenuCheckboxItem
                     className="text-xs"
@@ -38,6 +41,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleBold().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Bold
                     <DropdownMenuShortcut>
@@ -51,6 +55,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleItalic().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Italic
                     <DropdownMenuShortcut>
@@ -64,6 +69,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleUnderline().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Underline
                     <DropdownMenuShortcut>
@@ -77,6 +83,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleStrike().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Strikethrough
                     <DropdownMenuShortcut>
@@ -90,6 +97,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleSuperscript().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Superscript
                     <DropdownMenuShortcut>
@@ -98,6 +106,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                 </DropdownMenuCheckboxItem>
                 {/* CODE */}
                 <DropdownMenuCheckboxItem
+                    onSelect={(e) => e.preventDefault()}
                     className="text-xs"
                     checked={editor.isActive("codeBlock")}
                     onCheckedChange={() =>
