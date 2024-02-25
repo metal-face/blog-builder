@@ -8,10 +8,15 @@ import {
     DialogTrigger,
     DialogClose,
 } from "@/components/ui/dialog";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, Check } from "lucide-react";
-import { useState } from "react";
+import { ForwardedRef, forwardRef, useState } from "react";
 
 type Props = {
     editor: Editor | null;
@@ -24,12 +29,17 @@ export default function LinkDialog({ editor }: Props) {
 
     return (
         <Dialog>
-            <DialogTrigger asChild>
-                <Button variant={"ghost"} size={"sm"} className="mx-1">
-                    <Link />
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
+            <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                    <DialogTrigger asChild>
+                        <Button variant={"ghost"} size={"sm"} className="mx-1">
+                            <Link />
+                        </Button>
+                    </DialogTrigger>
+                </TooltipTrigger>
+                <TooltipContent>Add Link</TooltipContent>
+            </Tooltip>
+            <DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Add a Link</DialogTitle>
                     <DialogDescription>
