@@ -32,8 +32,8 @@ export default function TextDropdown({ editor }: Props) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant={"ghost"} size={"sm"}>
-                    Text <ChevronDown className="ml-1" />
+                <Button className="text-xs" variant={"ghost"} size={"sm"}>
+                    Text <ChevronDown className="ml-1" size={15} />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
