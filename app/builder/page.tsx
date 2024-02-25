@@ -11,12 +11,13 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { Check } from "lucide-react";
 import * as z from "zod";
 import Tiptap from "@/components/editor/tip-tap";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function BlogBuilder() {
     const FormSchema = z.object({
@@ -82,7 +83,7 @@ export default function BlogBuilder() {
                                                 {...field}
                                             />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage className="text-xs" />
                                     </FormItem>
                                 )}
                             />
@@ -100,27 +101,29 @@ export default function BlogBuilder() {
                 {!editable ? (
                     <div
                         onClick={() => setEditable(true)}
-                        className="w-4/5 mx-auto cursor-pointer my-3"
+                        className="w-2/5 mx-auto cursor-pointer my-3 hover:outline rounded hover:border-zinc-400"
                     >
                         <BlogTitle blogTitle={form.getValues().blogTitle} />
                     </div>
                 ) : null}
                 <div className="w-4/5 mx-auto">
-                    <FormField
-                        control={form.control}
-                        name="blogPost"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormControl>
-                                    <Tiptap
-                                        blogPost={field.value}
-                                        onChange={field.onChange}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    <Suspense fallback={<CircularProgress color="info" />}>
+                        <FormField
+                            control={form.control}
+                            name="blogPost"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Tiptap
+                                            blogPost={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="text-xs text-right" />
+                                </FormItem>
+                            )}
+                        />
+                    </Suspense>
                 </div>
                 <div className="w-4/5 mx-auto flex justify-end items-center">
                     <Button type="submit" variant="secondary" className=" py-1">
