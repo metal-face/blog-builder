@@ -4,27 +4,39 @@ import { Canvas } from "@react-three/fiber";
 import { FC, Suspense, useRef } from "react";
 import { OrbitControls, Stage } from "@react-three/drei";
 import { RotatingPen } from "@/components/three/rotating-pen";
-import { Camera } from "three";
+import { A11y, A11yAnnouncer } from "@react-three/a11y";
 
-const PenCanvas = () => {
+const PenCanvas: FC = () => {
     const ref = useRef();
 
     return (
-        <div className="h-1/2 w-full">
+        <div id="canvas-container" className="h-5/6 w-full">
             <Canvas
                 gl={{ preserveDrawingBuffer: true }}
                 shadows
                 dpr={[1, 1.5]}
                 camera={{
-                    position: [0, 0, 150],
-                    near: 0.1,
-                    far: 1000,
+                    position: [50, 90, 150],
+                    near: 0,
+                    far: 100,
                     fov: 50,
+                    zoom: 1,
                 }}
             >
                 <Suspense fallback={null}>
-                    <Stage intensity={15} castShadow shadows adjustCamera>
-                        <RotatingPen />
+                    <Stage
+                        intensity={25}
+                        shadows
+                        castShadow
+                        receiveShadow
+                        adjustCamera
+                    >
+                        <A11y
+                            role="content"
+                            description="A rotating fountain pen"
+                        >
+                            <RotatingPen />
+                        </A11y>
                     </Stage>
                 </Suspense>
                 <OrbitControls
@@ -34,6 +46,7 @@ const PenCanvas = () => {
                     autoRotateSpeed={1.5}
                 />
             </Canvas>
+            <A11yAnnouncer />
         </div>
     );
 };
