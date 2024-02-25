@@ -19,7 +19,6 @@ export default function Toolbar({ editor }: Props) {
     return (
         <div className="w-full rounded-bl-none rounded-br-none h-auto bg-transparent rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
-            <AlignmentDropdown editor={editor} />
             <TextToggleGroup editor={editor} />
             <LinkDialog editor={editor} />
             <ImageDialog editor={editor} />
