@@ -36,7 +36,10 @@ export default function TextDropdown({ editor }: Props) {
                     Text <ChevronDown className="ml-1" size={15} />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent
+                className="w-56"
+                onCloseAutoFocus={(e) => e.preventDefault()}
+            >
                 <DropdownMenuLabel className="text-xs">
                     Elements
                 </DropdownMenuLabel>
@@ -47,6 +50,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleHeading({ level: 1 }).run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Heading 1
                     <DropdownMenuShortcut>
@@ -60,6 +64,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleHeading({ level: 2 }).run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Heading 2
                     <DropdownMenuShortcut>
@@ -73,6 +78,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleHeading({ level: 3 }).run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Heading 3
                     <DropdownMenuShortcut>
@@ -86,6 +92,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleTaskList().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Check List
                     <DropdownMenuShortcut>
@@ -99,6 +106,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleBulletList().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Bullet List
                     <DropdownMenuShortcut>
@@ -112,6 +120,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().toggleOrderedList().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Numbered List
                     <DropdownMenuShortcut>
@@ -125,6 +134,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() =>
                         editor.chain().focus().setHorizontalRule().run()
                     }
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Horizontal Line
                     <DropdownMenuShortcut>
@@ -144,6 +154,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() => {
                         editor.chain().focus().setTextAlign("left").run();
                     }}
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Left
                     <DropdownMenuShortcut>
@@ -157,6 +168,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() => {
                         editor.chain().focus().setTextAlign("center").run();
                     }}
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Center
                     <DropdownMenuShortcut>
@@ -170,6 +182,7 @@ export default function TextDropdown({ editor }: Props) {
                     onCheckedChange={() => {
                         editor.chain().focus().setTextAlign("right").run();
                     }}
+                    onSelect={(e) => e.preventDefault()}
                 >
                     Right
                     <DropdownMenuShortcut>
