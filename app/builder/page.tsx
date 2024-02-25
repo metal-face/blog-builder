@@ -100,7 +100,7 @@ export default function BlogBuilder() {
                 {!editable ? (
                     <div
                         onClick={() => setEditable(true)}
-                        className="w-2/5 mx-auto cursor-pointer my-3 hover:outline rounded hover:border-zinc-400"
+                        className="w-2/5 mx-auto cursor-pointer my-3 hover:outline outline-1 outline-offset-8 outline-zinc-800 rounded "
                     >
                         <BlogTitle blogTitle={form.getValues().blogTitle} />
                     </div>
