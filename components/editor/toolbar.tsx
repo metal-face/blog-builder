@@ -19,10 +19,10 @@ export default function Toolbar({ editor }: Props) {
         <div className="w-full rounded-bl-none rounded-br-none h-auto bg-transparent rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
             <TextStylesDropdown editor={editor} />
+            <ColorDropdown editor={editor} />
             <LinkDialog editor={editor} />
             <ImageDialog editor={editor} />
             <YoutubeDialog editor={editor} />
-            <ColorDropdown editor={editor} />
         </div>
     );
 }
