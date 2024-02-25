@@ -10,7 +10,7 @@ import {
     DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { Palette, Baseline } from "lucide-react";
+import { Palette, Baseline, ChevronDown } from "lucide-react";
 
 type Props = {
     editor: Editor | null;
@@ -23,6 +23,7 @@ export default function ColorDropdown({ editor }: Props) {
             <DropdownMenuTrigger asChild>
                 <Button size={"sm"} variant={"ghost"}>
                     <Palette />
+                    <ChevronDown className="ml-2" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-36">
