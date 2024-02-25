@@ -81,6 +81,11 @@
     }
 }
 
+.ProseMirror-focused {
+    outline-color: #27272a;
+
+}
+
 ul[data-type="taskList"] {
     list-style: none;
     padding: 0;
