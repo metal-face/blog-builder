@@ -12,6 +12,11 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type Props = {
     editor: Editor | null;
@@ -23,12 +28,18 @@ export default function ImageDialog({ editor }: Props) {
     if (!editor) return null;
     return (
         <Dialog>
-            <DialogTrigger asChild>
-                <Button size={"sm"} variant={"ghost"}>
-                    <ImageIcon />
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
+            <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                    <DialogTrigger asChild>
+                        <Button size={"sm"} variant={"ghost"}>
+                            <ImageIcon />
+                        </Button>
+                    </DialogTrigger>
+                </TooltipTrigger>
+                <TooltipContent>Add Image</TooltipContent>
+            </Tooltip>
+
+            <DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Add an Image</DialogTitle>
                     <DialogDescription>
@@ -40,7 +51,7 @@ export default function ImageDialog({ editor }: Props) {
                         value={image}
                         onChange={(e) => setImage(e.target.value)}
                     />
-                    <DialogClose>
+                    <DialogClose asChild>
                         <Button
                             onClick={() =>
                                 editor.commands.setImage({ src: image })
