@@ -1,6 +1,7 @@
 "use client";
 
 import { TypographyH1 } from "../typography/typography-h1";
+import { TypographyH2 } from "../typography/typography-h2";
 
 interface Props {
     blogTitle: string;
@@ -9,7 +10,7 @@ interface Props {
 export default function BlogTitle({ blogTitle }: Props) {
     return (
         <div className="w-full text-center">
-            <TypographyH1 text={blogTitle} />
+            <TypographyH2 text={blogTitle} />
         </div>
     );
 }
