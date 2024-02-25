@@ -134,11 +134,11 @@ export default function Tiptap({
             Subscript,
             Superscript,
             CharacterCount,
-            YouTube.configure({ inline: false, height: 320}),
+            YouTube.configure({ inline: false, height: 320 }),
         ],
         editorProps: {
             attributes: {
-                class: "editor active:border-gray-300 shadow-2xl overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-300 p-4",
+                class: "editor active:border-gray-300 overflow-y-auto overflow-x-hidden w-full mx-auto rounded border border-gray-300 p-4",
             },
         },
         content: blogPost,
