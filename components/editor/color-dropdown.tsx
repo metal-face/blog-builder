@@ -21,19 +21,17 @@ export default function ColorDropdown({ editor }: Props) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button size={"sm"} variant={"ghost"}>
-                    <Palette />
-                    <ChevronDown className="ml-2" />
+                <Button className="text-xs" size={"sm"} variant={"ghost"}>
+                    Colors <ChevronDown className="ml-2" size={15} />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-36">
-                <DropdownMenuLabel>Color</DropdownMenuLabel>
-                <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem
                         onClick={() =>
                             editor.chain().focus().unsetColor().run()
                         }
+                        className="text-xs"
                     >
                         Default
                         <DropdownMenuShortcut>
@@ -44,6 +42,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#A020F0").run()
                         }
+                        className="text-xs"
                     >
                         Purple
                         <DropdownMenuShortcut>
@@ -54,6 +53,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#FF0000").run()
                         }
+                        className="text-xs"
                     >
                         Red
                         <DropdownMenuShortcut>
@@ -64,6 +64,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#FFFF00").run()
                         }
+                        className="text-xs"
                     >
                         Yellow
                         <DropdownMenuShortcut>
@@ -74,6 +75,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#0000FF").run()
                         }
+                        className="text-xs"
                     >
                         Blue
                         <DropdownMenuShortcut>
@@ -84,6 +86,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#008000").run()
                         }
+                        className="text-xs"
                     >
                         Green
                         <DropdownMenuShortcut>
@@ -94,6 +97,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#FFA500").run()
                         }
+                        className="text-xs"
                     >
                         Orange
                         <DropdownMenuShortcut>
@@ -104,6 +108,7 @@ export default function ColorDropdown({ editor }: Props) {
                         onClick={() =>
                             editor.chain().focus().setColor("#FFC0CB").run()
                         }
+                        className="text-xs"
                     >
                         Pink
                         <DropdownMenuShortcut>
