@@ -3,8 +3,9 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+import type { Adapter } from "next-auth/adapters";
 import type { User } from "next-auth";
-import prisma from "@/lib/prisma";
 
 if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("No DISCORD_CLIENT_ID has been provided.");
@@ -43,7 +44,11 @@ declare module "@auth/core/adapters" {
 }
 const scopes = ["identify", "email"];
 
+const prisma = new PrismaClient();
+
 export const {
+    signIn,
+    signOut,
     handlers: { GET, POST },
     auth,
 } = NextAuth({
@@ -51,7 +56,7 @@ export const {
         signIn: "/login",
     },
     adapter: {
-        ...PrismaAdapter(prisma),
+        ...(PrismaAdapter(prisma) as Adapter),
     },
     providers: [
         DiscordProvider({
