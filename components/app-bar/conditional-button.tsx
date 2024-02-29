@@ -1,12 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { ReactNode } from "react";
 
 interface Props {
     name?: string;
     path: string;
     classes?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 export default function ConditionalButton({
