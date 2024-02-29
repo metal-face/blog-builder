@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
 
 type PostData = {
     blogTitle: string;
@@ -9,14 +8,11 @@ type PostData = {
     userId: string;
 };
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
-    const session = await getServerSession(authOptions);
-    const { blogTitle, blogPost, userId } = req.body as PostData;
+    const session = await auth();
+    const { blogTitle, blogPost } = req.body as PostData;
     const updatedAt = new Date();
 
-    console.log(session);
-
     try {
-        // @ts-ignore
         if (!session?.user?.id) {
             return new Response("Not authorized", { status: 401 });
         }

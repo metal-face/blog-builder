@@ -1,5 +1,4 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -8,7 +7,7 @@ export default async function BuilderLayout({
 }: {
     children: ReactNode;
 }) {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
         return redirect("/login");

@@ -1,6 +1,5 @@
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { Hammer, Home, LogIn } from "lucide-react";
 
 import React from "react";
@@ -10,7 +9,8 @@ import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
 
 export async function MainNav() {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
+    console.log({ session });
 
     return (
         <div className="h-20 sticky top-0 z-40 inset-x-0 backdrop-blur transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent w-full  border-b ">

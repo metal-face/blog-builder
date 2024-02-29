@@ -2,10 +2,10 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import type { NextAuthOptions, User } from "next-auth";
-import prisma from "@/lib/prisma";
-import { AdapterUser } from "next-auth/adapters";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
+import type { Adapter } from "next-auth/adapters";
+import type { User } from "next-auth";
 
 if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("No DISCORD_CLIENT_ID has been provided.");
@@ -37,15 +37,27 @@ declare module "next-auth" {
     }
 }
 
-declare module "@/lib/prisma" {
+declare module "@auth/core/adapters" {
     interface AdapterUser extends User {
         role: string;
     }
 }
 const scopes = ["identify", "email"];
 
-export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+const prisma = new PrismaClient();
+
+export const {
+    signIn,
+    signOut,
+    handlers: { GET, POST },
+    auth,
+} = NextAuth({
+    pages: {
+        signIn: "/login",
+    },
+    adapter: {
+        ...(PrismaAdapter(prisma) as Adapter),
+    },
     providers: [
         DiscordProvider({
             clientId: process.env.DISCORD_CLIENT_ID as string,
@@ -120,7 +132,7 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 return {
-                    id: profile.id,
+                    id: String(profile.id),
                     name: profile.name,
                     email: profile.email,
                     image: profile.avatar_url,
@@ -131,7 +143,6 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         session: async (opts) => {
-            console.log({ opts });
             if (!("user" in opts)) {
                 throw new Error("unreachable, we're not using JWT");
             }
@@ -143,14 +154,10 @@ export const authOptions: NextAuthOptions = {
                 user: {
                     ...session.user,
                     id: user.id,
-                    // @ts-ignore
                     role: user.role,
                 },
             };
         },
     },
     secret: process.env.NEXTAUTH_SECRET as string,
-};
-const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST };
+});
