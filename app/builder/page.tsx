@@ -13,24 +13,31 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Pencil } from "lucide-react";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function BlogBuilder() {
     const FormSchema = z.object({
         blogTitle: z
             .string()
             .min(4, { message: "Title must be at least 4 characters" })
-            .max(100, { message: "Title must be less than 100 characters" }),
+            .max(32, { message: "Title must be less than 32 characters" }),
         blogPost: z
             .string()
             .min(20, { message: "Blog post must be at least 20 characters" })
+            .max(20000)
             .trim(),
     });
 
     const form = useForm<z.infer<typeof FormSchema>>({
+        mode: "all",
         resolver: zodResolver(FormSchema),
         defaultValues: {
             blogTitle: "Add a title!",
@@ -98,14 +105,26 @@ export default function BlogBuilder() {
                     </div>
                 ) : null}
                 {!editable ? (
-                    <div
-                        onClick={() => setEditable(true)}
-                        className="w-2/5 mx-auto cursor-pointer my-3 hover:outline outline-1 outline-offset-8 outline-zinc-800 rounded "
-                    >
-                        <BlogTitle blogTitle={form.getValues().blogTitle} />
-                    </div>
+                    <Tooltip delayDuration={500}>
+                        <TooltipTrigger asChild>
+                            <div
+                                onClick={() => setEditable(true)}
+                                className="group sm:w-2/5 w-5/5 h-fit sm:mx-auto mx-4 cursor-pointer my-4 outline outline-1 outline-offset-8 outline-zinc-800 rounded relative"
+                            >
+                                <BlogTitle
+                                    blogTitle={form.getValues().blogTitle}
+                                />
+                                <div className="absolute transform translate-x-1/2 -translate-y-1/2 items-center top-0 right-0  bg-zinc-500 rounded-full p-1">
+                                    <Pencil color="black" />
+                                </div>
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent align="center">
+                            <p>Click to edit!</p>
+                        </TooltipContent>
+                    </Tooltip>
                 ) : null}
-                <div className="w-4/5 mx-auto">
+                <div className="w-5/5 sm:w-4/5 sm:mx-auto mx-2">
                     <FormField
                         control={form.control}
                         name="blogPost"
