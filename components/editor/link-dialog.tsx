@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, Check } from "lucide-react";
-import { ForwardedRef, forwardRef, useState } from "react";
+import { useState } from "react";
 
 type Props = {
     editor: Editor | null;
