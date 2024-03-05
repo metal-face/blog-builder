@@ -10,7 +10,6 @@ import Clock from "@/components/app-bar/clock";
 
 export async function MainNav() {
     const session = await auth();
-    console.log({ session });
 
     return (
         <div className="h-20 sticky top-0 z-40 inset-x-0 backdrop-blur transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent w-full  border-b ">
