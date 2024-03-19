@@ -17,8 +17,12 @@ import { Check } from "lucide-react";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
+import { useRouter } from "next/navigation";
 
 export default function BlogBuilder() {
+    const [editable, setEditable] = useState(false);
+    const router = useRouter();
+
     const FormSchema = z.object({
         blogTitle: z
             .string()
@@ -40,8 +44,6 @@ export default function BlogBuilder() {
         },
     });
 
-    const [editable, setEditable] = useState(false);
-
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             USE_PROFILES: { html: true },
@@ -57,6 +59,8 @@ export default function BlogBuilder() {
             }),
         });
         console.log(response);
+
+        router.push("/");
     }
 
     function handleTitleClick() {
