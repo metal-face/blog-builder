@@ -13,15 +13,10 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Check, Pencil } from "lucide-react";
+import { Check } from "lucide-react";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export default function BlogBuilder() {
     const FormSchema = z.object({
