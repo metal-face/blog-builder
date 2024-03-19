@@ -75,7 +75,7 @@ export default function BlogBuilder() {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 {editable ? (
-                    <div className="w-3/5 my-3 mx-auto flex h-fit">
+                    <div className="sm:w-3/5 w-5/5 my-3 sm:mx-auto mx-4 flex h-fit">
                         <div className="w-full">
                             <FormField
                                 control={form.control}
@@ -105,24 +105,12 @@ export default function BlogBuilder() {
                     </div>
                 ) : null}
                 {!editable ? (
-                    <Tooltip delayDuration={500}>
-                        <TooltipTrigger asChild>
-                            <div
-                                onClick={() => setEditable(true)}
-                                className="group sm:w-2/5 w-5/5 h-fit sm:mx-auto mx-4 cursor-pointer my-4 outline outline-1 outline-offset-8 outline-zinc-800 rounded relative"
-                            >
-                                <BlogTitle
-                                    blogTitle={form.getValues().blogTitle}
-                                />
-                                <div className="absolute transform translate-x-1/2 -translate-y-1/2 items-center top-0 right-0  bg-zinc-500 rounded-full p-1">
-                                    <Pencil color="black" />
-                                </div>
-                            </div>
-                        </TooltipTrigger>
-                        <TooltipContent align="center">
-                            <p>Click to edit!</p>
-                        </TooltipContent>
-                    </Tooltip>
+                    <div
+                        onClick={() => setEditable(true)}
+                        className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline outline-1 outline-offset-8 outline-zinc-800 rounded"
+                    >
+                        <BlogTitle blogTitle={form.getValues().blogTitle} />
+                    </div>
                 ) : null}
                 <div className="w-5/5 sm:w-4/5 sm:mx-auto mx-2">
                     <FormField
