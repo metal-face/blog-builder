@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 type PostData = {
     blogTitle: string;
@@ -13,15 +13,14 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     const updatedAt = new Date();
 
     try {
-        if (!session?.user?.id) {
+        if (!session || !session.user.id) {
             return new Response("Not authorized", { status: 401 });
         }
-        const newPost = await prisma.blogPosts.create({
+        await prisma.blogPosts.create({
             data: {
                 blogTitle,
                 blogPost,
-                // @ts-ignore
-                userId: session?.user.id,
+                userId: session.user.id,
                 updatedAt,
             },
         });
