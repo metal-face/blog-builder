@@ -5,11 +5,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 type PostData = {
     blogTitle: string;
     blogPost: string;
-    userId: string;
 };
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request) {
     const session = await auth();
-    const { blogTitle, blogPost } = req.body as PostData;
+    const { blogTitle, blogPost } = (await req.json()) as PostData;
     const updatedAt = new Date();
 
     try {
@@ -25,13 +24,19 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             },
         });
         return new Response(JSON.stringify({}), {
-            status: 200,
+            status: 201,
             headers: {
                 "content-type": "application/json",
             },
         });
     } catch (error) {
         console.error("Request error", error);
-        res.status(500).json({ error: "Error creating post" });
+        return new Response(JSON.stringify({}), {
+            status: 500,
+            statusText: "Internal Server Error",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
     }
 }
