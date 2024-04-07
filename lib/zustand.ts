@@ -11,7 +11,7 @@ type BlogStoreActions = {
     updateBlogPost: (blogPost: BlogStore["blogPost"]) => void;
 };
 
-export const useStore = create<BlogStore & BlogStoreActions>()(
+export const useBlogStore = create<BlogStore & BlogStoreActions>()(
     persist(
         (set) => ({
             blogTitle: "",
