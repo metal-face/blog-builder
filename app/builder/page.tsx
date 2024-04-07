@@ -70,6 +70,7 @@ export default function BlogBuilder() {
         }
         setEditable(!editable);
     }
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
