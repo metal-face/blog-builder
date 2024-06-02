@@ -7,6 +7,7 @@ import ConditionalButton from "@/components/app-bar/conditional-button";
 import Link from "next/link";
 import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
+import { Variants } from "@/models/variants";
 
 export async function MainNav() {
     const session = await auth();
@@ -24,6 +25,7 @@ export async function MainNav() {
                                 classes="ml-1"
                                 name="Blog "
                                 path="/builder"
+                                variant={Variants.LINK}
                             >
                                 <Hammer className="ml-2" />
                             </ConditionalButton>
@@ -31,19 +33,24 @@ export async function MainNav() {
                     ) : null}
 
                     <Link href="/">
-                        <ConditionalButton classes="ml-1" path="/">
-                            <Home />
+                        <ConditionalButton
+                            variant={Variants.LINK}
+                            classes="ml-1"
+                            path="/"
+                        >
+                            Home <Home className="ml-1 scale-75" />
                         </ConditionalButton>
                     </Link>
 
                     {!session ? (
                         <Link href="/login">
                             <ConditionalButton
+                                variant={Variants.LINK}
                                 classes="ml-1"
                                 name="Login"
                                 path="/login"
                             >
-                                <LogIn className="ml-2" />
+                                <LogIn className="ml-1" />
                             </ConditionalButton>
                         </Link>
                     ) : null}
