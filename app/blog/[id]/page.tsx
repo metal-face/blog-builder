@@ -16,6 +16,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 />
             </div>
             <div
+                className="w-4/5 mx-auto outline p-4 rounded"
                 dangerouslySetInnerHTML={{
                     __html: blogPost?.blogPost ? blogPost.blogPost : "",
                 }}
