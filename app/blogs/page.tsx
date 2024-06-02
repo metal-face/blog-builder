@@ -10,6 +10,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { format } from "date-fns";
 
 export default async function Page() {
     const session = await auth();
@@ -18,12 +19,16 @@ export default async function Page() {
         where: { userId: session?.user.id },
     });
 
-    const BlogCards = blogs.map((blog) => (
+    const blogCard = blogs.map((blog) => (
         <Card key={blog.id}>
             <CardHeader>
-                <CardTitle>{blog.blogTitle}</CardTitle>
-                <CardDescription>Card Description</CardDescription>
+                <CardTitle className="text-center">{blog.blogTitle}</CardTitle>
             </CardHeader>
+            <CardContent>
+                <p className="text-right text-sm">
+                    {format(blog.createdAt, "PPPP - pp")}
+                </p>
+            </CardContent>
         </Card>
     ));
 
@@ -32,7 +37,7 @@ export default async function Page() {
             <div className="text-center m-3">
                 <TypographyH1 text="My Blogs" />
             </div>
-            <div className="space-y-4">{BlogCards}</div>
+            <div className="space-y-4">{blogCard}</div>
         </div>
     );
 }
