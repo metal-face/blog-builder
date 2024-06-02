@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Sun, Moon, Cpu } from "lucide-react";
 
-import { useTheme } from "next-themes";
+import { useTheme, ThemeProvider } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,14 +16,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
-    const { setTheme } = useTheme();
+    const { setTheme, theme, systemTheme } = useTheme();
+
+    function determineTheme(): string | undefined {
+        switch (theme) {
+            case "system":
+                return systemTheme;
+            case "light":
+                return theme;
+            case "dark":
+                return theme;
+            default:
+                break;
+        }
+    }
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
-                    <Sun className="scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <Button variant="link" size="default">
+                    Theme
+                    {determineTheme() === "light" ? (
+                        <Sun className="ml-1 scale-75" />
+                    ) : (
+                        <Moon className="dark:visible dark:ml-1 dark:scale-75" />
+                    )}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
