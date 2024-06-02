@@ -15,20 +15,22 @@ export default async function Page() {
     });
 
     const blogCard = blogs.map((blog) => (
-        <Link key={blog.id} href={`/blog/${blog.id}`}>
-            <Card className="hover:outline-1">
-                <CardHeader>
-                    <CardTitle className="text-center">
-                        {blog.blogTitle}
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-right text-sm">
-                        {format(blog.createdAt, "PPPP - pp")}
-                    </p>
-                </CardContent>
-            </Card>
-        </Link>
+        <div key={blog.id}>
+            <Link href={`/blog/${blog.id}`}>
+                <Card className="hover:outline-1">
+                    <CardHeader>
+                        <CardTitle className="text-center hover:underline">
+                            {blog.blogTitle}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-right text-sm">
+                            {format(blog.createdAt, "PPPP - pp")}
+                        </p>
+                    </CardContent>
+                </Card>
+            </Link>
+        </div>
     ));
 
     return (
@@ -36,7 +38,7 @@ export default async function Page() {
             <div className="text-center m-3">
                 <TypographyH1 text="My Blogs" />
             </div>
-            <div className="space-y-4">{blogCard}</div>
+            <div className="space-y-3">{blogCard}</div>
         </div>
     );
 }
