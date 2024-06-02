@@ -1,6 +1,6 @@
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
-import { Hammer, Home, LogIn } from "lucide-react";
+import { Hammer, Home, LogIn, Scroll } from "lucide-react";
 
 import React from "react";
 import ConditionalButton from "@/components/app-bar/conditional-button";
@@ -18,46 +18,69 @@ export async function MainNav() {
                 <div className="h-full flex justify-start align-middle">
                     <Clock />
                 </div>
-                <div className="h-full flex items-center">
+                <div className="h-full flex space-x-2 items-center">
                     {session ? (
-                        <Link href="/builder">
-                            <ConditionalButton
-                                classes="ml-1"
-                                name="Blog "
-                                path="/builder"
-                                variant={Variants.LINK}
-                            >
-                                <Hammer className="ml-2" />
-                            </ConditionalButton>
-                        </Link>
+                        <div>
+                            <Link href="/blogs">
+                                <ConditionalButton
+                                    classes="ml-1 p-0"
+                                    name="Blogs"
+                                    path="/blogs"
+                                    variant={Variants.LINK}
+                                >
+                                    <Scroll className="scale-75 ml-1" />
+                                </ConditionalButton>
+                            </Link>
+                        </div>
                     ) : null}
 
-                    <Link href="/">
-                        <ConditionalButton
-                            variant={Variants.LINK}
-                            classes="ml-1"
-                            path="/"
-                        >
-                            Home <Home className="ml-1 scale-75" />
-                        </ConditionalButton>
-                    </Link>
+                    {session ? (
+                        <div>
+                            <Link href="/builder">
+                                <ConditionalButton
+                                    classes="ml-1 p-0"
+                                    name="Builder"
+                                    path="/builder"
+                                    variant={Variants.LINK}
+                                >
+                                    <Hammer className="scale-75 ml-1" />
+                                </ConditionalButton>
+                            </Link>
+                        </div>
+                    ) : null}
 
-                    {!session ? (
-                        <Link href="/login">
+                    <div>
+                        <Link href="/">
                             <ConditionalButton
                                 variant={Variants.LINK}
-                                classes="ml-1"
-                                name="Login"
-                                path="/login"
+                                classes="ml-1 p-0"
+                                name="Home"
+                                path="/"
                             >
-                                <LogIn className="ml-1" />
+                                <Home className="ml-1 scale-75" />
                             </ConditionalButton>
                         </Link>
-                    ) : null}
+                    </div>
 
                     <div className="flex align-middle mx-1">
                         <ThemeToggle />
                     </div>
+
+                    {!session ? (
+                        <div>
+                            <Link href="/login">
+                                <ConditionalButton
+                                    variant={Variants.LINK}
+                                    classes="ml-1 p-0"
+                                    name="Login"
+                                    path="/login"
+                                >
+                                    <LogIn className="ml-1 scale-75" />
+                                </ConditionalButton>
+                            </Link>
+                        </div>
+                    ) : null}
+
                     {session ? <ProfileCard session={session} /> : null}
                 </div>
             </div>
