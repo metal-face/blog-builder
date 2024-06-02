@@ -1,35 +1,34 @@
-import { TypographyH1 } from "@/components/typography/typography-h1";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { format } from "date-fns";
+import { TypographyH1 } from "@/components/typography/typography-h1";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import React from "react";
 import prisma from "@/lib/prisma";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import { format } from "date-fns";
+import Link from "next/link";
 
 export default async function Page() {
     const session = await auth();
 
     const blogs = await prisma?.blogPosts.findMany({
         where: { userId: session?.user.id },
+        select: { blogTitle: true, createdAt: true, id: true },
     });
 
     const blogCard = blogs.map((blog) => (
-        <Card key={blog.id}>
-            <CardHeader>
-                <CardTitle className="text-center">{blog.blogTitle}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-right text-sm">
-                    {format(blog.createdAt, "PPPP - pp")}
-                </p>
-            </CardContent>
-        </Card>
+        <Link key={blog.id} href={`/blog/${blog.id}`}>
+            <Card className="hover:outline-1">
+                <CardHeader>
+                    <CardTitle className="text-center">
+                        {blog.blogTitle}
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-right text-sm">
+                        {format(blog.createdAt, "PPPP - pp")}
+                    </p>
+                </CardContent>
+            </Card>
+        </Link>
     ));
 
     return (
