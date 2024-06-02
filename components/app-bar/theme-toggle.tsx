@@ -34,7 +34,7 @@ export function ThemeToggle() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="link" size="default">
+                <Button variant="link" size="default" className="p-0">
                     Theme
                     {determineTheme() === "light" ? (
                         <Sun className="ml-1 scale-75" />
