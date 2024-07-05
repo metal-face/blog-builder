@@ -1,29 +1,24 @@
 import { supabase } from "@/lib/supabase";
-import { ok } from "assert";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
+import { UserResponse } from "@supabase/gotrue-js";
 
-export async function validateUser(req: NextRequest) {
-    const token = req.headers.get("authorization")?.split(" ")[1];
+export async function POST(req: NextRequest): Promise<Response> {
+    const token: string | undefined = req.headers.get("authorization")?.split(" ")[1];
+
     if (!token) {
-        return null;
+        return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
-    const { data, error } = await supabase.auth.getUser(token);
-
-    if (error) {
-        console.error("Error validating user token", error);
-        return null;
-    }
-
-    return data;
-}
-
-export async function POST(req: NextRequest, res: NextResponse) {
     try {
-        const user = await validateUser(req);
-        res.status(200).json(user);
-    } catch (error) {
-        console.error(error);
-        res.status(401).json({ error: "Unauthorized" });
+        const { data, error }: UserResponse = await supabase.auth.getUser(token);
+
+        if (error) {
+            console.error("Error validating user token", error);
+            return Response.json({ data: error }, { status: 401, statusText: "Unauthorized" });
+        }
+
+        return Response.json({ data: data }, { status: 200, statusText: "Success" });
+    } catch (err: any) {
+        return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }
