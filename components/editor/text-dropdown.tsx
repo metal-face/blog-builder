@@ -36,20 +36,13 @@ export default function TextDropdown({ editor }: Props) {
                     Text <ChevronDown className="ml-1" size={15} />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-                className="w-56"
-                onCloseAutoFocus={(e) => e.preventDefault()}
-            >
-                <DropdownMenuLabel className="text-xs">
-                    Elements
-                </DropdownMenuLabel>
+            <DropdownMenuContent className="w-56" onCloseAutoFocus={(e) => e.preventDefault()}>
+                <DropdownMenuLabel className="text-xs">Elements</DropdownMenuLabel>
                 {/* HEADING 1 */}
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("heading", { level: 1 })}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleHeading({ level: 1 }).run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Heading 1
@@ -61,9 +54,7 @@ export default function TextDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("heading", { level: 2 })}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleHeading({ level: 2 }).run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Heading 2
@@ -75,9 +66,7 @@ export default function TextDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("heading", { level: 3 })}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleHeading({ level: 3 }).run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Heading 3
@@ -89,9 +78,7 @@ export default function TextDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("taskList")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleTaskList().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleTaskList().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Check List
@@ -103,9 +90,7 @@ export default function TextDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("bulletList")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleBulletList().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleBulletList().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Bullet List
@@ -117,9 +102,7 @@ export default function TextDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("orderedList")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleOrderedList().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleOrderedList().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Numbered List
@@ -131,9 +114,7 @@ export default function TextDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("horizontalRule")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().setHorizontalRule().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().setHorizontalRule().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Horizontal Line
@@ -144,9 +125,7 @@ export default function TextDropdown({ editor }: Props) {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuLabel className="text-xs">
-                    Positioning
-                </DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs">Positioning</DropdownMenuLabel>
                 {/* LEFT ALIGN */}
                 <DropdownMenuCheckboxItem
                     className="text-xs"

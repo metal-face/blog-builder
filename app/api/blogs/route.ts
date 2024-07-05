@@ -33,9 +33,6 @@ export async function POST(req: Request): Promise<Response> {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     } catch (error) {
         console.error("Request error", error);
-        return Response.json(
-            {},
-            { status: 500, statusText: "Internal Server Error" }
-        );
+        return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }

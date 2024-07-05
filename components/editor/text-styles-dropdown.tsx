@@ -30,17 +30,12 @@ export default function TextStylesDropdown({ editor }: Props) {
                     Styles <ChevronDown className="ml-1" size={15} />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent
-                className="w-56"
-                onCloseAutoFocus={(e) => e.preventDefault()}
-            >
+            <DropdownMenuContent className="w-56" onCloseAutoFocus={(e) => e.preventDefault()}>
                 {/* BOLD */}
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("bold")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleBold().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleBold().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Bold
@@ -52,9 +47,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("italic")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleItalic().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleItalic().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Italic
@@ -66,9 +59,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("underline")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleUnderline().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleUnderline().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Underline
@@ -80,9 +71,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("strike")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleStrike().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleStrike().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Strikethrough
@@ -94,9 +83,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                 <DropdownMenuCheckboxItem
                     className="text-xs"
                     checked={editor.isActive("superscript")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleSuperscript().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleSuperscript().run()}
                     onSelect={(e) => e.preventDefault()}
                 >
                     Superscript
@@ -109,9 +96,7 @@ export default function TextStylesDropdown({ editor }: Props) {
                     onSelect={(e) => e.preventDefault()}
                     className="text-xs"
                     checked={editor.isActive("codeBlock")}
-                    onCheckedChange={() =>
-                        editor.chain().focus().toggleCodeBlock().run()
-                    }
+                    onCheckedChange={() => editor.chain().focus().toggleCodeBlock().run()}
                 >
                     Code
                     <DropdownMenuShortcut>

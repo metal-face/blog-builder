@@ -8,11 +8,7 @@ import {
     DialogTrigger,
     DialogClose,
 } from "@/components/ui/dialog";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link, Check } from "lucide-react";
@@ -42,15 +38,10 @@ export default function LinkDialog({ editor }: Props) {
             <DialogContent onCloseAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>Add a Link</DialogTitle>
-                    <DialogDescription>
-                        Paste a link into the input below!
-                    </DialogDescription>
+                    <DialogDescription>Paste a link into the input below!</DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
-                    <Input
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                    />
+                    <Input value={input} onChange={(e) => setInput(e.target.value)} />
                     <DialogClose asChild>
                         <Button
                             onClick={() =>

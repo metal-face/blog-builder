@@ -32,10 +32,7 @@ const PenCanvas: FC = () => {
                         adjustCamera
                         environment={"park"}
                     >
-                        <A11y
-                            role="content"
-                            description="A rotating fountain pen"
-                        >
+                        <A11y role="content" description="A rotating fountain pen">
                             <RotatingPen />
                         </A11y>
                     </Stage>

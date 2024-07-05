@@ -1,13 +1,6 @@
 import { Editor } from "@tiptap/react";
 import { Toggle } from "@/components/ui/toggle";
-import {
-    Bold,
-    Italic,
-    Underline,
-    Strikethrough,
-    Superscript,
-    Code,
-} from "lucide-react";
+import { Bold, Italic, Underline, Strikethrough, Superscript, Code } from "lucide-react";
 
 type Props = {
     editor: Editor | null;
@@ -33,7 +26,7 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* ITALIC */}
             <Toggle
                 size={"sm"}
-                className="ml-1"   
+                className="ml-1"
                 aria-label="Toggle Italic"
                 pressed={editor.isActive("italic")}
                 onPressedChange={() => {
@@ -45,7 +38,7 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* UNDERLINE */}
             <Toggle
                 size={"sm"}
-                className="ml-1"   
+                className="ml-1"
                 aria-label="Toggle Underline"
                 pressed={editor.isActive("underline")}
                 onPressedChange={() => {
@@ -57,7 +50,7 @@ export default function TextToggleGroup({ editor }: Props) {
             {/* STRIKETHROUGH */}
             <Toggle
                 size={"sm"}
-                className="ml-1"   
+                className="ml-1"
                 aria-label="Toggle Strikethrough"
                 pressed={editor.isActive("strike")}
                 onPressedChange={() => {
@@ -70,18 +63,16 @@ export default function TextToggleGroup({ editor }: Props) {
             <Toggle
                 size={"sm"}
                 aria-label="Toggle Code Block"
-                className="ml-1"   
+                className="ml-1"
                 pressed={editor.isActive("codeBlock")}
-                onPressedChange={() =>
-                    editor.chain().focus().toggleCodeBlock().run()
-                }
+                onPressedChange={() => editor.chain().focus().toggleCodeBlock().run()}
             >
                 <Code />
             </Toggle>
             {/* SUPERSCRIPT */}
             <Toggle
                 size={"sm"}
-                className="ml-1"   
+                className="ml-1"
                 aria-label="Toggle Superscript"
                 pressed={editor.isActive("superscript")}
                 onPressedChange={() => {

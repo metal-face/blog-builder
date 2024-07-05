@@ -12,13 +12,7 @@ interface Props {
     children?: ReactNode;
 }
 
-export default function ConditionalButton({
-    name,
-    path,
-    classes,
-    variant,
-    children,
-}: Props) {
+export default function ConditionalButton({ name, path, classes, variant, children }: Props) {
     const currentPath = usePathname();
 
     return path !== currentPath ? (

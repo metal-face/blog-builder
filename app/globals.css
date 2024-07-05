@@ -4,7 +4,7 @@
 
 /* Basic editor styles */
 .tiptap {
-    >*+* {
+    > * + * {
         margin-top: 0.75em;
     }
 
@@ -83,7 +83,6 @@
 
 .ProseMirror-focused {
     outline-color: #27272a;
-
 }
 
 ul[data-type="taskList"] {
@@ -97,13 +96,13 @@ ul[data-type="taskList"] {
     li {
         display: flex;
 
-        >label {
+        > label {
             flex: 0 0 auto;
             margin-right: 0.5rem;
             user-select: none;
         }
 
-        >div {
+        > div {
             flex: 1 1 auto;
         }
 
@@ -112,7 +111,7 @@ ul[data-type="taskList"] {
             display: list-item;
         }
 
-        ul[data-type="taskList"]>li {
+        ul[data-type="taskList"] > li {
             display: flex;
         }
     }
@@ -139,14 +138,16 @@ ul[data-type="taskList"] {
     padding: 1.5px;
     /* control the border thickness */
     animation: 5s rotate linear infinite;
-    background: conic-gradient(from var(--angle),
-            #c2ccd6,
-            #c2ccd66b 35%,
-            #c2ccd693 40%,
-            #c2ccd6b6,
-            #c2ccd6cb 61%,
-            #c2ccd6e2 65%,
-            #c2ccd6);
+    background: conic-gradient(
+        from var(--angle),
+        #c2ccd6,
+        #c2ccd66b 35%,
+        #c2ccd693 40%,
+        #c2ccd6b6,
+        #c2ccd6cb 61%,
+        #c2ccd6e2 65%,
+        #c2ccd6
+    );
     -webkit-mask-composite: xor;
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -163,14 +164,16 @@ ul[data-type="taskList"] {
     border-radius: inherit;
     padding: 1.5px;
     /* control the border thickness */
-    background: conic-gradient(from var(--angle),
-            #5865f2,
-            #5865f272 35%,
-            #5865f291 40%,
-            #5865f2b5,
-            #5865f2c6 61%,
-            #5865f2de 65%,
-            #5865f2);
+    background: conic-gradient(
+        from var(--angle),
+        #5865f2,
+        #5865f272 35%,
+        #5865f291 40%,
+        #5865f2b5,
+        #5865f2c6 61%,
+        #5865f2de 65%,
+        #5865f2
+    );
     -webkit-mask-composite: xor;
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,
@@ -188,14 +191,16 @@ ul[data-type="taskList"] {
     border-radius: inherit;
     padding: 1.5px;
     /* control the border thickness */
-    background: conic-gradient(from var(--angle),
-            #ea4335,
-            #ea4335 25%,
-            #4285f4 45%,
-            #4285f4,
-            #34a853 65%,
-            #34a853,
-            #fbbc05 85%);
+    background: conic-gradient(
+        from var(--angle),
+        #ea4335,
+        #ea4335 25%,
+        #4285f4 45%,
+        #4285f4,
+        #34a853 65%,
+        #34a853,
+        #fbbc05 85%
+    );
     -webkit-mask-composite: xor;
     -webkit-mask:
         linear-gradient(#fff 0 0) content-box,

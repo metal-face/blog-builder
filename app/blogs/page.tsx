@@ -24,9 +24,7 @@ export default async function Page() {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-right text-sm">
-                            {format(blog.createdAt, "PPPP - pp")}
-                        </p>
+                        <p className="text-right text-sm">{format(blog.createdAt, "PPPP - pp")}</p>
                     </CardContent>
                 </Card>
             </Link>

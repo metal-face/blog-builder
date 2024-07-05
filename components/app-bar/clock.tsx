@@ -13,9 +13,7 @@ export default function Clock() {
         []
     );
 
-    const [time, setTime] = useState<string>(
-        new Date().toLocaleTimeString(locale, options)
-    );
+    const [time, setTime] = useState<string>(new Date().toLocaleTimeString(locale, options));
 
     useEffect(() => {
         const intervalID = setInterval(() => {

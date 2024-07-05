@@ -29,11 +29,7 @@ function providerToSignInWith(provider: Providers) {
     }
 }
 
-export default function LoginButton({
-    provider,
-    children,
-    colorCode,
-}: LoginButtonProps) {
+export default function LoginButton({ provider, children, colorCode }: LoginButtonProps) {
     const [state, setState] = useState<State>("idle");
     const customClass = { "--color-code": colorCode } as React.CSSProperties;
 

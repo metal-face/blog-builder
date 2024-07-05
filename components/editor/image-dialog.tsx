@@ -12,11 +12,7 @@ import {
     DialogClose,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Props = {
     editor: Editor | null;
@@ -47,15 +43,10 @@ export default function ImageDialog({ editor }: Props) {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
-                    <Input
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                    />
+                    <Input value={image} onChange={(e) => setImage(e.target.value)} />
                     <DialogClose asChild>
                         <Button
-                            onClick={() =>
-                                editor.commands.setImage({ src: image })
-                            }
+                            onClick={() => editor.commands.setImage({ src: image })}
                             variant={"outline"}
                         >
                             <Check />

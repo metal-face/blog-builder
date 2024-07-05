@@ -28,9 +28,7 @@ export default function ColorDropdown({ editor }: Props) {
             <DropdownMenuContent className="w-36">
                 <DropdownMenuGroup>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().unsetColor().run()
-                        }
+                        onClick={() => editor.chain().focus().unsetColor().run()}
                         className="text-xs"
                     >
                         Default
@@ -39,9 +37,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#A020F0").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#A020F0").run()}
                         className="text-xs"
                     >
                         Purple
@@ -50,9 +46,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#FF0000").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#FF0000").run()}
                         className="text-xs"
                     >
                         Red
@@ -61,9 +55,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#FFFF00").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#FFFF00").run()}
                         className="text-xs"
                     >
                         Yellow
@@ -72,9 +64,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#0000FF").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#0000FF").run()}
                         className="text-xs"
                     >
                         Blue
@@ -83,9 +73,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#008000").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#008000").run()}
                         className="text-xs"
                     >
                         Green
@@ -94,9 +82,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#FFA500").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#FFA500").run()}
                         className="text-xs"
                     >
                         Orange
@@ -105,9 +91,7 @@ export default function ColorDropdown({ editor }: Props) {
                         </DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                        onClick={() =>
-                            editor.chain().focus().setColor("#FFC0CB").run()
-                        }
+                        onClick={() => editor.chain().focus().setColor("#FFC0CB").run()}
                         className="text-xs"
                     >
                         Pink

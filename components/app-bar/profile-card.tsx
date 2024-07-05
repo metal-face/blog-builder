@@ -20,10 +20,7 @@ export default function ProfileCard({ session }: ProfileCardProps) {
             <DropdownMenuTrigger asChild>
                 {session?.user?.image ? (
                     <Avatar className="ml-1 cursor-pointer">
-                        <AvatarImage
-                            src={session.user.image}
-                            alt="User Profile Image"
-                        />
+                        <AvatarImage src={session.user.image} alt="User Profile Image" />
                         {/* <AvatarFallback>
                                     <Image
                                         src={session.user.image}
