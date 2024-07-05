@@ -1,21 +1,23 @@
 import prisma from "@/lib/prisma";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "next-auth";
 
 type PostData = {
     blogTitle: string;
     blogPost: string;
 };
-export async function POST(req: Request) {
-    const session = await auth();
-    const { blogTitle, blogPost } = (await req.json()) as PostData;
-    const updatedAt = new Date();
+
+export async function POST(req: Request): Promise<Response> {
+    const session: Session | null = await auth();
+    const { blogTitle, blogPost }: PostData = (await req.json()) as PostData;
+    const updatedAt: Date = new Date();
 
     try {
         if (!session || !session.user.id) {
             return new Response("Not authorized", { status: 401 });
         }
-        await prisma.blogPosts.create({
+
+        const res = await prisma.blogPosts.create({
             data: {
                 blogTitle,
                 blogPost,
@@ -23,20 +25,17 @@ export async function POST(req: Request) {
                 updatedAt,
             },
         });
-        return new Response(JSON.stringify({}), {
-            status: 201,
-            headers: {
-                "content-type": "application/json",
-            },
-        });
+
+        if (res) {
+            return Response.json({}, { status: 201, statusText: "Success" });
+        }
+
+        return Response.json({}, { status: 400, statusText: "Bad Request" });
     } catch (error) {
         console.error("Request error", error);
-        return new Response(JSON.stringify({}), {
-            status: 500,
-            statusText: "Internal Server Error",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        return Response.json(
+            {},
+            { status: 500, statusText: "Internal Server Error" }
+        );
     }
 }
