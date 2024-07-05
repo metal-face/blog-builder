@@ -4,24 +4,19 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
-import { useRouter } from "next/navigation";
 
-export default function BlogBuilder() {
-    const [editable, setEditable] = useState(false);
-    const router = useRouter();
+export default function BlogBuilder(): ReactElement {
+    const [editable, setEditable] = useState<boolean>(false);
+    const router: AppRouterInstance = useRouter();
 
     const FormSchema = z.object({
         blogTitle: z
@@ -48,7 +43,7 @@ export default function BlogBuilder() {
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             USE_PROFILES: { html: true },
         });
-        const response = await fetch("/api/blogs", {
+        const response: Response = await fetch("/api/blogs", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -58,16 +53,17 @@ export default function BlogBuilder() {
                 blogPost: sanitizedPost,
             }),
         });
-        console.log(response);
 
         router.push("/");
     }
 
-    function handleTitleClick() {
-        const watcher = form.watch("blogTitle");
+    function handleTitleClick(): void {
+        const watcher: string = form.watch("blogTitle");
+
         if (watcher.length < 4) {
             return;
         }
+
         setEditable(!editable);
     }
 
@@ -95,10 +91,7 @@ export default function BlogBuilder() {
                             />
                         </div>
                         <div className="ml-2">
-                            <Button
-                                variant={"outline"}
-                                onClick={handleTitleClick}
-                            >
+                            <Button variant={"outline"} onClick={handleTitleClick}>
                                 <Check />
                             </Button>
                         </div>
@@ -119,10 +112,7 @@ export default function BlogBuilder() {
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <TipTap
-                                        blogPost={field.value}
-                                        onChange={field.onChange}
-                                    />
+                                    <TipTap blogPost={field.value} onChange={field.onChange} />
                                 </FormControl>
                                 <FormMessage className="text-xs text-right" />
                             </FormItem>
