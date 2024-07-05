@@ -1,16 +1,16 @@
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { auth } from "@/app/api/auth/[...nextauth]/route";
 import { Hammer, Home, LogIn, Scroll } from "lucide-react";
-
-import React from "react";
+import { Variants } from "@/models/variants";
+import { Session } from "next-auth";
 import ConditionalButton from "@/components/app-bar/conditional-button";
-import Link from "next/link";
 import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
-import { Variants } from "@/models/variants";
+import React, { ReactElement } from "react";
+import Link from "next/link";
 
-export async function MainNav() {
-    const session = await auth();
+export async function MainNav(): Promise<ReactElement> {
+    const session: Session | null = await auth();
 
     return (
         <div className="h-20 sticky top-0 z-40 inset-x-0 backdrop-blur transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50[0.06] bg-white/95 supports-backdrop-blur:bg-white/60 dark:bg-transparent w-full  border-b ">
