@@ -3,16 +3,16 @@
 import * as React from "react";
 import { Sun, Moon, Cpu } from "lucide-react";
 
-import { useTheme, ThemeProvider } from "next-themes";
+import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
-    DropdownMenuItem,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
+    DropdownMenuCheckboxItem
 } from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
@@ -39,30 +39,30 @@ export function ThemeToggle() {
                     {determineTheme() === "light" ? (
                         <Sun className="ml-1 scale-75" />
                     ) : (
-                        <Moon className="dark:visible dark:ml-1 dark:scale-75" />
+                        <Moon className="dark:visible ml-1 dark:scale-75" />
                     )}
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("light")}>
+                    <DropdownMenuCheckboxItem checked={theme === "light"} className="cursor-pointer" onClick={() => setTheme("light")}>
                         Light
                         <DropdownMenuShortcut>
                             <Sun />
                         </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("dark")}>
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem checked={theme === "dark"} className="cursor-pointer" onClick={() => setTheme("dark")}>
                         Dark
                         <DropdownMenuShortcut>
                             <Moon />
                         </DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={() => setTheme("system")}>
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem checked={theme === "system"} className="cursor-pointer" onClick={() => setTheme("system")}>
                         System
                         <DropdownMenuShortcut>
                             <Cpu />
                         </DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    </DropdownMenuCheckboxItem>
                 </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
