@@ -7,7 +7,6 @@ import ConditionalButton from "@/components/app-bar/conditional-button";
 import ProfileCard from "@/components/app-bar/profile-card";
 import Clock from "@/components/app-bar/clock";
 import React, { ReactElement } from "react";
-import Link from "next/link";
 
 export async function MainNav(): Promise<ReactElement> {
     const session: Session | null = await auth();
@@ -19,60 +18,49 @@ export async function MainNav(): Promise<ReactElement> {
                     <Clock />
                 </div>
                 <div className="h-full flex items-center gap-2">
-                    {session ? (
-                        <div>
-                            <Link href="/blogs">
-                                <ConditionalButton
-                                    classes="p-0"
-                                    name="Blogs"
-                                    path="/blogs"
-                                    variant={Variants.LINK}
-                                >
-                                    <Scroll className="scale-75 ml-1" />
-                                </ConditionalButton>
-                            </Link>
-                        </div>
-                    ) : null}
+                    <ConditionalButton
+                        classes="p-0"
+                        name="Blogs"
+                        path="/blogs"
+                        variant={Variants.LINK}
+                        visible={!!session}
+                    >
+                        <Scroll className="scale-75 ml-1" />
+                    </ConditionalButton>
 
-                    {session ? (
-                        <div>
-                            <Link href="/builder">
-                                <ConditionalButton
-                                    classes="p-0"
-                                    name="Builder"
-                                    path="/builder"
-                                    variant={Variants.LINK}
-                                >
-                                    <Hammer className="scale-75 ml-1" />
-                                </ConditionalButton>
-                            </Link>
-                        </div>
-                    ) : null}
+                    <ConditionalButton
+                        classes="p-0"
+                        name="Builder"
+                        path="/builder"
+                        variant={Variants.LINK}
+                        visible={!!session}
+                    >
+                        <Hammer className="scale-75 ml-1" />
+                    </ConditionalButton>
 
-                    <ConditionalButton variant={Variants.LINK} classes="p-0" name="Home" path="/">
-                        <Link href="/">
-                            <Home className="ml-1 scale-75" />
-                        </Link>
+                    <ConditionalButton
+                        variant={Variants.LINK}
+                        classes="p-0"
+                        name="Home"
+                        path="/"
+                        visible={true}
+                    >
+                        <Home className="ml-1 scale-75" />
                     </ConditionalButton>
 
                     <div>
                         <ThemeToggle />
                     </div>
 
-                    {!session ? (
-                        <div>
-                            <Link href="/login">
-                                <ConditionalButton
-                                    variant={Variants.LINK}
-                                    classes="p-0"
-                                    name="Login"
-                                    path="/login"
-                                >
-                                    <LogIn className="ml-1 scale-75" />
-                                </ConditionalButton>
-                            </Link>
-                        </div>
-                    ) : null}
+                    <ConditionalButton
+                        variant={Variants.LINK}
+                        classes="p-0"
+                        name="Login"
+                        path="/login"
+                        visible={!session}
+                    >
+                        <LogIn className="ml-1 scale-75" />
+                    </ConditionalButton>
 
                     {session ? (
                         <div>
