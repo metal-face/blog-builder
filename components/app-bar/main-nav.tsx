@@ -18,12 +18,12 @@ export async function MainNav(): Promise<ReactElement> {
                 <div className="h-full flex justify-start align-middle">
                     <Clock />
                 </div>
-                <div className="h-full flex space-x-2 items-center">
+                <div className="h-full flex items-center gap-2">
                     {session ? (
                         <div>
                             <Link href="/blogs">
                                 <ConditionalButton
-                                    classes="ml-1 p-0"
+                                    classes="p-0"
                                     name="Blogs"
                                     path="/blogs"
                                     variant={Variants.LINK}
@@ -38,7 +38,7 @@ export async function MainNav(): Promise<ReactElement> {
                         <div>
                             <Link href="/builder">
                                 <ConditionalButton
-                                    classes="ml-1 p-0"
+                                    classes="p-0"
                                     name="Builder"
                                     path="/builder"
                                     variant={Variants.LINK}
@@ -49,20 +49,13 @@ export async function MainNav(): Promise<ReactElement> {
                         </div>
                     ) : null}
 
-                    <div>
+                    <ConditionalButton variant={Variants.LINK} classes="p-0" name="Home" path="/">
                         <Link href="/">
-                            <ConditionalButton
-                                variant={Variants.LINK}
-                                classes="ml-1 p-0"
-                                name="Home"
-                                path="/"
-                            >
-                                <Home className="ml-1 scale-75" />
-                            </ConditionalButton>
+                            <Home className="ml-1 scale-75" />
                         </Link>
-                    </div>
+                    </ConditionalButton>
 
-                    <div className="flex align-middle mx-1">
+                    <div>
                         <ThemeToggle />
                     </div>
 
@@ -71,7 +64,7 @@ export async function MainNav(): Promise<ReactElement> {
                             <Link href="/login">
                                 <ConditionalButton
                                     variant={Variants.LINK}
-                                    classes="ml-1 p-0"
+                                    classes="p-0"
                                     name="Login"
                                     path="/login"
                                 >
@@ -81,7 +74,11 @@ export async function MainNav(): Promise<ReactElement> {
                         </div>
                     ) : null}
 
-                    {session ? <ProfileCard session={session} /> : null}
+                    {session ? (
+                        <div>
+                            <ProfileCard session={session} />
+                        </div>
+                    ) : null}
                 </div>
             </div>
         </div>
