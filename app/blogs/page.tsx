@@ -15,7 +15,7 @@ export default async function Page(): Promise<ReactElement> {
     });
 
     const blogCard: ReactElement[] = blogs.map((blog: BlogPosts) => (
-        <div key={blog.id}>
+        <div key={blog.id} className={"drop-shadow-3xl"}>
             <Link href={`/blog/${blog.id}`}>
                 <Card className="hover:outline-1">
                     <CardHeader>
