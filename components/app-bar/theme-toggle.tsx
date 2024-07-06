@@ -12,7 +12,7 @@ import {
     DropdownMenuGroup,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
-    DropdownMenuCheckboxItem
+    DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
 
 export function ThemeToggle() {
@@ -45,19 +45,31 @@ export function ThemeToggle() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
-                    <DropdownMenuCheckboxItem checked={theme === "light"} className="cursor-pointer" onClick={() => setTheme("light")}>
+                    <DropdownMenuCheckboxItem
+                        checked={theme === "light"}
+                        onCheckedChange={() => setTheme("light")}
+                        className="cursor-pointer"
+                    >
                         Light
                         <DropdownMenuShortcut>
                             <Sun />
                         </DropdownMenuShortcut>
                     </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem checked={theme === "dark"} className="cursor-pointer" onClick={() => setTheme("dark")}>
+                    <DropdownMenuCheckboxItem
+                        checked={theme === "dark"}
+                        className="cursor-pointer"
+                        onCheckedChange={() => setTheme("dark")}
+                    >
                         Dark
                         <DropdownMenuShortcut>
                             <Moon />
                         </DropdownMenuShortcut>
                     </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem checked={theme === "system"} className="cursor-pointer" onClick={() => setTheme("system")}>
+                    <DropdownMenuCheckboxItem
+                        checked={theme === "system"}
+                        className="cursor-pointer"
+                        onCheckedChange={() => setTheme("system")}
+                    >
                         System
                         <DropdownMenuShortcut>
                             <Cpu />
