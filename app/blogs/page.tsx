@@ -15,7 +15,12 @@ export default async function Page(): Promise<ReactElement> {
     });
 
     const blogCard: ReactElement[] = blogs.map((blog: BlogPosts) => (
-        <div key={blog.id} className={"drop-shadow-3xl"}>
+        <div
+            key={blog.id}
+            className={
+                "drop-shadow-3xl m-2 hover:scale-110 transform-gpu transition-transform duration-300"
+            }
+        >
             <Link href={`/blog/${blog.id}`}>
                 <Card className="hover:outline-1">
                     <CardHeader>
@@ -24,7 +29,7 @@ export default async function Page(): Promise<ReactElement> {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p className="text-right text-sm">{format(blog.createdAt, "PPPP - pp")}</p>
+                        <p className="text-center text-sm">{format(blog.createdAt, "PPPP")}</p>
                     </CardContent>
                 </Card>
             </Link>
@@ -36,7 +41,7 @@ export default async function Page(): Promise<ReactElement> {
             <div className="text-center m-3">
                 <TypographyH1 text="My Blogs" />
             </div>
-            <div className="space-y-3">{blogCard}</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">{blogCard}</div>
         </div>
     );
 }
