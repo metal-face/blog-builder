@@ -120,7 +120,7 @@ export default function BlogBuilder(): ReactElement {
                     />
                 </div>
                 <div className="w-4/5 mx-auto flex justify-end items-center">
-                    <Button type="submit" variant="secondary" className=" py-1">
+                    <Button size={"lg"} type="submit" variant="secondary" className="py-1 text-white hover:bg-green-400 hover:text-black">
                         Submit
                     </Button>
                 </div>
