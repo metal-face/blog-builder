@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { NextRequest } from "next/server";
-import { UserResponse } from "@supabase/gotrue-js";
+import { UserResponse } from "@supabase/auth-js";
 
 export async function POST(req: NextRequest): Promise<Response> {
     const token: string | undefined = req.headers.get("authorization")?.split(" ")[1];
