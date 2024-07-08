@@ -1,11 +1,12 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BlogPosts } from "@prisma/client";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import BlogActions from "@/components/blogs/blog-actions";
-import ResponsiveDialog from "@/components/responsive-dialog";
 import Link from "next/link";
+import { Undo } from "lucide-react";
 
 interface Props {
     blog: BlogPosts;
@@ -27,11 +28,40 @@ export default function BlogCard({
     const { toast } = useToast();
 
     useEffect(() => {
+        async function undoDeletePost(blogId: string) {
+            console.log({ blogId });
+            const res = await fetch("/api/blogs", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ blogId: blogId, revertDelete: true }),
+            });
+
+            if (res.ok) {
+                toast({
+                    title: "Success! 🎉",
+                    description: "Your deletion has been reverted!",
+                    className: "bg-[#6cc070]",
+                });
+            }
+
+            if (res.status === 400 || res.status === 500) {
+                toast({
+                    title: "Oops!",
+                    description: "Something went wrong!",
+                    variant: "destructive",
+                });
+            }
+
+            setFetchData(true);
+        }
+
         if (triggerDelete && blogIdToDelete === blog.id) {
             const deleteBlogPost = async (): Promise<void> => {
                 try {
                     const res = await fetch("/api/blogs", {
-                        method: "DELETE",
+                        method: "PATCH",
                         headers: {
                             "Content-Type": "application/json",
                         },
@@ -43,6 +73,17 @@ export default function BlogCard({
                             title: "Success!",
                             description: "You have successfully deleted the blog post!",
                             className: "bg-[#6cc070]",
+                            duration: 1500,
+                            action: (
+                                <ToastAction
+                                    altText={"Undo"}
+                                    onClick={async () => {
+                                        await undoDeletePost(blogIdToDelete);
+                                    }}
+                                >
+                                    Undo <Undo />
+                                </ToastAction>
+                            ),
                         });
 
                         setBlogIdToDelete("");
