@@ -6,21 +6,24 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useToast } from "@/components/ui/use-toast";
+import { BlogPosts } from "@prisma/client";
+import dynamic from "next/dynamic";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
-import { useToast } from "@/components/ui/use-toast";
 
 export default function BlogBuilder({ params }: { params: { id: string } }): ReactElement {
-    console.log(params.id);
-
+    const [mounted, setMounted] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
     const { toast } = useToast();
+
+    const TipTapClient = dynamic(() => import("@/components/editor/tip-tap"), { ssr: false });
 
     const FormSchema = z.object({
         blogTitle: z
@@ -42,6 +45,46 @@ export default function BlogBuilder({ params }: { params: { id: string } }): Rea
             blogPost: "Hello World! 🌎️",
         },
     });
+
+    useEffect(() => {
+        async function fetchBlogById(blogId: string) {
+            const res = await fetch(`/api/blogs/${blogId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            return await res.json();
+        }
+
+        if (params.id && mounted) {
+            fetchBlogById(params.id[0])
+                .then((res) => {
+                    const blogPost: BlogPosts = res.data as BlogPosts;
+                    if (blogPost) {
+                        form.setValue("blogTitle", res.blogTitle);
+                        form.setValue("blogPost", res.blogPost);
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    toast({
+                        title: "Oops!",
+                        description: "Something went wrong!",
+                        variant: "destructive",
+                    });
+                });
+        }
+
+        return () => {
+            setMounted(false);
+        };
+    }, [params.id, form, mounted, toast]);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
@@ -130,7 +173,10 @@ export default function BlogBuilder({ params }: { params: { id: string } }): Rea
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <TipTap blogPost={field.value} onChange={field.onChange} />
+                                    <TipTapClient
+                                        blogPost={field.value}
+                                        onChange={field.onChange}
+                                    />
                                 </FormControl>
                                 <FormMessage className="text-xs text-right" />
                             </FormItem>
