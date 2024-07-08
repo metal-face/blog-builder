@@ -58,11 +58,12 @@ model VerificationToken {
 }
 
 model BlogPosts {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   blogTitle String?
   blogPost  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 }
