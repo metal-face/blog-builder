@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pencil, TrashIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 interface Props {
     blogId: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDelete }: Props) {
+    const router = useRouter();
     return (
         <div className={"gap-2 flex w-full items-center justify-end "}>
             <Tooltip>
@@ -32,7 +34,13 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
 
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Button size={"icon"} variant={"ghost"}>
+                    <Button
+                        onClick={() => {
+                            router.push(`/builder/${blogId}`);
+                        }}
+                        size={"icon"}
+                        variant={"ghost"}
+                    >
                         <Pencil />
                     </Button>
                 </TooltipTrigger>
