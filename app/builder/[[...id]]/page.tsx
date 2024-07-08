@@ -13,10 +13,14 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
+import { useToast } from "@/components/ui/use-toast";
 
-export default function BlogBuilder(): ReactElement {
+export default function BlogBuilder({ params }: { params: { id: string } }): ReactElement {
+    console.log(params.id);
+
     const [editable, setEditable] = useState<boolean>(false);
     const router: AppRouterInstance = useRouter();
+    const { toast } = useToast();
 
     const FormSchema = z.object({
         blogTitle: z
@@ -54,7 +58,21 @@ export default function BlogBuilder(): ReactElement {
             }),
         });
 
-        router.push("/");
+        if (response.ok) {
+            toast({
+                title: "Success!",
+                description: "You have successfully saved your blog 🚀",
+                className: "bg-[#6cc070]",
+            });
+        } else if (response.status === 400 || response.status === 500 || response.status === 401) {
+            toast({
+                title: "Oops!",
+                description: "Something went wrong!",
+                variant: "destructive",
+            });
+        }
+
+        router.push("/blogs");
     }
 
     function handleTitleClick(): void {
@@ -120,7 +138,12 @@ export default function BlogBuilder(): ReactElement {
                     />
                 </div>
                 <div className="w-4/5 mx-auto flex justify-end items-center">
-                    <Button size={"lg"} type="submit" variant="secondary" className="py-1 text-white hover:bg-green-400 hover:text-black">
+                    <Button
+                        size={"lg"}
+                        type="submit"
+                        variant="secondary"
+                        className="py-1 text-white hover:bg-green-400 hover:text-black"
+                    >
                         Submit
                     </Button>
                 </div>
