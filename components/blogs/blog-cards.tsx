@@ -56,6 +56,7 @@ export default function BlogCards({ initData }: Props) {
                 ));
 
                 setData(transformed);
+                setFetchData(false);
             }
         };
 
