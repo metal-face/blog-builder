@@ -13,6 +13,11 @@ interface DeleteData {
     blogId: string;
 }
 
+interface PatchData {
+    blogId: string;
+    revertDelete?: boolean;
+}
+
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
@@ -53,7 +58,7 @@ export async function DELETE(req: Request): Promise<Response> {
     }
 
     try {
-        const res = await prisma.blogPosts.deleteMany({
+        const res = await prisma.blogPosts.delete({
             where: { id: blogId, userId: session.user.id },
         });
 
@@ -78,6 +83,7 @@ export async function GET(req: NextRequest): Promise<Response> {
         const posts: BlogPosts[] = await prisma.blogPosts.findMany({
             where: {
                 userId: session.user.id,
+                deletedAt: null,
             },
         });
 
@@ -87,6 +93,43 @@ export async function GET(req: NextRequest): Promise<Response> {
 
         return Response.json(posts);
     } catch (err: any) {
+        return Response.json({}, { status: 500, statusText: "Internal Server Error" });
+    }
+}
+
+export async function PUT(req: NextRequest): Promise<Response> {
+    return Response.error();
+}
+
+export async function PATCH(req: NextRequest): Promise<Response> {
+    const session: Session | null = await auth();
+    const { blogId, revertDelete }: PatchData = (await req.json()) as PatchData;
+
+    console.log("blogID: ", blogId, revertDelete);
+
+    if (!blogId || !session) {
+        return Response.json({}, { status: 400, statusText: "Bad Request" });
+    }
+
+    try {
+        const res = await prisma.blogPosts.update({
+            where: {
+                id: blogId.toString(),
+                userId: session.user.id,
+            },
+            data: {
+                deletedAt: revertDelete ? null : new Date(),
+            },
+        });
+
+        console.log(res);
+
+        if (!res) {
+            return Response.json({}, { status: 400, statusText: "Bad Request" });
+        }
+
+        return Response.json({ res }, { status: 200, statusText: "Success" });
+    } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }
