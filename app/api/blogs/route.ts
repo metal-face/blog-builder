@@ -18,6 +18,12 @@ interface PatchData {
     revertDelete?: boolean;
 }
 
+interface PutPayload {
+    blogId: string;
+    blogPost: string;
+    blogTitle: string;
+}
+
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
@@ -98,7 +104,30 @@ export async function GET(req: NextRequest): Promise<Response> {
 }
 
 export async function PUT(req: NextRequest): Promise<Response> {
-    return Response.error();
+    const session = await auth();
+    const { blogId, blogPost, blogTitle }: PutPayload = (await req.json()) as PutPayload;
+
+    if (!session || !blogId || !blogPost || !blogTitle) {
+        return Response.json({}, { status: 400, statusText: "Bad Request" });
+    }
+
+    try {
+        const res = await prisma.blogPosts.update({
+            where: { id: blogId, userId: session.user.id },
+            data: {
+                blogTitle: blogTitle,
+                blogPost: blogPost,
+            },
+        });
+
+        if (!res) {
+            return Response.json({}, { status: 500, statusText: "Internal Server Error" });
+        }
+
+        return Response.json({ data: res }, { status: 200, statusText: "Success" });
+    } catch {
+        return Response.json({}, { status: 500, statusText: "Internal Server Error" });
+    }
 }
 
 export async function PATCH(req: NextRequest): Promise<Response> {
@@ -121,8 +150,6 @@ export async function PATCH(req: NextRequest): Promise<Response> {
                 deletedAt: revertDelete ? null : new Date(),
             },
         });
-
-        console.log(res);
 
         if (!res) {
             return Response.json({}, { status: 400, statusText: "Bad Request" });
