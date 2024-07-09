@@ -3,10 +3,15 @@
 import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactNode } from "react";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 interface ProviderProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
+
+const queryClient = new QueryClient();
 
 export function Providers({ children }: ProviderProps) {
     return (
@@ -17,7 +22,12 @@ export function Providers({ children }: ProviderProps) {
             disableTransitionOnChange
         >
             <TooltipProvider>
-                <SessionProvider>{children}</SessionProvider>
+                <SessionProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <ReactQueryDevtools initialIsOpen={false} />
+                        {children}
+                    </QueryClientProvider>
+                </SessionProvider>
             </TooltipProvider>
         </ThemeProvider>
     );
