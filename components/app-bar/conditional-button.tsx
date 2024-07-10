@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Variants } from "@/models/variants";
 import { usePathname } from "next/navigation";
