@@ -5,12 +5,34 @@ import { BlogPosts } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import React, { ReactElement } from "react";
 import BlogCards from "@/components/blogs/blog-cards";
+import { TypographyP } from "@/components/typography/typography-p";
+import { Button } from "@/components/ui/button";
+import { Hammer } from "lucide-react";
+import Link from "next/link";
 
 export default async function Page(): Promise<ReactElement> {
     const session: Session | null = await auth();
 
+    if (!session) {
+        return (
+            <div className="h-full w-full sm:w-5/6 lg:w-4/5 mx-auto flex flex-col items-center">
+                <div className="text-center m-3">
+                    <TypographyH1 text="My Blogs" />
+                </div>
+                <div>
+                    <TypographyP text={"You currently have no blogs"} />
+                    <Link href={"/builder"}>
+                        <Button>
+                            Build a Blog <Hammer />
+                        </Button>
+                    </Link>
+                </div>
+            </div>
+        );
+    }
+
     const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
-        where: { userId: session?.user.id, deletedAt: null },
+        where: { userId: session.user.id, deletedAt: null },
     });
 
     return (
