@@ -195,5 +195,5 @@ export const {
             };
         },
     },
-    secret: process.env.NEXTAUTH_SECRET as string,
+    secret: process.env.AUTH_SECRET as string,
 });
