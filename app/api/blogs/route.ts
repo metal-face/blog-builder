@@ -134,8 +134,6 @@ export async function PATCH(req: NextRequest): Promise<Response> {
     const session: Session | null = await auth();
     const { blogId, revertDelete }: PatchData = (await req.json()) as PatchData;
 
-    console.log("blogID: ", blogId, revertDelete);
-
     if (!blogId || !session) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
