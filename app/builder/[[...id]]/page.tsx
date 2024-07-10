@@ -6,25 +6,27 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { ReactElement, useEffect, useState } from "react";
+import { MutableRefObject, ReactElement, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useToast } from "@/components/ui/use-toast";
 import { BlogPosts } from "@prisma/client";
+import { Check } from "lucide-react";
+import { fetchBlogById } from "@/lib/helpers";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
-import { Check } from "lucide-react";
 
 export default function BlogBuilder({ params }: { params: { id: string } }): ReactElement {
     const [mounted, setMounted] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
     const [blogTitleState, setBlogTitleState] = useState("");
     const [blogPostState, setBlogPostState] = useState("");
-    const router: AppRouterInstance = useRouter();
     const { toast } = useToast();
+    const router: AppRouterInstance = useRouter();
+    const editorRef: MutableRefObject<Element | null> = useRef(null);
 
-    const FormSchema = z.object({
+    const schema = z.object({
         blogTitle: z
             .string()
             .min(4, { message: "Title must be at least 4 characters" })
@@ -36,22 +38,26 @@ export default function BlogBuilder({ params }: { params: { id: string } }): Rea
             .trim(),
     });
 
+    const form = useForm<z.infer<typeof schema>>({
+        mode: "all",
+        resolver: zodResolver(schema),
+        defaultValues: {
+            blogTitle: "Write a Blog Title!",
+            blogPost: "Hello World 🌎",
+        },
+    });
+
     useEffect(() => {
-        async function fetchBlogById() {
-            const res = await fetch(`/api/blogs/${params.id[0]}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            return await res.json();
+        if (mounted) {
+            editorRef.current = document.getElementsByClassName("editor")[0];
         }
+    }, [mounted]);
 
+    useEffect(() => {
         if (params.id && mounted) {
-            fetchBlogById()
+            fetchBlogById(params.id[0])
                 .then((res) => {
-                    const blogPost: BlogPosts = res.data as BlogPosts;
+                    const blogPost: BlogPosts = res as BlogPosts;
 
                     if (blogPost.blogTitle && blogPost.blogPost) {
                         setBlogTitleState(blogPost.blogTitle);
@@ -73,28 +79,17 @@ export default function BlogBuilder({ params }: { params: { id: string } }): Rea
         setMounted(true);
     }, []);
 
-    const form = useForm<z.infer<typeof FormSchema>>({
-        mode: "all",
-        resolver: zodResolver(FormSchema),
-        defaultValues: {
-            blogTitle: "Write a Blog Title!",
-            blogPost: "Hello World 🌎",
-        },
-    });
-
     useEffect(() => {
         if (blogTitleState) {
             form.setValue("blogTitle", blogTitleState);
         }
 
-        const editor = document.getElementsByClassName("editor");
-
-        if (editor.length > 0 && blogPostState) {
-            editor[0].innerHTML = blogPostState;
+        if (editorRef.current && blogPostState) {
+            editorRef.current.innerHTML = blogPostState;
         }
     }, [blogPostState, blogTitleState, form]);
 
-    async function onSubmit(data: z.infer<typeof FormSchema>) {
+    async function onSubmit(data: z.infer<typeof schema>) {
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             USE_PROFILES: { html: true },
         });
