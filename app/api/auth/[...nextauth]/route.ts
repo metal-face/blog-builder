@@ -4,7 +4,8 @@ import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import type { Adapter } from "next-auth/adapters";
+import { RoleTypes } from "@/lib/prisma";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
 import type { User } from "next-auth";
 
 if (!process.env.DISCORD_CLIENT_ID) {
@@ -31,32 +32,72 @@ if (!process.env.GOOGLE_SECRET) {
     throw new Error("No GOOGLE_SECRET has been provided.");
 }
 
+if (!process.env.ADMIN_EMAILS) {
+    throw new Error("No GOOGLE_SECRET has been provided.");
+}
+
 declare module "next-auth" {
     interface Session {
-        user: User & { role: string };
+        user: User & { role: RoleTypes };
     }
 }
 
 declare module "@auth/core/adapters" {
     interface AdapterUser extends User {
-        role: string;
+        role: RoleTypes;
     }
 }
 const scopes = ["identify", "email"];
 
 const prisma = new PrismaClient();
 
+const useSecureCookies = process.env.VERCEL_ENV === "production";
+const cookiePrefix = useSecureCookies ? "__Secure-" : "";
+const cookieDomain = useSecureCookies ? "metalface" : undefined;
+
+const adminEmails: string[] = process.env.ADMIN_EMAILS.split(",");
+
 export const {
-    signIn,
-    signOut,
     handlers: { GET, POST },
     auth,
 } = NextAuth({
     pages: {
         signIn: "/login",
     },
+    cookies: {
+        sessionToken: {
+            name: `${cookiePrefix}next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                domain: cookieDomain,
+                secure: useSecureCookies,
+            },
+        },
+    },
     adapter: {
         ...(PrismaAdapter(prisma) as Adapter),
+        createUser: async (data: AdapterUser) => {
+            const user = await prisma.user.create({
+                data: {
+                    ...data,
+                    name: data.name || "",
+                    role: adminEmails.includes(data.email) ? RoleTypes.ADMIN : RoleTypes.USER,
+                },
+            });
+
+            return user;
+        },
+        getSessionAndUser: async (sessionToken: string) => {
+            const userAndSession = await prisma.session.findUnique({
+                where: { sessionToken: sessionToken },
+                include: { user: true },
+            });
+            if (!userAndSession) return null;
+            const { user, ...session } = userAndSession;
+            return { user, session };
+        },
     },
     providers: [
         DiscordProvider({
@@ -67,10 +108,10 @@ export const {
             token: "https://discord.com/api/oauth2/token",
             userinfo: "https://discord.com/api/users/@me",
             profile(profile) {
-                let role = "user";
+                let role: RoleTypes = RoleTypes.USER;
 
-                if (profile.email === "mail@bryanhughes.net") {
-                    role = "admin";
+                if (adminEmails.includes(profile.email)) {
+                    role = RoleTypes.ADMIN;
                 }
 
                 if (profile.avatar === null) {
@@ -95,11 +136,11 @@ export const {
             clientSecret: process.env.GOOGLE_SECRET as string,
             allowDangerousEmailAccountLinking: true,
             profile(profile) {
-                let role = "user";
+                let role: RoleTypes = RoleTypes.USER;
 
-                if (profile.email === "hughesbryan3000@gmail.com") {
-                    role = "admin";
-                } else role = "user";
+                if (adminEmails.includes(profile.email)) {
+                    role = RoleTypes.ADMIN;
+                }
 
                 return {
                     id: profile.sub,
@@ -122,14 +163,16 @@ export const {
             clientSecret: process.env.GITHUB_SECRET as string,
             allowDangerousEmailAccountLinking: true,
             profile(profile) {
-                let role = "user";
+                let role: RoleTypes = RoleTypes.USER;
 
-                if (profile.email === "hughesbryan3000@gmail.com") {
-                    role = "admin";
+                if (profile.email) {
+                    if (adminEmails.includes(profile.email)) {
+                        role = RoleTypes.ADMIN;
+                    }
                 }
 
                 return {
-                    id: String(profile.id),
+                    id: profile.id.toString(),
                     name: profile.name,
                     email: profile.email,
                     image: profile.avatar_url,
@@ -148,11 +191,7 @@ export const {
 
             return {
                 ...session,
-                user: {
-                    ...session.user,
-                    id: user.id,
-                    role: user.role,
-                },
+                user,
             };
         },
     },
