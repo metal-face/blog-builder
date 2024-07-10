@@ -4,8 +4,6 @@ import { auth } from "@/app/api/auth/[...nextauth]/route";
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     const session = await auth();
 
-    console.log(params.id);
-
     if (!params.id || !session) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
