@@ -29,7 +29,6 @@ export default function BlogCard({
 
     useEffect(() => {
         async function undoDeletePost(blogId: string) {
-            console.log({ blogId });
             const res = await fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
