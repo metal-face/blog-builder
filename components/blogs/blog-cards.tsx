@@ -15,7 +15,7 @@ export default function BlogCards({ initData }: Props) {
     const [dialogVisibility, setDialogVisibility] = useState<boolean>(false);
     const [blogIdToDelete, setBlogIdToDelete] = useState<string>("");
 
-    const initBlogCards: ReactElement[] = initData.map((blog: BlogPosts) => (
+    const InitBlogCards: ReactElement[] = initData.map((blog: BlogPosts) => (
         <BlogCard
             key={blog.id}
             blog={blog}
@@ -24,10 +24,11 @@ export default function BlogCards({ initData }: Props) {
             triggerDelete={triggerDelete}
             setDialogVisibility={setDialogVisibility}
             setBlogIdToDelete={setBlogIdToDelete}
+            setTriggerDelete={setTriggerDelete}
         />
     ));
 
-    const [data, setData] = useState<ReactElement[]>(initBlogCards);
+    const [data, setData] = useState<ReactElement[]>(InitBlogCards);
 
     useEffect(() => {
         const fetchAllBlogs = async () => {
@@ -52,6 +53,7 @@ export default function BlogCards({ initData }: Props) {
                         triggerDelete={triggerDelete}
                         setDialogVisibility={setDialogVisibility}
                         setBlogIdToDelete={setBlogIdToDelete}
+                        setTriggerDelete={setTriggerDelete}
                     />
                 ));
 
