@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
                 allow: "/api/og/*",
             },
         ],
-        sitemap: "https://acme.com/sitemap.xml",
+        sitemap: "https://blog-builder.com/sitemap.xml",
     };
 }
