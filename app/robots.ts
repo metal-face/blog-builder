@@ -12,6 +12,10 @@ export default function robots(): MetadataRoute.Robots {
                 userAgent: ["Applebot", "Bingbot"],
                 disallow: ["/"],
             },
+            {
+                userAgent: "*",
+                allow: "/api/og/*",
+            },
         ],
         sitemap: "https://acme.com/sitemap.xml",
     };
