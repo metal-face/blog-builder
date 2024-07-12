@@ -102,7 +102,15 @@ export default function BlogCard({
             };
             deleteBlogPost();
         }
-    }, [blog, toast, setFetchData, triggerDelete, blogIdToDelete, setBlogIdToDelete]);
+    }, [
+        blog,
+        toast,
+        setFetchData,
+        triggerDelete,
+        blogIdToDelete,
+        setBlogIdToDelete,
+        setTriggerDelete,
+    ]);
 
     return (
         <>
