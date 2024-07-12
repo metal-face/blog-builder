@@ -15,6 +15,7 @@ interface Props {
     setFetchData: Dispatch<SetStateAction<boolean>>;
     setDialogVisibility: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete: Dispatch<SetStateAction<string>>;
+    setTriggerDelete: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function BlogCard({
@@ -24,6 +25,7 @@ export default function BlogCard({
     setFetchData,
     setDialogVisibility,
     setBlogIdToDelete,
+    setTriggerDelete,
 }: Props) {
     const { toast } = useToast();
 
@@ -54,6 +56,7 @@ export default function BlogCard({
             }
 
             setFetchData(true);
+            setTriggerDelete(false);
         }
 
         if (triggerDelete && blogIdToDelete === blog.id) {
