@@ -1,5 +1,5 @@
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth/auth";
 import { Hammer, Home, LogIn, Scroll } from "lucide-react";
 import { Variants } from "@/models/variants";
 import { Session } from "next-auth";

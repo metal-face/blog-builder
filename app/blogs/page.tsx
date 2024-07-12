@@ -1,4 +1,4 @@
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth/auth";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { Session } from "next-auth";
 import { BlogPosts } from "@prisma/client";

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth/auth";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     const session = await auth();

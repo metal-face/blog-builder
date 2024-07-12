@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/app/api/auth/[...nextauth]/route";
+import { auth } from "@/auth/auth";
 import { Session } from "next-auth";
 import { BlogPosts } from "@prisma/client";
 import { NextRequest } from "next/server";
