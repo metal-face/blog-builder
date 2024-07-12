@@ -1,4 +1,4 @@
-import { auth } from "../api/auth/[...nextauth]/route";
+import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
 import { Session } from "next-auth";
 import { ReactNode } from "react";
