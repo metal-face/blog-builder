@@ -3,6 +3,7 @@ import { auth } from "@/auth/auth";
 import { Session } from "next-auth";
 import { BlogPosts } from "@prisma/client";
 import { NextRequest } from "next/server";
+import DOMPurify from "dompurify";
 
 interface PostData {
     blogTitle: string;
@@ -29,25 +30,27 @@ export async function POST(req: Request): Promise<Response> {
     const updatedAt: Date = new Date();
     const { blogTitle, blogPost }: PostData = (await req.json()) as PostData;
 
+    if (!session || !session.user.id) {
+        return Response.json({}, { status: 401, statusText: "Unauthorized" });
+    }
+
+    if (blogTitle.length < 4 || blogTitle.length > 32) {
+        return Response.json({}, { status: 400, statusText: "Bad Request" });
+    }
+
+    if (blogPost.length < 20 || blogPost.length > 20000) {
+        return Response.json({}, { status: 400, statusText: "Bad Request" });
+    }
+
+    const cleanPost = DOMPurify().sanitize(blogPost, { FORBID_ATTR: ["script", "svg", "style"] });
+
     try {
-        if (!session || !session.user.id) {
-            return Response.json({}, { status: 401, statusText: "Unauthorized" });
-        }
-
-        if (blogTitle.length < 4 || blogTitle.length > 32) {
-            return Response.json({}, { status: 400, statusText: "Bad Request" });
-        }
-
-        if (blogPost.length < 20 || blogPost.length > 20000) {
-            return Response.json({}, { status: 400, statusText: "Bad Request" });
-        }
-
         const res = await prisma.blogPosts.create({
             data: {
-                blogTitle,
-                blogPost,
+                blogTitle: blogTitle,
+                blogPost: cleanPost,
                 userId: session.user.id,
-                updatedAt,
+                updatedAt: updatedAt,
             },
         });
 
