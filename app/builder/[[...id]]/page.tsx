@@ -20,8 +20,8 @@ import TipTap from "@/components/editor/tip-tap";
 export default function BlogBuilder({ params }: { params: { id: string } }): ReactElement {
     const [mounted, setMounted] = useState<boolean>(false);
     const [editable, setEditable] = useState<boolean>(false);
-    const [blogTitleState, setBlogTitleState] = useState("");
-    const [blogPostState, setBlogPostState] = useState("");
+    const [blogTitleState, setBlogTitleState] = useState<string>("");
+    const [blogPostState, setBlogPostState] = useState<string>("");
     const { toast } = useToast();
     const router: AppRouterInstance = useRouter();
     const editorRef: MutableRefObject<Element | null> = useRef(null);
@@ -91,7 +91,7 @@ export default function BlogBuilder({ params }: { params: { id: string } }): Rea
 
     async function onSubmit(data: z.infer<typeof schema>) {
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
-            USE_PROFILES: { html: true },
+            FORBID_TAGS: ["script", "style", "svg"],
         });
 
         if (params.id) {
