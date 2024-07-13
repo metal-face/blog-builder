@@ -3,7 +3,12 @@ import { auth } from "@/auth/auth";
 import { Session } from "next-auth";
 import { BlogPosts } from "@prisma/client";
 import { NextRequest } from "next/server";
-import DOMPurify from "dompurify";
+import createDOMPurify from "dompurify";
+import jsdom from "jsdom";
+
+const { JSDOM } = jsdom;
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window);
 
 interface PostData {
     blogTitle: string;
@@ -42,7 +47,7 @@ export async function POST(req: Request): Promise<Response> {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
-    const cleanPost = DOMPurify().sanitize(blogPost, { FORBID_ATTR: ["script", "svg", "style"] });
+    const cleanPost = DOMPurify.sanitize(blogPost, { FORBID_ATTR: ["script", "svg", "style"] });
 
     try {
         const res = await prisma.blogPosts.create({
