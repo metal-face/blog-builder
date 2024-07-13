@@ -4,6 +4,7 @@ import { MainNav } from "@/components/app-bar/main-nav";
 import { Toaster } from "@/components/ui/toaster";
 import { NextFont } from "next/dist/compiled/@next/font";
 import React, { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 import "@/app/login/style.css";
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <title>Blog Builder</title>
             </head>
             <body className={inter.className + " overflow-x-hidden"}>
+                <Analytics />
                 <main className="h-screen w-screen">
                     <Providers>
                         <MainNav />
