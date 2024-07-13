@@ -89,6 +89,7 @@ export default function BlogCard({
                         });
 
                         setBlogIdToDelete("");
+                        setTriggerDelete(false);
                         setFetchData(true);
                     }
                 } catch (err: any) {
