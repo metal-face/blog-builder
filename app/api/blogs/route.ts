@@ -31,7 +31,15 @@ export async function POST(req: Request): Promise<Response> {
 
     try {
         if (!session || !session.user.id) {
-            return new Response("Not authorized", { status: 401 });
+            return Response.json({}, { status: 401, statusText: "Unauthorized" });
+        }
+
+        if (blogTitle.length < 4 || blogTitle.length > 32) {
+            return Response.json({}, { status: 400, statusText: "Bad Request" });
+        }
+
+        if (blogPost.length < 20 || blogPost.length > 20000) {
+            return Response.json({}, { status: 400, statusText: "Bad Request" });
         }
 
         const res = await prisma.blogPosts.create({
