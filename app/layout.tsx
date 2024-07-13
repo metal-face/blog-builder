@@ -19,6 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <meta name="author" content="metal-face" />
                 <meta name="darkreader-lock" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <meta property="og:image" content="https://blog-builder.com/api/og" />
                 <link rel="icon" href="/icon.tsx" type="image/png" sizes="32x32" />
                 <title>Blog Builder</title>
             </head>
