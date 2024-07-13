@@ -5,8 +5,10 @@ import { Variants } from "@/models/variants";
 import { Session } from "next-auth";
 import ConditionalButton from "@/components/app-bar/conditional-button";
 import ProfileCard from "@/components/app-bar/profile-card";
-import Clock from "@/components/app-bar/clock";
 import React, { ReactElement } from "react";
+import dynamic from "next/dynamic";
+
+const Clock = dynamic(() => import("@/components/app-bar/clock"), { ssr: false });
 
 export async function MainNav(): Promise<ReactElement> {
     const session: Session | null = await auth();
