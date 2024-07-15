@@ -205,14 +205,18 @@ export default function BlogBuilder({ params }: { params: { id: string } }): Rea
                         <BlogTitle blogTitle={form.getValues().blogTitle} />
                     </div>
                 ) : null}
-                <div className="w-5/5 sm:w-4/5 sm:mx-auto mx-2">
+                <div className="w-5/5  sm:mx-auto mx-2">
                     <FormField
                         control={form.control}
                         name="blogPost"
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
-                                    <TipTap blogPost={field.value} onChange={field.onChange} />
+                                    <TipTap
+                                        editable={true}
+                                        blogPost={field.value}
+                                        onChange={field.onChange}
+                                    />
                                 </FormControl>
                                 <FormMessage className="text-xs text-right" />
                             </FormItem>
