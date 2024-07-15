@@ -1,3 +1,5 @@
+"use client";
+
 import "@/app/globals.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
@@ -49,13 +51,16 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
     },
 });
 import CharacterCount from "@tiptap/extension-character-count";
+import { useEffect } from "react";
 
 export default function Tiptap({
     blogPost,
     onChange,
+    editable,
 }: {
     blogPost: string;
-    onChange: (richText: string) => void;
+    onChange?: (richText: string) => void;
+    editable: boolean;
 }) {
     const editor = useEditor({
         extensions: [
@@ -137,17 +142,34 @@ export default function Tiptap({
         },
         content: blogPost,
         onUpdate({ editor }) {
-            onChange(editor?.getHTML());
+            if (onChange) onChange(editor?.getHTML());
         },
     });
+
+    useEffect(() => {
+        if (!editor) {
+            return undefined;
+        }
+
+        editor.setEditable(editable);
+    }, [editor, editable]);
 
     if (!editor) {
         return null;
     }
 
+    if (editable) {
+        return (
+            <div className="my-2 overflow-x-hidden overflow-y-hidden">
+                <Toolbar editor={editor} />
+                <EditorContent editor={editor} />
+                <WordCounter editor={editor} />
+            </div>
+        );
+    }
+
     return (
         <div className="my-2 overflow-x-hidden overflow-y-hidden">
-            <Toolbar editor={editor} />
             <EditorContent editor={editor} />
             <WordCounter editor={editor} />
         </div>
