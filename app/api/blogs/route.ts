@@ -30,6 +30,25 @@ interface PutPayload {
     blogTitle: string;
 }
 
+const allowedStyles: string[] = [
+    "color",
+    "text-align",
+    "background-color",
+    "font-size",
+    "font-weight",
+    "font-style",
+    "font-family",
+    "padding",
+    "margin",
+    "border",
+    "border-radius",
+    "width",
+    "height",
+    "display",
+    "align-items",
+    "justify-content",
+];
+
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
@@ -46,6 +65,35 @@ export async function POST(req: Request): Promise<Response> {
     if (blogPost.length < 20 || blogPost.length > 20000) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
+
+    DOMPurify.addHook("uponSanitizeElement", (node, data) => {
+        console.log("called from element");
+
+        if (data.tagName === "iframe") {
+            const src = node.getAttribute("src") || "";
+
+            if (src.startsWith("https://youtu.be") && node.parentNode) {
+                node.parentNode.removeChild(node);
+            }
+        }
+    });
+
+    DOMPurify.addHook("uponSanitizeAttribute", (node, data) => {
+        console.log("called from attr");
+        if (data.attrName === "style") {
+            const styles = data.attrValue
+                .split(";")
+                .map((style) => style.trim())
+                .filter((style) => style);
+
+            const safeStyles = styles.filter((style) => {
+                const [property] = style.split(":").map((item) => item.trim());
+                return allowedStyles.includes(property);
+            });
+
+            data.attrValue = safeStyles.join("; ");
+        }
+    });
 
     const cleanPost = DOMPurify.sanitize(blogPost, { FORBID_ATTR: ["script", "svg", "style"] });
 
@@ -126,6 +174,35 @@ export async function PUT(req: NextRequest): Promise<Response> {
     if (!session || !blogId || !blogPost || !blogTitle) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
+
+    DOMPurify.addHook("uponSanitizeElement", (node, data) => {
+        console.log("called from element");
+
+        if (data.tagName === "iframe") {
+            const src = node.getAttribute("src") || "";
+
+            if (src.startsWith("https://youtu.be") && node.parentNode) {
+                node.parentNode.removeChild(node);
+            }
+        }
+    });
+
+    DOMPurify.addHook("uponSanitizeAttribute", (node, data) => {
+        console.log("called from attr");
+        if (data.attrName === "style") {
+            const styles = data.attrValue
+                .split(";")
+                .map((style) => style.trim())
+                .filter((style) => style);
+
+            const safeStyles = styles.filter((style) => {
+                const [property] = style.split(":").map((item) => item.trim());
+                return allowedStyles.includes(property);
+            });
+
+            data.attrValue = safeStyles.join("; ");
+        }
+    });
 
     try {
         const res = await prisma.blogPosts.update({
