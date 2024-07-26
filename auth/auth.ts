@@ -53,7 +53,7 @@ const prisma = new PrismaClient();
 
 const useSecureCookies = process.env.VERCEL_ENV === "production";
 const cookiePrefix = useSecureCookies ? "__Secure-" : "";
-const cookieDomain = useSecureCookies ? "blog-builder.com" : undefined;
+const cookieDomain = useSecureCookies ? "blog-builder.com" : "localhost";
 
 const adminEmails: string[] = process.env.ADMIN_EMAILS.split(",");
 
