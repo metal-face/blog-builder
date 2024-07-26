@@ -4,7 +4,7 @@ import "@/app/globals.css";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
 import { Color } from "@tiptap/extension-color";
-import { common, createLowlight } from "lowlight";
+import { createLowlight, all } from "lowlight";
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
 
 import StarterKit from "@tiptap/starter-kit";
@@ -28,7 +28,7 @@ import WordCounter from "@/components/editor/word-counter";
 
 type Levels = 1 | 2 | 3;
 
-const lowlight = createLowlight(common);
+const lowlight = createLowlight(all);
 
 const classes: Record<Levels, string> = {
     1: "text-4xl",
@@ -123,6 +123,7 @@ export default function Tiptap({
             }),
             TextAlign.configure({
                 types: ["heading", "paragraph"],
+                alignments: ["left", "right", "center", "justify"],
             }),
             TaskList,
             HorizontalRule,
