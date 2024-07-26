@@ -10,7 +10,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
         if (blogPost && blogPost.blogPost && blogPost.blogTitle) {
             return (
-                <div className={"h-4/5 w-full flex justify-center flex-col"}>
+                <div className={"h-4/5 w-full sm:w-11/12 mx-auto flex justify-center flex-col"}>
                     <div className={"text-center"}>
                         <TypographyH1 text={blogPost.blogTitle} />
                     </div>
