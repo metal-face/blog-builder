@@ -3,8 +3,11 @@ import { auth } from "@/auth/auth";
 import { Session } from "next-auth";
 import { BlogPosts } from "@prisma/client";
 import { NextRequest } from "next/server";
+import { allowedStyles } from "@/models/allowed-styles";
 import createDOMPurify from "dompurify";
 import jsdom from "jsdom";
+import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
+import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 
 const { JSDOM } = jsdom;
 const window = new JSDOM("").window;
@@ -30,25 +33,6 @@ interface PutPayload {
     blogTitle: string;
 }
 
-const allowedStyles: string[] = [
-    "color",
-    "text-align",
-    "background-color",
-    "font-size",
-    "font-weight",
-    "font-style",
-    "font-family",
-    "padding",
-    "margin",
-    "border",
-    "border-radius",
-    "width",
-    "height",
-    "display",
-    "align-items",
-    "justify-content",
-];
-
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
@@ -66,36 +50,15 @@ export async function POST(req: Request): Promise<Response> {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
-    DOMPurify.addHook("uponSanitizeElement", (node, data) => {
-        console.log("called from element");
+    listenForAttributeSanitization(allowedStyles, DOMPurify);
 
-        if (data.tagName === "iframe") {
-            const src = node.getAttribute("src") || "";
+    listenForElementSanitization(DOMPurify);
 
-            if (src.startsWith("https://youtu.be") && node.parentNode) {
-                node.parentNode.removeChild(node);
-            }
-        }
+    const cleanPost = DOMPurify.sanitize(blogPost, {
+        FORBID_TAGS: ["script", "svg"],
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling", "style"],
     });
-
-    DOMPurify.addHook("uponSanitizeAttribute", (node, data) => {
-        console.log("called from attr");
-        if (data.attrName === "style") {
-            const styles = data.attrValue
-                .split(";")
-                .map((style) => style.trim())
-                .filter((style) => style);
-
-            const safeStyles = styles.filter((style) => {
-                const [property] = style.split(":").map((item) => item.trim());
-                return allowedStyles.includes(property);
-            });
-
-            data.attrValue = safeStyles.join("; ");
-        }
-    });
-
-    const cleanPost = DOMPurify.sanitize(blogPost, { FORBID_ATTR: ["script", "svg", "style"] });
 
     try {
         const res = await prisma.blogPosts.create({
@@ -175,41 +138,21 @@ export async function PUT(req: NextRequest): Promise<Response> {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
-    DOMPurify.addHook("uponSanitizeElement", (node, data) => {
-        console.log("called from element");
-
-        if (data.tagName === "iframe") {
-            const src = node.getAttribute("src") || "";
-
-            if (src.startsWith("https://youtu.be") && node.parentNode) {
-                node.parentNode.removeChild(node);
-            }
-        }
+    const cleanedBlogPost = DOMPurify.sanitize(blogPost, {
+        FORBID_TAGS: ["script", "svg"],
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling", "style"],
     });
 
-    DOMPurify.addHook("uponSanitizeAttribute", (node, data) => {
-        console.log("called from attr");
-        if (data.attrName === "style") {
-            const styles = data.attrValue
-                .split(";")
-                .map((style) => style.trim())
-                .filter((style) => style);
-
-            const safeStyles = styles.filter((style) => {
-                const [property] = style.split(":").map((item) => item.trim());
-                return allowedStyles.includes(property);
-            });
-
-            data.attrValue = safeStyles.join("; ");
-        }
-    });
+    listenForAttributeSanitization(allowedStyles, DOMPurify);
+    listenForElementSanitization(DOMPurify);
 
     try {
         const res = await prisma.blogPosts.update({
             where: { id: blogId, userId: session.user.id },
             data: {
                 blogTitle: blogTitle,
-                blogPost: blogPost,
+                blogPost: cleanedBlogPost,
             },
         });
 
