@@ -25,18 +25,18 @@ export default async function Page(): Promise<ReactElement> {
 
     if (blogs.length === 0) {
         return (
-            <div className="h-full w-full sm:w-5/6 lg:w-4/5 mx-auto flex flex-col items-center">
-                <div className="text-center m-3">
-                    <TypographyH1 text="My Blogs" />
+            <div className="h-[85%] w-full sm:w-5/6 lg:w-4/5 mx-auto flex items-center justify-center flex-col ">
+                <div className={"flex justify-center items-center"}>
+                    <TypographyH1 text={"Blogs"} />
                 </div>
-                <div>
+                <div className={"mb-2"}>
                     <TypographyP text={"You currently have no blogs"} />
-                    <Link href={"/builder"}>
-                        <Button>
-                            Build a Blog <Hammer />
-                        </Button>
-                    </Link>
                 </div>
+                <Link href={"/builder"}>
+                    <Button>
+                        Build a Blog <Hammer />
+                    </Button>
+                </Link>
             </div>
         );
     }
