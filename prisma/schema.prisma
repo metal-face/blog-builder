@@ -70,5 +70,6 @@ model BlogPosts {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   userId    String
+  pageViews Int       @default(0)
   user      User      @relation(fields: [userId], references: [id])
 }
