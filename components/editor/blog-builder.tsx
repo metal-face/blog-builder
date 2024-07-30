@@ -15,6 +15,9 @@ import { Check } from "lucide-react";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
+import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
+import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
+import { allowedStyles } from "@/models/allowed-styles";
 
 interface Props {
     blog?: BlogPosts;
@@ -46,60 +49,15 @@ export default function BlogBuilder({ blog }: Props) {
         },
     });
 
-    // Define a list of allowed CSS properties
-    const allowedStyles = [
-        "color",
-        "text-align",
-        "background-color",
-        "font-size",
-        "font-weight",
-        "font-style",
-        "font-family",
-        "padding",
-        "margin",
-        "border",
-        "border-radius",
-        "width",
-        "height",
-        "display",
-        "align-items",
-        "justify-content",
-    ];
-
     async function onSubmit(data: z.infer<typeof schema>) {
-        DOMPurify().addHook("uponSanitizeElement", (node, data) => {
-            if (data.tagName === "iframe") {
-                const src = node.getAttribute("src") || "";
-
-                if (src.startsWith("https://youtu.be") || src.startsWith("https://youtube.com")) {
-                    node.parentNode?.removeChild(node);
-                }
-            }
-        });
-
-        DOMPurify().addHook("uponSanitizeAttribute", (node, data) => {
-            if (data.attrName === "style") {
-                const styles = data.attrValue
-                    .split(";")
-                    .map((style) => style.trim())
-                    .filter((style) => style);
-
-                const safeStyles = styles.filter((style) => {
-                    const [property] = style.split(":").map((item) => item.trim());
-                    return allowedStyles.includes(property);
-                });
-
-                data.attrValue = safeStyles.join("; ");
-            }
-        });
-
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             FORBID_TAGS: ["script", "svg"],
             ADD_TAGS: ["iframe"],
             ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling", "style"],
         });
 
-        console.log("balls");
+        listenForAttributeSanitization(allowedStyles, DOMPurify());
+        listenForElementSanitization(DOMPurify());
 
         if (blog) {
             const res: Response = await fetch("/api/blogs", {
