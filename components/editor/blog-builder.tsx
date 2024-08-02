@@ -12,12 +12,12 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
+import { allowedStyles } from "@/models/allowed-styles";
 import DOMPurify from "dompurify";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
-import { allowedStyles } from "@/models/allowed-styles";
 
 interface Props {
     blog?: BlogPosts;
