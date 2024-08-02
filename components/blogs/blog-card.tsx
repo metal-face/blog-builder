@@ -6,7 +6,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import BlogActions from "@/components/blogs/blog-actions";
 import Link from "next/link";
-import { Undo } from "lucide-react";
+import { Eye, Undo } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Props {
     blog: BlogPosts;
@@ -122,6 +123,17 @@ export default function BlogCard({
                             {blog.blogTitle}
                         </CardTitle>
                     </Link>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <div className={"flex items-center space-x-1 absolute top-1 left-5"}>
+                                <Eye />
+                                <span className={"text-xs"}>{blog.pageViews.toLocaleString()}</span>
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <span>Blog Views</span>
+                        </TooltipContent>
+                    </Tooltip>
                 </CardHeader>
                 <CardContent>
                     <p className="text-center text-sm">{format(blog.createdAt, "PPPP")}</p>
