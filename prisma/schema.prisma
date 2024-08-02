@@ -2,8 +2,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// TODO: Change the contents of this schema to match the one provided here -> https://authjs.dev/reference/adapter/prisma#prismaadapter
-
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -72,4 +70,14 @@ model BlogPosts {
   userId    String
   pageViews Int       @default(0)
   user      User      @relation(fields: [userId], references: [id])
+  viewLogs  ViewLog[]
+}
+
+model ViewLog {
+  id        Int      @id @default(autoincrement())
+  postId    String
+  ipAddress String
+  createdAt DateTime @default(now())
+
+  BlogPost BlogPosts @relation(fields: [postId], references: [id])
 }
