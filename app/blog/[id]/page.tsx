@@ -3,8 +3,13 @@ import { TypographyH1 } from "@/components/typography/typography-h1";
 import Tiptap from "@/components/editor/tip-tap";
 import { NextRequest } from "next/server";
 
-export default async function Page({ params }: { params: { id: string } }, request: NextRequest) {
-    console.log("IP: ", request?.ip);
+export default async function Page({
+    params,
+    searchParams,
+}: {
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+}) {
     try {
         const blogPost: BlogPosts | null = await prisma.blogPosts.findFirst({
             where: { id: params.id },
