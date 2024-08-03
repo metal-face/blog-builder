@@ -50,6 +50,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   BlogPost      BlogPosts[]
+  LikeLog       LikeLog[]
 }
 
 model VerificationToken {
@@ -70,7 +71,9 @@ model BlogPosts {
   userId    String
   pageViews Int       @default(0)
   user      User      @relation(fields: [userId], references: [id])
+  likes     Int       @default(0)
   viewLogs  ViewLog[]
+  likeLogs  LikeLog[]
 }
 
 model ViewLog {
@@ -80,4 +83,15 @@ model ViewLog {
   createdAt DateTime @default(now())
 
   BlogPost BlogPosts @relation(fields: [postId], references: [id])
+}
+
+model LikeLog {
+  id        Int      @id @default(autoincrement())
+  postId    String
+  ipAddress String
+  userId    String
+  createdAt DateTime @default(now())
+
+  BlogPost BlogPosts @relation(fields: [postId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  User     User      @relation(fields: [userId], references: [id])
 }
