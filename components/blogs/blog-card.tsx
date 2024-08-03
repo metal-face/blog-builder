@@ -126,8 +126,8 @@ export default function BlogCard({
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <div className={"flex items-center space-x-1 absolute top-1 left-5"}>
-                                <Eye />
-                                <span className={"text-xs"}>{blog.pageViews.toLocaleString()}</span>
+                                <Eye className={"h-5 w-5"} />
+                                <span className={"text-sm"}>{blog.pageViews.toLocaleString()}</span>
                             </div>
                         </TooltipTrigger>
                         <TooltipContent>
