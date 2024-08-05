@@ -16,6 +16,22 @@ export async function incrementLike(
     currentLikeCount: number
 ): Promise<ReturnItems> {
     try {
+        const hasLiked: LikeLog | null = await prisma.likeLog.findFirst({
+            where: {
+                ipAddress: ipAddress,
+                postId: blogPostId,
+                userId: userId,
+            },
+        });
+
+        if (hasLiked) {
+            return {
+                updatedLikeCount: currentLikeCount,
+                hasLiked: false,
+                hasToggledDislike: false,
+            };
+        }
+
         const hasDisliked: DislikeLog | null = await prisma.dislikeLog.findFirst({
             where: {
                 ipAddress: ipAddress,
@@ -39,22 +55,6 @@ export async function incrementLike(
             });
 
             return { updatedLikeCount: like.likes, hasLiked: false, hasToggledDislike: true };
-        }
-
-        const hasLiked: LikeLog | null = await prisma.likeLog.findFirst({
-            where: {
-                ipAddress: ipAddress,
-                postId: blogPostId,
-                userId: userId,
-            },
-        });
-
-        if (hasLiked) {
-            return {
-                updatedLikeCount: currentLikeCount,
-                hasLiked: false,
-                hasToggledDislike: false,
-            };
         }
 
         await prisma.likeLog.create({

@@ -60,7 +60,7 @@ export default function LikeDislikeButton({
         <div className={"flex items-center space-x-0"}>
             <Button
                 variant={"link"}
-                disabled={likeStatus || loading}
+                disabled={liked || loading}
                 onClick={async () => {
                     setLoading(true);
                     const { updatedLikeCount, hasLiked, hasToggledDislike } = await incrementLike(
@@ -92,7 +92,7 @@ export default function LikeDislikeButton({
             </Tooltip>
             <Button
                 variant={"link"}
-                disabled={dislikeStatus || loading}
+                disabled={disliked || loading}
                 onClick={async () => {
                     setLoading(true);
                     const { updatedLikeCount, hasToggledLike, hasDisliked } = await decrementLike(
