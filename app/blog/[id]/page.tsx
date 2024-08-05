@@ -60,14 +60,7 @@ export default async function Page({
         where: { id: params.id },
     });
 
-    if (
-        blogPost &&
-        blogPost.blogPost &&
-        blogPost.blogTitle &&
-        searchParams.ip &&
-        session &&
-        session.user.id
-    ) {
+    if (blogPost && blogPost.blogPost && blogPost.blogTitle && searchParams.ip) {
         let hasLiked: LikeLog | null = null;
         let hasDisliked: DislikeLog | null = null;
 
@@ -75,7 +68,7 @@ export default async function Page({
             where: {
                 postId: params.id,
                 ipAddress: searchParams.ip,
-                userId: session.user.id,
+                userId: session?.user.id,
             },
         });
 
@@ -84,7 +77,7 @@ export default async function Page({
                 where: {
                     ipAddress: searchParams.ip,
                     postId: params.id,
-                    userId: session.user.id,
+                    userId: session?.user.id,
                 },
             });
         }
@@ -100,7 +93,7 @@ export default async function Page({
                                 initialLikes={blogPost.likes}
                                 blogPostId={blogPost.id}
                                 ipAddress={searchParams.ip}
-                                userId={session?.user.id}
+                                userId={session?.user.id || ""}
                                 likeStatus={!!hasLiked}
                                 dislikeStatus={!!hasDisliked}
                             />
