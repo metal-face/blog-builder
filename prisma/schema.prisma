@@ -41,16 +41,17 @@ model Session {
 }
 
 model User {
-  id            String      @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String
-  email         String      @unique
+  email         String       @unique
   emailVerified DateTime?
   image         String?
-  role          RoleTypes   @default(USER)
+  role          RoleTypes    @default(USER)
   accounts      Account[]
   sessions      Session[]
   BlogPost      BlogPosts[]
   LikeLog       LikeLog[]
+  DislikeLog    DislikeLog[]
 }
 
 model VerificationToken {
@@ -62,18 +63,19 @@ model VerificationToken {
 }
 
 model BlogPosts {
-  id        String    @id @default(cuid())
-  blogTitle String?
-  blogPost  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  userId    String
-  pageViews Int       @default(0)
-  user      User      @relation(fields: [userId], references: [id])
-  likes     Int       @default(0)
-  viewLogs  ViewLog[]
-  likeLogs  LikeLog[]
+  id         String       @id @default(cuid())
+  blogTitle  String?
+  blogPost   String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  deletedAt  DateTime?
+  userId     String
+  pageViews  Int          @default(0)
+  user       User         @relation(fields: [userId], references: [id])
+  likes      Int          @default(0)
+  viewLogs   ViewLog[]
+  likeLogs   LikeLog[]
+  DislikeLog DislikeLog[]
 }
 
 model ViewLog {
@@ -86,12 +88,23 @@ model ViewLog {
 }
 
 model LikeLog {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   postId    String
   ipAddress String
   userId    String
   createdAt DateTime @default(now())
 
-  BlogPost BlogPosts @relation(fields: [postId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  BlogPost BlogPosts @relation(fields: [postId], references: [id])
+  User     User      @relation(fields: [userId], references: [id])
+}
+
+model DislikeLog {
+  id        String   @id @default(cuid())
+  postId    String
+  ipAddress String
+  userId    String
+  createdAt DateTime @default(now())
+
+  BlogPost BlogPosts @relation(fields: [postId], references: [id])
   User     User      @relation(fields: [userId], references: [id])
 }
