@@ -11,9 +11,9 @@ interface SearchParams {
     ip: string | undefined;
 }
 
-export const revalidate: number = 0;
-export const dynamic: string = "force-dynamic";
-export const dynamicParams: boolean = true;
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 
 export default async function Page({
     params,
