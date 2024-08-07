@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { incrementLike } from "@/actions/increment-likes";
 import { decrementLike } from "@/actions/decrement-like";
 import React, { useState } from "react";
+import { determineDislikeFill, determineLikeFill } from "@/lib/helpers";
 
 interface Props {
     initialLikes: number;
@@ -32,30 +33,6 @@ export default function LikeDislikeButton({
     const [likeFill, setLikeFill] = useState<string>(likeStatus ? "yellow" : "");
     const [dislikeFill, setDislikeFill] = useState<string>(dislikeStatus ? "yellow" : "");
 
-    function determineLikeFill(hasLiked: boolean, hasToggledDislike: boolean): void {
-        if (hasLiked && !hasToggledDislike) {
-            setLiked(true);
-            setLikeFill("yellow");
-        }
-
-        if (hasToggledDislike && !hasLiked) {
-            setDislikeFill("transparent");
-            setDisliked(false);
-        }
-    }
-
-    function determineDislikeFill(hasDisliked: boolean, hasToggledLike: boolean): void {
-        if (hasDisliked && !hasToggledLike) {
-            setDislikeFill("yellow");
-            setDisliked(true);
-        }
-
-        if (hasToggledLike && !hasDisliked) {
-            setLikeFill("transparent");
-            setLiked(false);
-        }
-    }
-
     return (
         <div className={"flex items-center space-x-0"}>
             <Button
@@ -71,7 +48,14 @@ export default function LikeDislikeButton({
                     );
                     setLikes(updatedLikeCount);
                     setLoading(false);
-                    determineLikeFill(hasLiked, hasToggledDislike);
+                    determineLikeFill({
+                        hasLiked,
+                        hasToggledDislike,
+                        setLiked,
+                        setLikeFill,
+                        setDisliked,
+                        setDislikeFill,
+                    });
                 }}
             >
                 {loading ? <ReloadIcon className={"mr-2 h-4 w-4 animate-spin"} /> : null}
@@ -103,7 +87,14 @@ export default function LikeDislikeButton({
                     );
                     setLikes(updatedLikeCount);
                     setLoading(false);
-                    determineDislikeFill(hasDisliked, hasToggledLike);
+                    determineDislikeFill({
+                        hasDisliked,
+                        hasToggledLike,
+                        setLiked,
+                        setLikeFill,
+                        setDislikeFill,
+                        setDisliked,
+                    });
                 }}
             >
                 <ThumbsDown
