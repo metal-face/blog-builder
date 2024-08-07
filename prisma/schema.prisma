@@ -8,26 +8,20 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-enum RoleTypes {
-  USER
-  ADMIN
-}
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -48,10 +42,10 @@ model User {
   image         String?
   role          RoleTypes    @default(USER)
   accounts      Account[]
-  sessions      Session[]
   BlogPost      BlogPosts[]
-  LikeLog       LikeLog[]
   DislikeLog    DislikeLog[]
+  LikeLog       LikeLog[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -71,40 +65,42 @@ model BlogPosts {
   deletedAt  DateTime?
   userId     String
   pageViews  Int          @default(0)
-  user       User         @relation(fields: [userId], references: [id])
   likes      Int          @default(0)
-  viewLogs   ViewLog[]
-  likeLogs   LikeLog[]
+  user       User         @relation(fields: [userId], references: [id])
   DislikeLog DislikeLog[]
+  likeLogs   LikeLog[]
+  viewLogs   ViewLog[]
 }
 
 model ViewLog {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   postId    String
   ipAddress String
-  createdAt DateTime @default(now())
-
-  BlogPost BlogPosts @relation(fields: [postId], references: [id])
+  createdAt DateTime  @default(now())
+  BlogPost  BlogPosts @relation(fields: [postId], references: [id])
 }
 
 model LikeLog {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   postId    String
   ipAddress String
+  createdAt DateTime  @default(now())
   userId    String
-  createdAt DateTime @default(now())
-
-  BlogPost BlogPosts @relation(fields: [postId], references: [id])
-  User     User      @relation(fields: [userId], references: [id])
+  BlogPost  BlogPosts @relation(fields: [postId], references: [id])
+  User      User      @relation(fields: [userId], references: [id])
 }
 
 model DislikeLog {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   postId    String
   ipAddress String
   userId    String
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  BlogPost  BlogPosts @relation(fields: [postId], references: [id])
+  User      User      @relation(fields: [userId], references: [id])
+}
 
-  BlogPost BlogPosts @relation(fields: [postId], references: [id])
-  User     User      @relation(fields: [userId], references: [id])
+enum RoleTypes {
+  USER
+  ADMIN
 }
