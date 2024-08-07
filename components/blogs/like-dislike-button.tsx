@@ -30,8 +30,8 @@ export default function LikeDislikeButton({
     const [loading, setLoading] = useState<boolean>(false);
     const [liked, setLiked] = useState<boolean>(likeStatus);
     const [disliked, setDisliked] = useState<boolean>(dislikeStatus);
-    const [likeFill, setLikeFill] = useState<string>(likeStatus ? "yellow" : "");
-    const [dislikeFill, setDislikeFill] = useState<string>(dislikeStatus ? "yellow" : "");
+    const [likeFill, setLikeFill] = useState<string>(liked ? "yellow" : "");
+    const [dislikeFill, setDislikeFill] = useState<string>(disliked ? "yellow" : "");
 
     return (
         <div className={"flex items-center space-x-0"}>
