@@ -1,18 +1,57 @@
-import { BlogPosts } from "@prisma/client";
+import { Dispatch, SetStateAction } from "react";
 
-export async function fetchBlogById(blogId: string): Promise<BlogPosts | Error> {
-    if (!blogId) {
-        return new Error("No blogId passed in!");
+interface LikeProps {
+    hasLiked: boolean;
+    hasToggledDislike: boolean;
+    setLiked: Dispatch<SetStateAction<boolean>>;
+    setLikeFill: Dispatch<SetStateAction<string>>;
+    setDislikeFill: Dispatch<SetStateAction<string>>;
+    setDisliked: Dispatch<SetStateAction<boolean>>;
+}
+
+interface DislikeProps {
+    hasDisliked: boolean;
+    hasToggledLike: boolean;
+    setLiked: Dispatch<SetStateAction<boolean>>;
+    setLikeFill: Dispatch<SetStateAction<string>>;
+    setDislikeFill: Dispatch<SetStateAction<string>>;
+    setDisliked: Dispatch<SetStateAction<boolean>>;
+}
+
+export function determineLikeFill({
+    hasLiked,
+    hasToggledDislike,
+    setLiked,
+    setLikeFill,
+    setDislikeFill,
+    setDisliked,
+}: LikeProps): void {
+    if (hasLiked && !hasToggledDislike) {
+        setLiked(true);
+        setLikeFill("yellow");
     }
 
-    const res = await fetch(`/api/blogs/${blogId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    if (hasToggledDislike && !hasLiked) {
+        setDislikeFill("transparent");
+        setDisliked(false);
+    }
+}
 
-    const payload = await res.json();
+export function determineDislikeFill({
+    hasDisliked,
+    hasToggledLike,
+    setLiked,
+    setLikeFill,
+    setDislikeFill,
+    setDisliked,
+}: DislikeProps): void {
+    if (hasDisliked && !hasToggledLike) {
+        setDislikeFill("yellow");
+        setDisliked(true);
+    }
 
-    return payload.data as BlogPosts;
+    if (hasToggledLike && !hasDisliked) {
+        setLikeFill("transparent");
+        setLiked(false);
+    }
 }
