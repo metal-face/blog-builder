@@ -2,6 +2,7 @@
 
 import { LikeLog } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 interface ReturnValues {
     updatedLikeCount: number;
@@ -56,6 +57,7 @@ export async function decrementLike(
                 },
             });
 
+            revalidatePath("/blogs");
             return { updatedLikeCount: dislike.likes, hasToggledLike: true, hasDisliked: false };
         }
 
@@ -76,10 +78,12 @@ export async function decrementLike(
             },
         });
 
+        revalidatePath("/blogs");
         return { updatedLikeCount: dislike.likes, hasToggledLike: false, hasDisliked: true };
     } catch (err: any) {
         console.error(err);
     }
 
+    revalidatePath("/blogs");
     return { updatedLikeCount: currentLikeCount, hasToggledLike: false, hasDisliked: false };
 }
