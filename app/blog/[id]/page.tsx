@@ -2,14 +2,18 @@ import { prisma, BlogPosts } from "@/lib/prisma";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { auth } from "@/auth/auth";
 import { DislikeLog, LikeLog, ViewLog } from "@prisma/client";
+import { Session } from "next-auth";
 import React, { ReactElement } from "react";
 import Tiptap from "@/components/editor/tip-tap";
 import LikeDislikeButton from "@/components/blogs/like-dislike-button";
-import { Session } from "next-auth";
 
 interface SearchParams {
     ip: string | undefined;
 }
+
+export const revalidate: number = 0;
+export const dynamic: string = "force-dynamic";
+export const dynamicParams: boolean = true;
 
 export default async function Page({
     params,
