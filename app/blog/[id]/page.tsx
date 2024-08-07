@@ -1,10 +1,11 @@
 import { prisma, BlogPosts } from "@/lib/prisma";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { auth } from "@/auth/auth";
+import { DislikeLog, LikeLog, ViewLog } from "@prisma/client";
 import React, { ReactElement } from "react";
 import Tiptap from "@/components/editor/tip-tap";
 import LikeDislikeButton from "@/components/blogs/like-dislike-button";
-import { DislikeLog, LikeLog } from "@prisma/client";
+import { Session } from "next-auth";
 
 interface SearchParams {
     ip: string | undefined;
@@ -17,11 +18,11 @@ export default async function Page({
     params: { id: string };
     searchParams: SearchParams;
 }): Promise<ReactElement> {
-    const session = await auth();
+    const session: Session | null = await auth();
 
     if (searchParams.ip && params.id) {
         try {
-            const hasViewed = await prisma.viewLog.findFirst({
+            const hasViewed: ViewLog | null = await prisma.viewLog.findFirst({
                 where: {
                     postId: {
                         contains: params.id,
