@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BlogPosts } from "@prisma/client";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,12 +13,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 
 interface Props {
     blog: BlogPosts;
-    triggerDelete: boolean;
-    blogIdToDelete: string;
-    setFetchData: Dispatch<SetStateAction<boolean>>;
-    setDialogVisibility: Dispatch<SetStateAction<boolean>>;
-    setBlogIdToDelete: Dispatch<SetStateAction<string>>;
-    setTriggerDelete: Dispatch<SetStateAction<boolean>>;
+    triggerDelete?: boolean;
+    blogIdToDelete?: string;
+    setFetchData?: Dispatch<SetStateAction<boolean>>;
+    setDialogVisibility?: Dispatch<SetStateAction<boolean>>;
+    setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
+    setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function BlogCard({
@@ -56,8 +58,10 @@ export default function BlogCard({
                 });
             }
 
-            setFetchData(true);
-            setTriggerDelete(false);
+            if (setFetchData && setTriggerDelete) {
+                setFetchData(true);
+                setTriggerDelete(false);
+            }
         }
 
         if (triggerDelete && blogIdToDelete === blog.id) {
@@ -89,9 +93,11 @@ export default function BlogCard({
                             ),
                         });
 
-                        setBlogIdToDelete("");
-                        setTriggerDelete(false);
-                        setFetchData(true);
+                        if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
+                            setBlogIdToDelete("");
+                            setTriggerDelete(false);
+                            setFetchData(true);
+                        }
                     }
                 } catch (err: any) {
                     console.error(err);
@@ -138,13 +144,18 @@ export default function BlogCard({
                 <CardContent>
                     <p className="text-center text-sm">{format(blog.createdAt, "PPPP")}</p>
                 </CardContent>
-                <CardFooter>
-                    <BlogActions
-                        setDialogVisibility={setDialogVisibility}
-                        blogId={blog.id}
-                        setBlogIdToDelete={setBlogIdToDelete}
-                    />
-                </CardFooter>
+
+                {setDialogVisibility && setBlogIdToDelete ? (
+                    <CardFooter>
+                        <BlogActions
+                            setDialogVisibility={setDialogVisibility}
+                            blogId={blog.id}
+                            setBlogIdToDelete={setBlogIdToDelete}
+                        />
+                    </CardFooter>
+                ) : (
+                    <></>
+                )}
             </Card>
         </>
     );
