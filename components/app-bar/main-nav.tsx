@@ -1,6 +1,6 @@
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { auth } from "@/auth/auth";
-import { Hammer, Home, LogIn, Scroll } from "lucide-react";
+import { Hammer, Home, LogIn, Rss, Scroll } from "lucide-react";
 import { Variants } from "@/models/variants";
 import { Session } from "next-auth";
 import ConditionalButton from "@/components/app-bar/conditional-button";
@@ -20,6 +20,16 @@ export async function MainNav(): Promise<ReactElement> {
                     <Clock />
                 </div>
                 <div className="h-full flex items-center gap-2">
+                    <ConditionalButton
+                        variant={Variants.LINK}
+                        classes="p-0"
+                        name="Home"
+                        path="/"
+                        visible={true}
+                    >
+                        <Home className="ml-1 scale-75" />
+                    </ConditionalButton>
+
                     <ConditionalButton
                         classes="p-0"
                         name="Blogs"
@@ -41,13 +51,13 @@ export async function MainNav(): Promise<ReactElement> {
                     </ConditionalButton>
 
                     <ConditionalButton
+                        name={"Feed"}
+                        path={"/feed"}
+                        classes={"p-0"}
                         variant={Variants.LINK}
-                        classes="p-0"
-                        name="Home"
-                        path="/"
-                        visible={true}
+                        visible={!!session}
                     >
-                        <Home className="ml-1 scale-75" />
+                        <Rss className={"ml-1 scale-75"} />
                     </ConditionalButton>
 
                     <div>
