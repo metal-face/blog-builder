@@ -66,6 +66,7 @@ model BlogPosts {
   userId     String
   pageViews  Int          @default(0)
   likes      Int          @default(0)
+  private    Boolean      @default(false)
   user       User         @relation(fields: [userId], references: [id])
   DislikeLog DislikeLog[]
   likeLogs   LikeLog[]
