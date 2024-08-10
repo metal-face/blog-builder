@@ -8,7 +8,14 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BlogPosts } from "@prisma/client";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
@@ -18,6 +25,7 @@ import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Props {
     blog?: BlogPosts;
@@ -38,6 +46,7 @@ export default function BlogBuilder({ blog }: Props) {
             .min(20, { message: "Blog post must be at least 20 characters" })
             .max(20000)
             .trim(),
+        isPrivate: z.boolean(),
     });
 
     const form = useForm<z.infer<typeof schema>>({
@@ -46,6 +55,7 @@ export default function BlogBuilder({ blog }: Props) {
         defaultValues: {
             blogTitle: blog?.blogTitle || "Write a Blog Title!",
             blogPost: blog?.blogPost || "Hello World 🌎",
+            isPrivate: blog?.private || false,
         },
     });
 
@@ -69,6 +79,7 @@ export default function BlogBuilder({ blog }: Props) {
                     blogId: blog.id,
                     blogPost: data.blogPost,
                     blogTitle: data.blogTitle,
+                    isPrivate: data.isPrivate,
                 }),
             });
 
@@ -100,6 +111,7 @@ export default function BlogBuilder({ blog }: Props) {
                 body: JSON.stringify({
                     blogTitle: data.blogTitle,
                     blogPost: sanitizedPost,
+                    isPrivate: data.isPrivate,
                 }),
             });
 
@@ -188,7 +200,24 @@ export default function BlogBuilder({ blog }: Props) {
                         )}
                     />
                 </div>
-                <div className="w-full sm:w-11/12 mx-auto flex justify-end items-center">
+                <div className="w-full sm:w-11/12 mx-auto flex justify-between items-center">
+                    <FormField
+                        name={"isPrivate"}
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <div className={"flex items-center space-x-2"}>
+                                    <FormLabel>Private</FormLabel>
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                </div>
+                            </FormItem>
+                        )}
+                    />
                     <Button
                         size={"lg"}
                         type="submit"
