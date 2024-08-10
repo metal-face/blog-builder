@@ -16,6 +16,7 @@ const DOMPurify = createDOMPurify(window);
 interface PostData {
     blogTitle: string;
     blogPost: string;
+    isPrivate: boolean;
 }
 
 interface DeleteData {
@@ -31,12 +32,13 @@ interface PutPayload {
     blogId: string;
     blogPost: string;
     blogTitle: string;
+    isPrivate: boolean;
 }
 
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
-    const { blogTitle, blogPost }: PostData = (await req.json()) as PostData;
+    const { blogTitle, blogPost, isPrivate }: PostData = (await req.json()) as PostData;
 
     if (!session || !session.user.id) {
         return Response.json({}, { status: 401, statusText: "Unauthorized" });
@@ -65,6 +67,7 @@ export async function POST(req: Request): Promise<Response> {
             data: {
                 blogTitle: blogTitle,
                 blogPost: cleanPost,
+                private: isPrivate,
                 userId: session.user.id,
                 updatedAt: updatedAt,
             },
@@ -132,7 +135,7 @@ export async function GET(req: NextRequest): Promise<Response> {
 
 export async function PUT(req: NextRequest): Promise<Response> {
     const session = await auth();
-    const { blogId, blogPost, blogTitle }: PutPayload = (await req.json()) as PutPayload;
+    const { blogId, blogPost, blogTitle, isPrivate }: PutPayload = (await req.json()) as PutPayload;
 
     if (!session || !blogId || !blogPost || !blogTitle) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
@@ -153,6 +156,7 @@ export async function PUT(req: NextRequest): Promise<Response> {
             data: {
                 blogTitle: blogTitle,
                 blogPost: cleanedBlogPost,
+                private: isPrivate,
             },
         });
 
