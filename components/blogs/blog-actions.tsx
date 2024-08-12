@@ -17,7 +17,8 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault();
                             setBlogIdToDelete(blogId);
                             setDialogVisibility(true);
                         }}
@@ -35,7 +36,8 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault();
                             router.push(`/builder/${blogId}`);
                         }}
                         size={"icon"}
