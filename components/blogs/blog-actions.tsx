@@ -13,7 +13,7 @@ interface Props {
 export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDelete }: Props) {
     const router = useRouter();
     return (
-        <div className={"gap-2 flex w-full items-center justify-end "}>
+        <div className={"gap-2 flex w-full items-center justify-end"}>
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button

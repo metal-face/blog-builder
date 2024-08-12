@@ -26,7 +26,10 @@ export default function ImageDialog({ editor }: Props) {
         <Dialog>
             <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
-                    <DialogTrigger asChild>
+                    <DialogTrigger
+                        asChild
+                        className="bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 rounded-xl"
+                    >
                         <Button size={"sm"} variant={"ghost"}>
                             <ImageIcon />
                         </Button>

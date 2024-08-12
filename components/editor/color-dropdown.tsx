@@ -20,7 +20,10 @@ export default function ColorDropdown({ editor }: Props) {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger
+                asChild
+                className="bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 rounded-xl"
+            >
                 <Button className="text-xs" size={"sm"} variant={"ghost"}>
                     Colors <ChevronDown className="ml-2" size={15} />
                 </Button>

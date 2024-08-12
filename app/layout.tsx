@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <link rel="icon" href="/icon.tsx" type="image/png" sizes="32x32" />
                 <title>Blog Builder</title>
             </head>
-            <body className={inter.className + " overflow-x-hidden"}>
+            <body className={inter.className + " overflow-x-hidden bg-zinc-100 dark:bg-zinc-900"}>
                 <Analytics />
                 <main className="h-screen w-screen">
                     <Providers>

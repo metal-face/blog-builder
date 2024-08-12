@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+.bg-grid {
+    background-size: 69px 69px;
+    background-image: linear-gradient(to bottom, #8888 1px, transparent 1px);
+}
+.bg-dots {
+    background-size: 42px 42px;
+    background-image: radial-gradient(circle, #8888 1px, rgba(0, 0, 0, 0) 1px);
+}
+
+.animate-fadein {
+    opacity: 0;
+    animation: fadeIn 0.5s 0.25s linear forwards;
+}
+
+.animate-fadeinscale {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 /* Basic editor styles */
 .tiptap {
     > * + * {
@@ -127,6 +154,7 @@ ul[data-type="taskList"] {
 
 .editor {
     height: calc(100vh - 19rem);
+    @apply bg-zinc-200 dark:bg-zinc-800 rounded-2xl;
 }
 
 .github::before {
