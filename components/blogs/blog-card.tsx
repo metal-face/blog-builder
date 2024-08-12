@@ -121,17 +121,15 @@ export default function BlogCard({
     ]);
 
     return (
-        <>
-            <Card className="hover:outline-1 drop-shadow-3xl m-2 hover:scale-105 transform-gpu transition-transform duration-300">
+        <Link href={`/blog/${blog.id}`}>
+            <Card className="hover:outline-1 group active:scale-100 hover:shadow-md active:shadow-sm active:duration-75 cursor-pointer drop-shadow-3xl m-2 hover:scale-105 transform-gpu transition-all duration-300">
                 <CardHeader>
-                    <Link href={`/blog/${blog.id}`}>
-                        <CardTitle className="text-center hover:underline">
-                            {blog.blogTitle}
-                        </CardTitle>
-                    </Link>
+                    <CardTitle className="text-left group-hover:underline">
+                        {blog.blogTitle}
+                    </CardTitle>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <div className={"flex items-center space-x-1 absolute top-1 left-5"}>
+                            <div className={"flex items-center space-x-1 absolute top-4 right-6"}>
                                 <Eye className={"h-5 w-5"} />
                                 <span className={"text-sm"}>{blog.pageViews.toLocaleString()}</span>
                             </div>
@@ -142,7 +140,7 @@ export default function BlogCard({
                     </Tooltip>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-center text-sm">{format(blog.createdAt, "PPPP")}</p>
+                    <p className="text-left opacity-60 text-sm">{format(blog.createdAt, "PPPP")}</p>
                 </CardContent>
 
                 {setDialogVisibility && setBlogIdToDelete ? (
@@ -157,6 +155,6 @@ export default function BlogCard({
                     <></>
                 )}
             </Card>
-        </>
+        </Link>
     );
 }

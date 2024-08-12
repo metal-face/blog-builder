@@ -182,7 +182,7 @@ export default function BlogBuilder({ blog }: Props) {
                         <BlogTitle blogTitle={form.getValues().blogTitle} />
                     </div>
                 ) : null}
-                <div className="w-full sm:w-11/12  sm:mx-auto mx-2">
+                <div className="w-full sm:w-11/12 sm:mx-auto mx-2">
                     <FormField
                         control={form.control}
                         name="blogPost"
@@ -222,7 +222,7 @@ export default function BlogBuilder({ blog }: Props) {
                         size={"lg"}
                         type="submit"
                         variant="secondary"
-                        className="py-1 text-white hover:bg-green-400 hover:text-black"
+                        className="py-1 text-green-700 bg-green-500/20 dark:text-white hover:bg-green-400 hover:text-black"
                     >
                         Submit
                     </Button>

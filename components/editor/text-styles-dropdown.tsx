@@ -25,7 +25,10 @@ export default function TextStylesDropdown({ editor }: Props) {
     if (!editor) return null;
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger
+                asChild
+                className="bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 rounded-xl"
+            >
                 <Button className="text-xs" variant={"ghost"} size={"sm"}>
                     Styles <ChevronDown className="ml-1" size={15} />
                 </Button>

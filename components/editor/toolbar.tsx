@@ -16,7 +16,7 @@ export default function Toolbar({ editor }: Props) {
     }
 
     return (
-        <div className="w-full rounded-bl-none rounded-br-none h-auto bg-transparent rounded flex flex-nowrap justify-center items-center">
+        <div className="w-full rounded-bl-none rounded-br-none h-auto gap-2 pb-2 bg-transparent rounded flex flex-nowrap justify-center items-center">
             <TextDropdown editor={editor} />
             <TextStylesDropdown editor={editor} />
             <ColorDropdown editor={editor} />

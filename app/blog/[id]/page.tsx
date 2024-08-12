@@ -87,8 +87,12 @@ export default async function Page({
         }
 
         return (
-            <div className={"h-4/5 w-full sm:w-11/12 mx-auto flex justify-center flex-col"}>
-                <div className={"text-center mb-2"}>
+            <div
+                className={
+                    "h-[calc(100vh-5rem)] w-full sm:w-11/12 mx-auto flex flex-col max-w-[80ch]"
+                }
+            >
+                <div className={"text-left mb-2 mt-6"}>
                     <TypographyH1 text={blogPost.blogTitle} />
 
                     {session ? (
@@ -111,7 +115,7 @@ export default async function Page({
         );
     }
     return (
-        <div className="h-4/5 w-full flex justify-center items-center">
+        <div className="h-[calc(100vh-5rem)] w-full flex justify-center">
             <TypographyH1 text={"Oops! We couldn't find your blog"} />
         </div>
     );
