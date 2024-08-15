@@ -46,6 +46,7 @@ model User {
   DislikeLog    DislikeLog[]
   LikeLog       LikeLog[]
   sessions      Session[]
+  ViewLog       ViewLog[]
 }
 
 model VerificationToken {
@@ -78,7 +79,9 @@ model ViewLog {
   postId    String
   ipAddress String
   createdAt DateTime  @default(now())
+  userId    String?
   BlogPost  BlogPosts @relation(fields: [postId], references: [id])
+  User      User?     @relation(fields: [userId], references: [id])
 }
 
 model LikeLog {
