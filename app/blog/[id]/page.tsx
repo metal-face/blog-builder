@@ -23,16 +23,18 @@ export default async function Page({
 }): Promise<ReactElement> {
     const session: Session | null = await auth();
 
-    if (searchParams.ip && params.id) {
+    if (params.id && searchParams.ip) {
         try {
             const hasViewed: ViewLog | null = await prisma.viewLog.findFirst({
                 where: {
-                    postId: {
-                        contains: params.id,
-                    },
-                    ipAddress: {
-                        contains: searchParams.ip,
-                    },
+                    AND: [
+                        {
+                            postId: params.id,
+                        },
+                        {
+                            userId: session?.user.id,
+                        },
+                    ],
                 },
             });
 
@@ -41,6 +43,7 @@ export default async function Page({
                     data: {
                         ipAddress: searchParams.ip,
                         postId: params.id,
+                        userId: session?.user.id,
                     },
                 });
 
