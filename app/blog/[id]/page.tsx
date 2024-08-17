@@ -27,9 +27,10 @@ export default async function Page({
         try {
             const hasViewed: ViewLog | null = await prisma.viewLog.findFirst({
                 where: {
-                    AND: [
+                    postId: params.id,
+                    OR: [
                         {
-                            postId: params.id,
+                            ipAddress: searchParams.ip,
                         },
                         {
                             userId: session?.user.id,
