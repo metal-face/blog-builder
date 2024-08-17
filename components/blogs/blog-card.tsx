@@ -6,10 +6,10 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { format } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import BlogActions from "@/components/blogs/blog-actions";
-import Link from "next/link";
 import { Eye, Undo } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import BlogActions from "@/components/blogs/blog-actions";
+import Link from "next/link";
 
 interface Props {
     blog: BlogPosts;
@@ -122,9 +122,9 @@ export default function BlogCard({
 
     return (
         <Link href={`/blog/${blog.id}`}>
-            <Card className="hover:outline-1 group active:scale-100 hover:shadow-md active:shadow-sm active:duration-75 cursor-pointer drop-shadow-3xl m-2 hover:scale-105 transform-gpu transition-all duration-300">
+            <Card className="hover:outline-1 flex flex-col justify-between h-full group active:scale-100 hover:shadow-md active:shadow-sm active:duration-75 cursor-pointer drop-shadow-3xl  hover:scale-105 transform-gpu transition-all duration-300">
                 <CardHeader>
-                    <CardTitle className="text-left group-hover:underline">
+                    <CardTitle className="text-left group-hover:underline text-lg sm:text-sm md:text-md lg:text-lg">
                         {blog.blogTitle}
                     </CardTitle>
                     <Tooltip>
@@ -140,7 +140,9 @@ export default function BlogCard({
                     </Tooltip>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-left opacity-60 text-sm">{format(blog.createdAt, "PPPP")}</p>
+                    <p className="text-left opacity-60 text-sm sm:text-xs">
+                        {format(blog.createdAt, "PPPP")}
+                    </p>
                 </CardContent>
 
                 {setDialogVisibility && setBlogIdToDelete ? (
