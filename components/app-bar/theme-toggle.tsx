@@ -14,9 +14,15 @@ import {
     DropdownMenuTrigger,
     DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
+import { useEffect, useState } from "react";
 
 export function ThemeToggle() {
     const { setTheme, theme, systemTheme } = useTheme();
+    const [mounted, setMounted] = useState<boolean>(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, [setMounted]);
 
     function determineTheme(): string | undefined {
         switch (theme) {
@@ -30,6 +36,8 @@ export function ThemeToggle() {
                 break;
         }
     }
+
+    if (!mounted) return null;
 
     return (
         <DropdownMenu>
