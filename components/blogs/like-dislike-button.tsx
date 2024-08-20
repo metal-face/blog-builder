@@ -30,8 +30,8 @@ export default function LikeDislikeButton({
     const [loading, setLoading] = useState<boolean>(false);
     const [liked, setLiked] = useState<boolean>(likeStatus);
     const [disliked, setDisliked] = useState<boolean>(dislikeStatus);
-    const [likeFill, setLikeFill] = useState<string>(liked ? "yellow" : "");
-    const [dislikeFill, setDislikeFill] = useState<string>(disliked ? "yellow" : "");
+    const [likeFill, setLikeFill] = useState<string>(liked ? "red" : "transparent");
+    const [dislikeFill, setDislikeFill] = useState<string>(disliked ? "red" : "transparent");
 
     return (
         <div className={"flex items-center space-x-0"}>
@@ -60,11 +60,7 @@ export default function LikeDislikeButton({
             >
                 {loading ? <ReloadIcon className={"mr-2 h-4 w-4 animate-spin"} /> : null}
 
-                <ThumbsUp
-                    className={"h-4 w-4"}
-                    fill={likeFill}
-                    color={liked ? likeFill : "white"}
-                />
+                <ThumbsUp className={"h-4 w-4"} fill={likeFill} color={liked ? likeFill : "grey"} />
             </Button>
             <Tooltip>
                 <TooltipTrigger>
@@ -100,7 +96,7 @@ export default function LikeDislikeButton({
                 <ThumbsDown
                     className={"h-4 w-4"}
                     fill={dislikeFill}
-                    color={disliked ? dislikeFill : "white"}
+                    color={disliked ? dislikeFill : "grey"}
                 />
             </Button>
         </div>
