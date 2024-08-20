@@ -10,6 +10,7 @@ import { Eye, Undo } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import BlogActions from "@/components/blogs/blog-actions";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
     blog: BlogPosts;
@@ -32,93 +33,86 @@ export default function BlogCard({
 }: Props) {
     const { toast } = useToast();
 
-    useEffect(() => {
-        async function undoDeletePost(blogId: string) {
-            const res = await fetch("/api/blogs", {
+    const undoDeleteMutation = useMutation({
+        mutationKey: ["undoDeletion"],
+        mutationFn: () => {
+            return fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ blogId: blogId, revertDelete: true }),
+                body: JSON.stringify({ blogId: blog.id, revertDelete: true }),
             });
-
-            if (res.ok) {
-                toast({
-                    title: "Success! 🎉",
-                    description: "Your deletion has been reverted!",
-                    className: "bg-[#6cc070]",
-                });
-            }
-
-            if (res.status === 400 || res.status === 500) {
-                toast({
-                    title: "Oops!",
-                    description: "Something went wrong!",
-                    variant: "destructive",
-                });
-            }
-
+        },
+        onSuccess: () => {
             if (setFetchData && setTriggerDelete) {
                 setFetchData(true);
                 setTriggerDelete(false);
             }
+            toast({
+                title: "Success! 🎉",
+                description: "Your deletion has been reverted!",
+                className: "bg-[#6cc070]",
+            });
+        },
+        onError: () => {
+            toast({
+                title: "Oops!",
+                description: "Something went wrong!",
+                variant: "destructive",
+            });
+        },
+    });
+
+    const deleteMutation = useMutation({
+        mutationKey: ["deletePost"],
+        mutationFn: () => {
+            return fetch("/api/blogs", {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ blogId: blog.id }),
+            });
+        },
+        onMutate: () => {},
+        onSuccess: () => {
+            if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
+                setBlogIdToDelete("");
+                setTriggerDelete(false);
+                setFetchData(true);
+            }
+            toast({
+                title: "Success!",
+                description: "You have successfully deleted the blog post!",
+                className: "bg-[#6cc070]",
+                duration: 2500,
+                action: (
+                    <ToastAction
+                        altText={"Undo"}
+                        onClick={async () => {
+                            await undoDeleteMutation.mutateAsync();
+                        }}
+                    >
+                        Undo <Undo />
+                    </ToastAction>
+                ),
+            });
+        },
+        onError: () => {
+            toast({
+                title: "Oops!",
+                description: "Something went wrong!",
+                variant: "destructive",
+            });
+        },
+    });
+
+    useEffect(() => {
+        if (triggerDelete && blogIdToDelete === blog.id && deleteMutation.status === "idle") {
+            deleteMutation.mutate();
         }
-
-        if (triggerDelete && blogIdToDelete === blog.id) {
-            const deleteBlogPost = async (): Promise<void> => {
-                try {
-                    const res = await fetch("/api/blogs", {
-                        method: "PATCH",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ blogId: blog.id }),
-                    });
-
-                    if (res.ok) {
-                        toast({
-                            title: "Success!",
-                            description: "You have successfully deleted the blog post!",
-                            className: "bg-[#6cc070]",
-                            duration: 1500,
-                            action: (
-                                <ToastAction
-                                    altText={"Undo"}
-                                    onClick={async () => {
-                                        await undoDeletePost(blogIdToDelete);
-                                    }}
-                                >
-                                    Undo <Undo />
-                                </ToastAction>
-                            ),
-                        });
-
-                        if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
-                            setBlogIdToDelete("");
-                            setTriggerDelete(false);
-                            setFetchData(true);
-                        }
-                    }
-                } catch (err: any) {
-                    console.error(err);
-                    toast({
-                        title: "Oops!",
-                        description: "Something went wrong!",
-                        variant: "destructive",
-                    });
-                }
-            };
-            deleteBlogPost();
-        }
-    }, [
-        blog,
-        toast,
-        setFetchData,
-        triggerDelete,
-        blogIdToDelete,
-        setBlogIdToDelete,
-        setTriggerDelete,
-    ]);
+    }, [deleteMutation, blog, triggerDelete, blogIdToDelete]);
 
     return (
         <Link href={`/blog/${blog.id}`}>
