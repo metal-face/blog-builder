@@ -35,8 +35,8 @@ export default function BlogCard({
 
     const undoDeleteMutation = useMutation({
         mutationKey: ["undoDeletion"],
-        mutationFn: () => {
-            return fetch("/api/blogs", {
+        mutationFn: async () => {
+            return await fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -66,8 +66,8 @@ export default function BlogCard({
 
     const deleteMutation = useMutation({
         mutationKey: ["deletePost"],
-        mutationFn: () => {
-            return fetch("/api/blogs", {
+        mutationFn: async () => {
+            return await fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,7 +75,6 @@ export default function BlogCard({
                 body: JSON.stringify({ blogId: blog.id }),
             });
         },
-        onMutate: () => {},
         onSuccess: () => {
             if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
                 setBlogIdToDelete("");
@@ -109,9 +108,15 @@ export default function BlogCard({
     });
 
     useEffect(() => {
-        if (triggerDelete && blogIdToDelete === blog.id && deleteMutation.status === "idle") {
-            deleteMutation.mutate();
+        async function triggerDeletePost() {
+            if (triggerDelete && blogIdToDelete === blog.id && deleteMutation.status === "idle") {
+                await deleteMutation.mutateAsync();
+            }
         }
+
+        triggerDeletePost().then(() => {
+            return;
+        });
     }, [deleteMutation, blog, triggerDelete, blogIdToDelete]);
 
     return (
