@@ -28,7 +28,7 @@ export function determineLikeFill({
 }: LikeProps): void {
     if (hasLiked && !hasToggledDislike) {
         setLiked(true);
-        setLikeFill("yellow");
+        setLikeFill("red");
     }
 
     if (hasToggledDislike && !hasLiked) {
@@ -46,7 +46,7 @@ export function determineDislikeFill({
     setDisliked,
 }: DislikeProps): void {
     if (hasDisliked && !hasToggledLike) {
-        setDislikeFill("yellow");
+        setDislikeFill("red");
         setDisliked(true);
     }
 
