@@ -4,13 +4,12 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { BlogPosts } from "@prisma/client";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
-import { useToast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
-import { Eye, Undo } from "lucide-react";
+import { Eye } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import BlogActions from "@/components/blogs/blog-actions";
 import Link from "next/link";
-import { useMutation } from "@tanstack/react-query";
+import { useUndoDelete } from "@/functions/blog/undo-delete";
+import { useDeletePost } from "@/functions/blog/delete-post";
 
 interface Props {
     blog: BlogPosts;
@@ -31,93 +30,27 @@ export default function BlogCard({
     setBlogIdToDelete,
     setTriggerDelete,
 }: Props) {
-    const { toast } = useToast();
+    const { undoDeleteMutateAsync } = useUndoDelete({ setTriggerDelete, setFetchData, blog });
 
-    const undoDeleteMutation = useMutation({
-        mutationKey: ["undoDeletion"],
-        mutationFn: async () => {
-            return await fetch("/api/blogs", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ blogId: blog.id, revertDelete: true }),
-            });
-        },
-        onSuccess: () => {
-            if (setFetchData && setTriggerDelete) {
-                setFetchData(true);
-                setTriggerDelete(false);
-            }
-            toast({
-                title: "Success! 🎉",
-                description: "Your deletion has been reverted!",
-                className: "bg-[#6cc070]",
-            });
-        },
-        onError: () => {
-            toast({
-                title: "Oops!",
-                description: "Something went wrong!",
-                variant: "destructive",
-            });
-        },
-    });
-
-    const deleteMutation = useMutation({
-        mutationKey: ["deletePost"],
-        mutationFn: async () => {
-            return await fetch("/api/blogs", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ blogId: blog.id }),
-            });
-        },
-        onSuccess: () => {
-            if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
-                setBlogIdToDelete("");
-                setTriggerDelete(false);
-                setFetchData(true);
-            }
-            toast({
-                title: "Success!",
-                description: "You have successfully deleted the blog post!",
-                className: "bg-[#6cc070]",
-                duration: 2500,
-                action: (
-                    <ToastAction
-                        altText={"Undo"}
-                        onClick={async () => {
-                            await undoDeleteMutation.mutateAsync();
-                        }}
-                    >
-                        Undo <Undo />
-                    </ToastAction>
-                ),
-            });
-        },
-        onError: () => {
-            toast({
-                title: "Oops!",
-                description: "Something went wrong!",
-                variant: "destructive",
-            });
-        },
+    const { mutateAsync, status } = useDeletePost({
+        blog,
+        setFetchData,
+        setTriggerDelete,
+        setBlogIdToDelete,
+        undoDeleteMutateAsync,
     });
 
     useEffect(() => {
         async function triggerDeletePost() {
-            if (triggerDelete && blogIdToDelete === blog.id && deleteMutation.status === "idle") {
-                await deleteMutation.mutateAsync();
+            if (triggerDelete && blogIdToDelete === blog.id && status === "idle") {
+                await mutateAsync();
             }
         }
 
         triggerDeletePost().then(() => {
             return;
         });
-    }, [deleteMutation, blog, triggerDelete, blogIdToDelete]);
+    }, [blog, triggerDelete, blogIdToDelete, mutateAsync, status]);
 
     return (
         <Link href={`/blog/${blog.id}`}>
