@@ -8,50 +8,14 @@ import { Eye } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import BlogActions from "@/components/blogs/blog-actions";
 import Link from "next/link";
-import { useUndoDelete } from "@/functions/blog/undo-delete";
-import { useDeletePost } from "@/functions/blog/delete-post";
 
 interface Props {
     blog: BlogPosts;
-    triggerDelete?: boolean;
-    blogIdToDelete?: string;
-    setFetchData?: Dispatch<SetStateAction<boolean>>;
     setDialogVisibility?: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
-    setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function BlogCard({
-    blog,
-    triggerDelete,
-    blogIdToDelete,
-    setFetchData,
-    setDialogVisibility,
-    setBlogIdToDelete,
-    setTriggerDelete,
-}: Props) {
-    const { undoDeleteMutateAsync } = useUndoDelete({ setTriggerDelete, setFetchData, blog });
-
-    const { mutateAsync, status } = useDeletePost({
-        blog,
-        setFetchData,
-        setTriggerDelete,
-        setBlogIdToDelete,
-        undoDeleteMutateAsync,
-    });
-
-    useEffect(() => {
-        async function triggerDeletePost() {
-            if (triggerDelete && blogIdToDelete === blog.id && status === "idle") {
-                await mutateAsync();
-            }
-        }
-
-        triggerDeletePost().then(() => {
-            return;
-        });
-    }, [blog, triggerDelete, blogIdToDelete, mutateAsync, status]);
-
+export default function BlogCard({ blog, setDialogVisibility, setBlogIdToDelete }: Props) {
     return (
         <Link href={`/blog/${blog.id}`}>
             <Card className="hover:outline-1 flex flex-col justify-between h-full group active:scale-100 hover:shadow-md active:shadow-sm active:duration-75 cursor-pointer drop-shadow-3xl  hover:scale-105 transform-gpu transition-all duration-300">
