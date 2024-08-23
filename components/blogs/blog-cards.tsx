@@ -18,6 +18,7 @@ export default function BlogCards({ initData }: Props) {
     const [triggerDelete, setTriggerDelete] = useState<boolean>(false);
     const [dialogVisibility, setDialogVisibility] = useState<boolean>(false);
     const [blogIdToDelete, setBlogIdToDelete] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
     const queryClient = useQueryClient();
 
     const { undoDeleteMutation } = useUndoDelete({
@@ -46,6 +47,7 @@ export default function BlogCards({ initData }: Props) {
             blog={blog}
             setDialogVisibility={setDialogVisibility}
             setBlogIdToDelete={setBlogIdToDelete}
+            loading={loading}
         />
     ));
 
@@ -61,6 +63,7 @@ export default function BlogCards({ initData }: Props) {
                     blog={blog}
                     setDialogVisibility={setDialogVisibility}
                     setBlogIdToDelete={setBlogIdToDelete}
+                    loading={loading}
                 />
             ));
 
@@ -78,9 +81,11 @@ export default function BlogCards({ initData }: Props) {
 
     const handleDeleteConfirm = async () => {
         if (blogIdToDelete) {
+            setLoading(true);
             setDialogVisibility(false);
             await deleteMutation.mutateAsync();
             setFetchData(true);
+            setLoading(false);
         }
     };
 
