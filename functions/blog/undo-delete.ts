@@ -1,27 +1,26 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { BlogPosts } from "@prisma/client";
+import { Dispatch, SetStateAction } from "react";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
     setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
-    blog: BlogPosts;
+    blogId?: string;
+    queryClient: QueryClient;
 }
 
-export function useUndoDelete({ setFetchData, setTriggerDelete, blog }: Props) {
+export function useUndoDelete({ setFetchData, setTriggerDelete, blogId, queryClient }: Props) {
     const { toast } = useToast();
-    const queryClient = useQueryClient();
 
-    const { mutateAsync } = useMutation({
-        mutationKey: ["undoDeletion"],
+    const undoDeleteMutation = useMutation({
+        mutationKey: ["undoDeletion", blogId],
         mutationFn: async () => {
             return await fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ blogId: blog.id, revertDelete: true }),
+                body: JSON.stringify({ blogId: blogId, revertDelete: true }),
             });
         },
         onSuccess: async () => {
@@ -47,7 +46,5 @@ export function useUndoDelete({ setFetchData, setTriggerDelete, blog }: Props) {
         },
     });
 
-    const undoDeleteMutateAsync = mutateAsync;
-
-    return { undoDeleteMutateAsync };
+    return { undoDeleteMutation };
 }
