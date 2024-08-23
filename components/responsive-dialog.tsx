@@ -21,16 +21,11 @@ import { Button } from "@/components/ui/button";
 interface Props {
     visible: boolean;
     setVisibility: Dispatch<SetStateAction<boolean>>;
-    setTriggerDelete: Dispatch<SetStateAction<boolean>>;
+    onConfirm: () => Promise<void>;
 }
 
-function ResponsiveDialog({ visible, setVisibility, setTriggerDelete }: Props) {
+function ResponsiveDialog({ visible, setVisibility, onConfirm }: Props) {
     const isDesktop: boolean = useMediaQuery("(min-width: 768px)");
-
-    function handleButtonClick() {
-        setTriggerDelete(true);
-        setVisibility(false);
-    }
 
     if (isDesktop) {
         return (
@@ -42,7 +37,7 @@ function ResponsiveDialog({ visible, setVisibility, setTriggerDelete }: Props) {
                             Are you sure you would like to delete this blog?
                         </DialogDescription>
                     </DialogHeader>
-                    <Button variant={"destructive"} size={"lg"} onClick={handleButtonClick}>
+                    <Button variant={"destructive"} size={"lg"} onClick={onConfirm}>
                         Delete
                     </Button>
                 </DialogContent>
@@ -59,7 +54,7 @@ function ResponsiveDialog({ visible, setVisibility, setTriggerDelete }: Props) {
                     </DrawerDescription>
                 </DrawerHeader>
                 <DrawerFooter>
-                    <Button variant={"destructive"} size={"lg"} onClick={handleButtonClick}>
+                    <Button variant={"destructive"} size={"lg"} onClick={onConfirm}>
                         Delete
                     </Button>
                 </DrawerFooter>
