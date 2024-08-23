@@ -14,7 +14,7 @@ interface Props {
     blog: BlogPosts;
     setDialogVisibility?: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
-    loading: boolean;
+    loading?: boolean;
 }
 
 export default function BlogCard({ blog, setDialogVisibility, setBlogIdToDelete, loading }: Props) {
