@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { Session } from "next-auth";
 import { auth } from "@/auth/auth";
 import { redirect } from "next/navigation";
-import BlogCard from "@/components/blogs/blog-card";
+import Feed from "@/components/feed/feed";
 
 export default async function Page() {
     const session: Session | null = await auth();
@@ -12,9 +12,28 @@ export default async function Page() {
         redirect("/login");
     }
 
-    const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
+    const numOfBlogs = await prisma.blogPosts.count({
         where: {
-            private: false,
+            AND: [{ private: false }, { deletedAt: null }],
+        },
+    });
+
+    const numOfPages = Math.ceil(numOfBlogs / 5);
+    const currentPage = 0;
+    const take = 5;
+
+    const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
+        skip: take * currentPage,
+        take: take,
+        where: {
+            AND: [
+                {
+                    private: false,
+                },
+                {
+                    deletedAt: null,
+                },
+            ],
         },
     });
 
@@ -27,12 +46,8 @@ export default async function Page() {
     }
 
     return (
-        <div className={"w-full flex flex-col items-center space-y-2"}>
-            {blogs.map((blog) => (
-                <div className={"w-full sm:w-7/8 md:w-1/2 lg:w-1/3 mx-auto m-0 p-0"} key={blog.id}>
-                    <BlogCard blog={blog} />
-                </div>
-            ))}
+        <div className={"w-full h-[90%] items-center justify-center space-y-2"}>
+            <Feed numberOfPages={numOfPages} initData={blogs} />
         </div>
     );
 }
