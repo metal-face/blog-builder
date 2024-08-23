@@ -19,9 +19,14 @@ export async function decrementLike(
     try {
         const hasDisliked = await prisma.dislikeLog.findFirst({
             where: {
-                ipAddress: ipAddress,
-                postId: blogPostId,
-                userId: userId,
+                AND: [
+                    {
+                        postId: blogPostId,
+                    },
+                    {
+                        userId: userId,
+                    },
+                ],
             },
         });
 
@@ -35,9 +40,14 @@ export async function decrementLike(
 
         const hasLiked: LikeLog | null = await prisma.likeLog.findFirst({
             where: {
-                ipAddress: ipAddress,
-                userId: userId,
-                postId: blogPostId,
+                AND: [
+                    {
+                        userId: userId,
+                    },
+                    {
+                        postId: blogPostId,
+                    },
+                ],
             },
         });
 
