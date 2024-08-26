@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface Props {
     fetchData: boolean;
+    enabled: boolean;
+    setEnabled: Dispatch<SetStateAction<boolean>>;
+    page: number;
 }
 
-export function useFetchAllBlogs({ fetchData }: Props) {
-    const [enabled, setEnabled] = useState<boolean>(false);
-
+export function useFetchAllBlogs({ fetchData, enabled, setEnabled, page }: Props) {
     useEffect(() => {
         if (fetchData) {
             setEnabled(true);
@@ -18,7 +19,7 @@ export function useFetchAllBlogs({ fetchData }: Props) {
         queryKey: ["fetchBlogs"],
         enabled: enabled,
         queryFn: async () => {
-            const res = await fetch("/api/blogs", {
+            const res = await fetch(`/api/blogs?take=${6}&page=${page}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
