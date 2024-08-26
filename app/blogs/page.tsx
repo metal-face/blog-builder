@@ -19,7 +19,17 @@ export default async function Page(): Promise<ReactElement> {
         redirect("/login");
     }
 
+    const numOfBlogs: number = await prisma.blogPosts.count({
+        where: {
+            AND: [{ userId: session.user.id }, { deletedAt: null }],
+        },
+    });
+
+    const numOfPages = numOfBlogs / 5;
+
     const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
+        skip: 0,
+        take: 6,
         where: { userId: session.user.id, deletedAt: null },
     });
 
@@ -42,33 +52,32 @@ export default async function Page(): Promise<ReactElement> {
     }
 
     return (
-        <>
-            <div className="w-full sm:w-5/6 lg:w-4/5 mx-auto flex flex-col items-center">
-                <div className="text-center m-3">
-                    <TypographyH1 text="My Blogs" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full gap-2">
-                    <BlogCards initData={blogs} />
-                    <div className={"h-fit w-fit m-auto absolute bottom-8 right-8"}>
-                        <Link href={"/builder"}>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button
-                                        className={
-                                            "rounded-full m-2 h-24 w-24 bg-green-500 dark:bg-green-400 hover:bg-green-400 dark:hover:bg-green-500 hover:rotate-[360deg] duration-500 ease-in-out transition-all transform-gpu"
-                                        }
-                                    >
-                                        <Pencil className={"w-8 h-8"} />
-                                    </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <span>New Post</span>
-                                </TooltipContent>
-                            </Tooltip>
-                        </Link>
-                    </div>
-                </div>
+        <div className="w-full h-[90%] sm:w-5/6 lg:w-4/5 mx-auto flex flex-col justify-center items-center">
+            <div
+                className={
+                    "flex flex-col justify-center items-center w-5/6 sm:w-full h-full sm:h-[90%] md:h-[80%] lg:h-[70%]"
+                }
+            >
+                <BlogCards initData={blogs} numOfPages={numOfPages} />
             </div>
-        </>
+            <div className={"h-fit w-fit m-auto absolute bottom-8 right-8"}>
+                <Link href={"/builder"}>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                className={
+                                    "rounded-full m-2 h-24 w-24 bg-green-500 dark:bg-green-400 hover:bg-green-400 dark:hover:bg-green-500 hover:rotate-[360deg] duration-500 ease-in-out transition-all transform-gpu"
+                                }
+                            >
+                                <Pencil className={"w-8 h-8"} />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <span>New Post</span>
+                        </TooltipContent>
+                    </Tooltip>
+                </Link>
+            </div>
+        </div>
     );
 }
