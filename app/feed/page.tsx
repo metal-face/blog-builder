@@ -18,9 +18,9 @@ export default async function Page() {
         },
     });
 
-    const numOfPages = Math.ceil(numOfBlogs / 5);
+    const numOfPages = Math.ceil(numOfBlogs / 6);
     const currentPage = 0;
-    const take = 5;
+    const take = 6;
 
     const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
         skip: take * currentPage,
@@ -46,7 +46,7 @@ export default async function Page() {
     }
 
     return (
-        <div className={"w-full h-[90%] items-center justify-center space-y-2"}>
+        <div className={"w-5/6 mx-auto h-[90%] items-center justify-center space-y-2"}>
             <Feed numberOfPages={numOfPages} initData={blogs} />
         </div>
     );
