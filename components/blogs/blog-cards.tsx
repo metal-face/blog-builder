@@ -2,24 +2,28 @@
 
 import React, { ReactElement, useEffect, useState } from "react";
 import { BlogPosts } from "@prisma/client";
-import BlogCard from "@/components/blogs/blog-card";
-import ResponsiveDialog from "@/components/responsive-dialog";
 import { useFetchAllBlogs } from "@/functions/blogs/fetch-all-blogs";
-import { useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { useUndoDelete } from "@/functions/blog/undo-delete";
 import { useDeletePost } from "@/functions/blog/delete-post";
+import BlogCard from "@/components/blogs/blog-card";
+import ResponsiveDialog from "@/components/responsive-dialog";
+import CustomPagination from "@/components/pagination";
 
 interface Props {
     initData: BlogPosts[];
+    numOfPages: number;
 }
 
-export default function BlogCards({ initData }: Props) {
+export default function BlogCards({ initData, numOfPages }: Props) {
     const [fetchData, setFetchData] = useState<boolean>(false);
     const [triggerDelete, setTriggerDelete] = useState<boolean>(false);
     const [dialogVisibility, setDialogVisibility] = useState<boolean>(false);
     const [blogIdToDelete, setBlogIdToDelete] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const queryClient = useQueryClient();
+    const [page, setPage] = useState<number>(0);
+    const [enabled, setEnabled] = useState<boolean>(false);
+    const queryClient: QueryClient = useQueryClient();
 
     const { undoDeleteMutation } = useUndoDelete({
         setTriggerDelete,
@@ -37,7 +41,7 @@ export default function BlogCards({ initData }: Props) {
         queryClient,
     });
 
-    const { fetchAllQuery } = useFetchAllBlogs({ fetchData });
+    const { fetchAllQuery } = useFetchAllBlogs({ fetchData, enabled, setEnabled, page });
 
     const { data, isSuccess } = fetchAllQuery;
 
@@ -54,7 +58,8 @@ export default function BlogCards({ initData }: Props) {
     const [blogData, setBlogData] = useState<ReactElement[]>(InitBlogCards);
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && data.length > 0) {
+            setEnabled(false);
             const newBlogPosts: BlogPosts[] = data as BlogPosts[];
 
             const transformed: ReactElement[] = newBlogPosts.map((blog: BlogPosts) => (
@@ -70,11 +75,12 @@ export default function BlogCards({ initData }: Props) {
             setBlogData(transformed);
             setFetchData(false);
         }
-    }, [blogIdToDelete, data, deleteMutation.status, isSuccess, triggerDelete]);
+    }, [blogIdToDelete, data, deleteMutation.status, isSuccess, loading, triggerDelete]);
 
     useEffect(() => {
         if (triggerDelete && blogIdToDelete) {
             setFetchData(true);
+            setEnabled(true);
             setTriggerDelete(false);
         }
     }, [triggerDelete, blogIdToDelete]);
@@ -96,7 +102,15 @@ export default function BlogCards({ initData }: Props) {
                 setVisibility={setDialogVisibility}
                 onConfirm={handleDeleteConfirm}
             />
-            {blogData}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-full w-full gap-2 place-content-center">
+                {blogData}
+            </div>
+            <CustomPagination
+                numberOfPages={numOfPages}
+                setPage={setPage}
+                setEnabled={setEnabled}
+                page={page}
+            />
         </>
     );
 }
