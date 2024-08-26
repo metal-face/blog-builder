@@ -9,6 +9,7 @@ import { useDeletePost } from "@/functions/blog/delete-post";
 import BlogCard from "@/components/blogs/blog-card";
 import ResponsiveDialog from "@/components/responsive-dialog";
 import CustomPagination from "@/components/pagination";
+import { useFetchPostsCount } from "@/functions/blogs/fetch-count";
 
 interface Props {
     initData: BlogPosts[];
@@ -23,6 +24,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
     const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(0);
     const [enabled, setEnabled] = useState<boolean>(false);
+    const [numberOfPages, setNumberOfPages] = useState(numOfPages);
     const queryClient: QueryClient = useQueryClient();
 
     const { undoDeleteMutation } = useUndoDelete({
@@ -44,6 +46,14 @@ export default function BlogCards({ initData, numOfPages }: Props) {
     const { fetchAllQuery } = useFetchAllBlogs({ fetchData, enabled, setEnabled, page });
 
     const { data, isSuccess } = fetchAllQuery;
+
+    const count = useFetchPostsCount();
+
+    useEffect(() => {
+        if (count.isSuccess) {
+            setNumberOfPages(Math.ceil(count.data.count / 6));
+        }
+    }, [count.data, count.isSuccess]);
 
     const InitBlogCards: ReactElement[] = initData.map((blog: BlogPosts) => (
         <BlogCard
@@ -72,6 +82,10 @@ export default function BlogCards({ initData, numOfPages }: Props) {
                 />
             ));
 
+            count.refetch().then((res) => {
+                setNumberOfPages(Math.ceil(res.data.count / 6));
+            });
+
             setBlogData(transformed);
             setFetchData(false);
         }
@@ -91,6 +105,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
             setDialogVisibility(false);
             await deleteMutation.mutateAsync();
             setFetchData(true);
+            setEnabled(true);
             setLoading(false);
         }
     };
@@ -106,7 +121,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
                 {blogData}
             </div>
             <CustomPagination
-                numberOfPages={numOfPages}
+                numberOfPages={numberOfPages}
                 setPage={setPage}
                 setEnabled={setEnabled}
                 page={page}
