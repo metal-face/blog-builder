@@ -13,13 +13,13 @@ interface Props {
 
 export default function Feed({ numberOfPages, initData }: Props) {
     const transformed = initData.map((blog) => (
-        <div className={"w-full sm:w-7/8 md:w-1/2 lg:w-1/3 mx-auto m-0 p-0"} key={blog.id}>
+        <div className={"w-full mx-auto m-0 p-0"} key={blog.id}>
             <BlogCard blog={blog} />
         </div>
     ));
 
     const [page, setPage] = useState<number>(0);
-    const [take, setTake] = useState<number>(5);
+    const [take, setTake] = useState<number>(6);
     const [blogData, setBlogData] = useState<ReactElement[]>(transformed);
     const [enabled, setEnabled] = useState<boolean>(false);
 
@@ -46,7 +46,7 @@ export default function Feed({ numberOfPages, initData }: Props) {
         if (isSuccess && data) {
             const payload = data.blogs as BlogPosts[];
             const transformed = payload.map((blog) => (
-                <div className={"w-full sm:w-7/8 md:w-1/2 lg:w-1/3 mx-auto m-0 p-0"} key={blog.id}>
+                <div className={"w-full mx-auto m-0 p-0"} key={blog.id}>
                     <BlogCard blog={blog} />
                 </div>
             ));
@@ -58,7 +58,10 @@ export default function Feed({ numberOfPages, initData }: Props) {
     if (blogData.length > 0) {
         return (
             <div className={"w-full space-y-2 h-full flex flex-col justify-center"}>
-                {blogData}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-full w-full gap-2 place-content-center">
+                    {blogData}
+                </div>
+
                 <CustomPagination
                     numberOfPages={numberOfPages}
                     setPage={setPage}
