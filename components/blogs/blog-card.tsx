@@ -20,7 +20,7 @@ interface Props {
 export default function BlogCard({ blog, setDialogVisibility, setBlogIdToDelete, loading }: Props) {
     return (
         <Link href={`/blog/${blog.id}`}>
-            <Card className="hover:outline-1 flex flex-col justify-between h-full group active:scale-100 hover:shadow-md active:shadow-sm active:duration-75 cursor-pointer drop-shadow-3xl  hover:scale-105 transform-gpu transition-all duration-300">
+            <Card className="hover:outline-1 flex flex-col w-full justify-between h-[180px] group active:scale-100 hover:shadow-md active:shadow-sm active:duration-75 cursor-pointer drop-shadow-3xl  hover:scale-105 transform-gpu transition-all duration-300">
                 {loading ? <Skeleton className={"h-full w-full absolute"} /> : null}
                 <CardHeader>
                     <CardTitle className="text-left group-hover:underline text-lg sm:text-sm md:text-md lg:text-lg">
