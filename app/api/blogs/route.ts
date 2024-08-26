@@ -111,12 +111,17 @@ export async function DELETE(req: Request): Promise<Response> {
 export async function GET(req: NextRequest): Promise<Response> {
     const session: Session | null = await auth();
 
-    if (!session) {
+    const take: string | null = req.nextUrl.searchParams.get("take");
+    const page: string | null = req.nextUrl.searchParams.get("page");
+
+    if (!session || !take || !page) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
     try {
         const posts: BlogPosts[] = await prisma.blogPosts.findMany({
+            skip: parseInt(page) * parseInt(take),
+            take: parseInt(take),
             where: {
                 userId: session.user.id,
                 deletedAt: null,
