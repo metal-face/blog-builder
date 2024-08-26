@@ -26,6 +26,8 @@ import TipTap from "@/components/editor/tip-tap";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useCreatePost } from "@/functions/blog/create-post";
+import { useUpdatePost } from "@/functions/blog/update-post";
 
 interface Props {
     blog?: BlogPosts;
@@ -33,7 +35,8 @@ interface Props {
 
 export default function BlogBuilder({ blog }: Props) {
     const [editable, setEditable] = useState<boolean>(false);
-    const { toast } = useToast();
+    const createPostMutation = useCreatePost();
+    const updatePostMutation = useUpdatePost();
     const router: AppRouterInstance = useRouter();
 
     const schema = z.object({
@@ -70,66 +73,31 @@ export default function BlogBuilder({ blog }: Props) {
         listenForElementSanitization(DOMPurify());
 
         if (blog) {
-            const res: Response = await fetch("/api/blogs", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    blogId: blog.id,
-                    blogPost: data.blogPost,
-                    blogTitle: data.blogTitle,
-                    isPrivate: data.isPrivate,
-                }),
+            await updatePostMutation.mutateAsync({
+                blogId: blog.id,
+                blogTitle: data.blogTitle,
+                blogPost: sanitizedPost,
+                isPrivate: data.isPrivate,
             });
 
-            if (res.ok) {
-                toast({
-                    title: "Success!",
-                    description: "You have successfully saved your blog 🚀",
-                    className: "bg-[#6cc070]",
-                });
-            }
-
-            if (!res.ok) {
-                toast({
-                    title: "Oops!",
-                    description: "Something went wrong!",
-                    variant: "destructive",
-                });
+            if (updatePostMutation.isError) {
+                return;
             }
 
             return router.push("/blogs");
         }
 
         if (!blog) {
-            const res: Response = await fetch("/api/blogs", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    blogTitle: data.blogTitle,
-                    blogPost: sanitizedPost,
-                    isPrivate: data.isPrivate,
-                }),
+            await createPostMutation.mutateAsync({
+                blogTitle: data.blogTitle,
+                blogPost: sanitizedPost,
+                isPrivate: data.isPrivate,
             });
 
-            if (res.ok) {
-                toast({
-                    title: "Success!",
-                    description: "You have successfully saved your blog 🚀",
-                    className: "bg-[#6cc070]",
-                });
+            if (createPostMutation.isError) {
+                return;
             }
 
-            if (!res.ok) {
-                toast({
-                    title: "Oops!",
-                    description: "Something went wrong!",
-                    variant: "destructive",
-                });
-            }
             return router.push("/blogs");
         }
     }
