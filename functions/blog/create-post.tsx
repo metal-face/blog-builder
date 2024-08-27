@@ -4,6 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 interface Props {
     blogTitle: string;
     blogPost: string;
+    isDraft: boolean;
     isPrivate: boolean;
 }
 
@@ -12,7 +13,7 @@ export function useCreatePost() {
 
     return useMutation({
         mutationKey: ["createPost"],
-        mutationFn: async ({ blogTitle, blogPost, isPrivate }: Props) => {
+        mutationFn: async ({ blogTitle, blogPost, isDraft, isPrivate }: Props) => {
             const res: Response = await fetch("/api/blogs", {
                 method: "POST",
                 headers: {
@@ -21,6 +22,7 @@ export function useCreatePost() {
                 body: JSON.stringify({
                     blogTitle: blogTitle,
                     blogPost: blogPost,
+                    isDraft: isDraft,
                     isPrivate: isPrivate,
                 }),
             });
