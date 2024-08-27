@@ -35,7 +35,6 @@ export function useCreatePost() {
             toast({
                 title: "Success!",
                 description: "You have successfully saved your blog 🚀",
-                className: "bg-[#6cc070]",
             });
         },
         onError: () => {
