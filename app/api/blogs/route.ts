@@ -16,6 +16,7 @@ const DOMPurify = createDOMPurify(window);
 interface PostData {
     blogTitle: string;
     blogPost: string;
+    isDraft: boolean;
     isPrivate: boolean;
 }
 
@@ -38,7 +39,7 @@ interface PutPayload {
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
-    const { blogTitle, blogPost, isPrivate }: PostData = (await req.json()) as PostData;
+    const { blogTitle, blogPost, isDraft, isPrivate }: PostData = (await req.json()) as PostData;
 
     if (!session || !session.user.id) {
         return Response.json({}, { status: 401, statusText: "Unauthorized" });
@@ -68,6 +69,7 @@ export async function POST(req: Request): Promise<Response> {
                 blogTitle: blogTitle,
                 blogPost: cleanPost,
                 private: isPrivate,
+                draft: isDraft,
                 userId: session.user.id,
                 updatedAt: updatedAt,
             },
