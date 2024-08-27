@@ -31,6 +31,9 @@ export default async function Page() {
                     private: false,
                 },
                 {
+                    draft: false,
+                },
+                {
                     deletedAt: null,
                 },
             ],
