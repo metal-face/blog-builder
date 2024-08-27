@@ -5,6 +5,7 @@ interface Props {
     blogId: string;
     blogTitle: string;
     blogPost: string;
+    isDraft: boolean;
     isPrivate: boolean;
 }
 
@@ -13,7 +14,7 @@ export function useUpdatePost() {
 
     return useMutation({
         mutationKey: ["updatePost"],
-        mutationFn: async ({ blogId, blogTitle, blogPost, isPrivate }: Props) => {
+        mutationFn: async ({ blogId, blogTitle, blogPost, isDraft, isPrivate }: Props) => {
             const res: Response = await fetch("/api/blogs", {
                 method: "PUT",
                 headers: {
@@ -23,6 +24,7 @@ export function useUpdatePost() {
                     blogId: blogId,
                     blogPost: blogPost,
                     blogTitle: blogTitle,
+                    isDraft: isDraft,
                     isPrivate: isPrivate,
                 }),
             });
