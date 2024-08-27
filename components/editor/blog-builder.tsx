@@ -2,7 +2,6 @@
 
 import * as z from "zod";
 import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -29,6 +28,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useCreatePost } from "@/functions/blog/create-post";
 import { useUpdatePost } from "@/functions/blog/update-post";
 import { useCreatePostDraft } from "@/functions/blog/create-post-draft";
+import { useUpdateDraft } from "@/functions/blog/update-draft";
 
 interface Props {
     blog?: BlogPosts;
@@ -39,6 +39,7 @@ export default function BlogBuilder({ blog }: Props) {
     const createPostMutation = useCreatePost();
     const updatePostMutation = useUpdatePost();
     const createPostDraft = useCreatePostDraft();
+    const updatePostDraft = useUpdateDraft();
     const router: AppRouterInstance = useRouter();
 
     const schema = z.object({
@@ -65,6 +66,7 @@ export default function BlogBuilder({ blog }: Props) {
     });
 
     async function onSubmit(data: z.infer<typeof schema>) {
+        console.log("triggered submit");
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             FORBID_TAGS: ["script", "svg"],
             ADD_TAGS: ["iframe"],
@@ -79,6 +81,7 @@ export default function BlogBuilder({ blog }: Props) {
                 blogId: blog.id,
                 blogTitle: data.blogTitle,
                 blogPost: sanitizedPost,
+                isDraft: false,
                 isPrivate: data.isPrivate,
             });
 
@@ -93,6 +96,7 @@ export default function BlogBuilder({ blog }: Props) {
             await createPostMutation.mutateAsync({
                 blogTitle: data.blogTitle,
                 blogPost: sanitizedPost,
+                isDraft: false,
                 isPrivate: data.isPrivate,
             });
 
@@ -105,6 +109,7 @@ export default function BlogBuilder({ blog }: Props) {
     }
 
     async function handleSaveDraft(data: z.infer<typeof schema>) {
+        console.log("triggered draft save");
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             FORBID_TAGS: ["script", "svg"],
             ADD_TAGS: ["iframe"],
@@ -114,12 +119,28 @@ export default function BlogBuilder({ blog }: Props) {
         listenForAttributeSanitization(allowedStyles, DOMPurify());
         listenForElementSanitization(DOMPurify());
 
-        await createPostDraft.mutateAsync({
-            blogTitle: data.blogTitle,
-            blogPost: sanitizedPost,
-            isPrivate: true,
-            isDraft: true,
-        });
+        if (blog) {
+            await updatePostDraft.mutateAsync({
+                blogId: blog.id,
+                blogTitle: data.blogTitle,
+                blogPost: sanitizedPost,
+                isDraft: true,
+                isPrivate: data.isPrivate,
+            });
+        }
+
+        if (updatePostDraft.isSuccess || updatePostDraft.isError) {
+            return;
+        }
+
+        if (!blog) {
+            await createPostDraft.mutateAsync({
+                blogTitle: data.blogTitle,
+                blogPost: sanitizedPost,
+                isPrivate: data.isPrivate,
+                isDraft: true,
+            });
+        }
 
         if (createPostDraft.isError || createPostDraft.isSuccess) {
             return;
@@ -139,7 +160,7 @@ export default function BlogBuilder({ blog }: Props) {
     return (
         <>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <form onSubmit={form.handleSubmit(onSubmit)} id={"blogForm"}>
                     {editable ? (
                         <div className="sm:w-3/5 w-5/5 my-3 sm:mx-auto mx-4 flex h-fit">
                             <div className="w-full">
@@ -211,21 +232,10 @@ export default function BlogBuilder({ blog }: Props) {
                                 </FormItem>
                             )}
                         />
-
-                        <div className={"flex space-x-2"}>
-                            <Button
-                                size={"lg"}
-                                type="submit"
-                                variant="secondary"
-                                className="py-1 text-green-700 bg-green-500/20 dark:text-white hover:bg-green-400 hover:text-black"
-                            >
-                                Submit
-                            </Button>
-                        </div>
                     </div>
                 </form>
             </Form>
-            <div className={"w-full flex justify-center items-center"}>
+            <div className={"flex justify-end space-x-2 w-full sm:w-11/12 sm:mx-auto"}>
                 <Button
                     onClick={async () => await handleSaveDraft(form.getValues())}
                     size={"lg"}
@@ -233,6 +243,15 @@ export default function BlogBuilder({ blog }: Props) {
                 >
                     Save Draft
                     <Save className={"ml-2"} />
+                </Button>
+                <Button
+                    form={"blogForm"}
+                    size={"lg"}
+                    type="submit"
+                    variant="secondary"
+                    className="py-1 text-green-700 bg-green-500/20 dark:text-white hover:bg-green-400 hover:text-black"
+                >
+                    Submit
                 </Button>
             </div>
         </>
