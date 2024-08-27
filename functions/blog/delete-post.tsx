@@ -46,7 +46,6 @@ export function useDeletePost({
             toast({
                 title: "Success!",
                 description: "You have successfully deleted the blog post!",
-                className: "bg-[#6cc070]",
                 duration: 2500,
                 action: (
                     <ToastAction
