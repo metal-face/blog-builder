@@ -34,7 +34,6 @@ export function useUndoDelete({ setFetchData, setTriggerDelete, blogId, queryCli
             toast({
                 title: "Success! 🎉",
                 description: "Your deletion has been reverted!",
-                className: "bg-[#6cc070]",
             });
         },
         onError: () => {
