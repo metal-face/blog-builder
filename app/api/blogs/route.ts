@@ -33,6 +33,7 @@ interface PutPayload {
     blogId: string;
     blogPost: string;
     blogTitle: string;
+    isDraft: boolean;
     isPrivate: boolean;
 }
 
@@ -142,7 +143,8 @@ export async function GET(req: NextRequest): Promise<Response> {
 
 export async function PUT(req: NextRequest): Promise<Response> {
     const session = await auth();
-    const { blogId, blogPost, blogTitle, isPrivate }: PutPayload = (await req.json()) as PutPayload;
+    const { blogId, blogPost, blogTitle, isDraft, isPrivate }: PutPayload =
+        (await req.json()) as PutPayload;
 
     if (!session || !blogId || !blogPost || !blogTitle) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
@@ -163,6 +165,7 @@ export async function PUT(req: NextRequest): Promise<Response> {
             data: {
                 blogTitle: blogTitle,
                 blogPost: cleanedBlogPost,
+                draft: isDraft,
                 private: isPrivate,
             },
         });
