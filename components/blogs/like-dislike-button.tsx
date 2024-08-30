@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { incrementLike } from "@/actions/increment-likes";
-import { decrementLike } from "@/actions/decrement-like";
+import { incrementLike } from "@/app/actions/increment-likes";
+import { decrementLike } from "@/app/actions/decrement-like";
 import { determineDislikeFill, determineLikeFill } from "@/lib/helpers";
 import React, { useState } from "react";
 
