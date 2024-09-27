@@ -34,6 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <meta name="twitter:description" content="" />
                 <meta name="twitter:image" content="https://blog-builder.com/api/og" />
 
+                <meta name="cf-2fa-verify" content="807835066d55c79" />
                 <link rel="icon" href="/icon.tsx" type="image/png" sizes="32x32" />
                 <title>Blog Builder</title>
             </head>
