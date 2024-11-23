@@ -43,6 +43,8 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         queryClient,
     });
 
+    // balls
+
     const { fetchAllQuery } = useFetchAllBlogs({ fetchData, enabled, setEnabled, page });
 
     const { data, isSuccess } = fetchAllQuery;
