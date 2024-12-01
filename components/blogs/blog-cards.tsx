@@ -34,6 +34,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         queryClient,
     });
 
+    // balls
     const { deleteMutation } = useDeletePost({
         blogId: blogIdToDelete,
         setFetchData,
