@@ -1,6 +1,6 @@
-import { Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
+import { Bold, Code, Italic, Strikethrough, Superscript, Underline } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
-import { Bold, Italic, Underline, Strikethrough, Superscript, Code } from "lucide-react";
 
 type Props = {
     editor: Editor | null;

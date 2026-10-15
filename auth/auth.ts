@@ -1,12 +1,12 @@
-import NextAuth from "next-auth";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
-import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
-import { RoleTypes } from "@/lib/prisma";
-import type { Adapter, AdapterUser } from "next-auth/adapters";
 import type { User } from "next-auth";
+import NextAuth from "next-auth";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
+import DiscordProvider from "next-auth/providers/discord";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import { RoleTypes } from "@/lib/prisma";
 
 if (!process.env.DISCORD_CLIENT_ID) {
     throw new Error("No DISCORD_CLIENT_ID has been provided.");

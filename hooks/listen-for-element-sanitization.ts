@@ -1,4 +1,4 @@
-import { DOMPurifyI } from "dompurify";
+import type { DOMPurifyI } from "dompurify";
 
 export default function listenForElementSanitization(domPurifyInstance: DOMPurifyI) {
     domPurifyInstance.addHook("uponSanitizeElement", (node, data) => {

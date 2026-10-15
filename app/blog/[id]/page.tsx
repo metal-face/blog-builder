@@ -1,11 +1,11 @@
-import { prisma, BlogPosts } from "@/lib/prisma";
-import { TypographyH1 } from "@/components/typography/typography-h1";
+import type { DislikeLog, LikeLog, ViewLog } from "@prisma/client";
+import type { Session } from "next-auth";
+import React, { type ReactElement } from "react";
 import { auth } from "@/auth/auth";
-import { DislikeLog, LikeLog, ViewLog } from "@prisma/client";
-import { Session } from "next-auth";
-import React, { ReactElement } from "react";
-import Tiptap from "@/components/editor/tip-tap";
 import LikeDislikeButton from "@/components/blogs/like-dislike-button";
+import Tiptap from "@/components/editor/tip-tap";
+import { TypographyH1 } from "@/components/typography/typography-h1";
+import { type BlogPosts, prisma } from "@/lib/prisma";
 
 interface SearchParams {
     ip: string | undefined;

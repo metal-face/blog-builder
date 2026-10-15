@@ -1,14 +1,14 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
-import { BlogPosts } from "@prisma/client";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import type { BlogPosts } from "@prisma/client";
 import { format } from "date-fns";
 import { Eye } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Skeleton } from "@/components/ui/skeleton";
-import BlogActions from "@/components/blogs/blog-actions";
 import Link from "next/link";
+import React, { type Dispatch, type SetStateAction } from "react";
+import BlogActions from "@/components/blogs/blog-actions";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Props {
     blog: BlogPosts;

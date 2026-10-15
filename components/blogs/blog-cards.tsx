@@ -1,14 +1,14 @@
 "use client";
 
-import React, { ReactElement, useEffect, useState } from "react";
-import { BlogPosts } from "@prisma/client";
-import { useFetchAllBlogs } from "@/functions/blogs/fetch-all-blogs";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { useUndoDelete } from "@/functions/blog/undo-delete";
-import { useDeletePost } from "@/functions/blog/delete-post";
+import type { BlogPosts } from "@prisma/client";
+import { type QueryClient, useQueryClient } from "@tanstack/react-query";
+import React, { type ReactElement, useEffect, useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
-import ResponsiveDialog from "@/components/responsive-dialog";
 import CustomPagination from "@/components/pagination";
+import ResponsiveDialog from "@/components/responsive-dialog";
+import { useDeletePost } from "@/functions/blog/delete-post";
+import { useUndoDelete } from "@/functions/blog/undo-delete";
+import { useFetchAllBlogs } from "@/functions/blogs/fetch-all-blogs";
 import { useFetchPostsCount } from "@/functions/blogs/fetch-count";
 
 interface Props {

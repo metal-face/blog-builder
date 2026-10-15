@@ -1,29 +1,28 @@
 "use client";
 
 import "@/app/globals.css";
-import { useEditor, EditorContent } from "@tiptap/react";
 import { mergeAttributes } from "@tiptap/core";
-import { Color } from "@tiptap/extension-color";
-import { createLowlight, all } from "lowlight";
+import BulletList from "@tiptap/extension-bullet-list";
 import { CodeBlockLowlight } from "@tiptap/extension-code-block-lowlight";
-
-import StarterKit from "@tiptap/starter-kit";
-import Underline from "@tiptap/extension-underline";
-import Link from "@tiptap/extension-link";
-import TextStyle from "@tiptap/extension-text-style";
-import Toolbar from "@/components/editor/toolbar";
+import { Color } from "@tiptap/extension-color";
+import BaseHeading from "@tiptap/extension-heading";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import OrderedList from "@tiptap/extension-ordered-list";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
-import BaseHeading from "@tiptap/extension-heading";
-import Typography from "@tiptap/extension-typography";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
-import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import TaskList from "@tiptap/extension-task-list";
 import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import Typography from "@tiptap/extension-typography";
+import Underline from "@tiptap/extension-underline";
 import YouTube from "@tiptap/extension-youtube";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { all, createLowlight } from "lowlight";
+import Toolbar from "@/components/editor/toolbar";
 import WordCounter from "@/components/editor/word-counter";
 
 type Levels = 1 | 2 | 3;
@@ -50,6 +49,7 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
         ];
     },
 });
+
 import CharacterCount from "@tiptap/extension-character-count";
 import { useEffect } from "react";
 
@@ -108,7 +108,7 @@ export default function Tiptap({
                     return [
                         `h${level}`,
                         mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-                            // @ts-ignore
+                            // @ts-expect-error
                             class: `${classes[level]}`,
                         }),
                         0,

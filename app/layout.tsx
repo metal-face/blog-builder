@@ -1,10 +1,10 @@
-import { Inter } from "next/font/google";
-import { Providers } from "@/components/providers";
-import { MainNav } from "@/components/app-bar/main-nav";
-import { Toaster } from "@/components/ui/toaster";
-import { NextFont } from "next/dist/compiled/@next/font";
-import React, { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import type { NextFont } from "next/dist/compiled/@next/font";
+import { Inter } from "next/font/google";
+import React, { type ReactNode } from "react";
+import { MainNav } from "@/components/app-bar/main-nav";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import "@/app/login/style.css";
 

@@ -1,6 +1,6 @@
-import { BlogPosts } from "@prisma/client";
+import type { BlogPosts } from "@prisma/client";
+import type { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest): Promise<Response> {
     const take = request.nextUrl.searchParams.get("take");

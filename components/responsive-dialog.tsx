@@ -1,5 +1,7 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
+import { useMediaQuery } from "usehooks-ts";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -15,8 +17,6 @@ import {
     DrawerHeader,
     DrawerTitle,
 } from "@/components/ui/drawer";
-import { useMediaQuery } from "usehooks-ts";
-import { Button } from "@/components/ui/button";
 
 interface Props {
     visible: boolean;

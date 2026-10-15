@@ -1,10 +1,10 @@
-import { Editor } from "@tiptap/react";
-import TextDropdown from "@/components/editor/text-dropdown";
+import type { Editor } from "@tiptap/react";
 import ColorDropdown from "@/components/editor/color-dropdown";
-import LinkDialog from "@/components/editor/link-dialog";
 import ImageDialog from "@/components/editor/image-dialog";
-import YoutubeDialog from "@/components/editor/youtube-dialog";
+import LinkDialog from "@/components/editor/link-dialog";
+import TextDropdown from "@/components/editor/text-dropdown";
 import TextStylesDropdown from "@/components/editor/text-styles-dropdown";
+import YoutubeDialog from "@/components/editor/youtube-dialog";
 
 type Props = {
     editor: Editor | null;

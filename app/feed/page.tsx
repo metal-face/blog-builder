@@ -1,9 +1,9 @@
-import { BlogPosts } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
-import { Session } from "next-auth";
-import { auth } from "@/auth/auth";
+import type { BlogPosts } from "@prisma/client";
 import { redirect } from "next/navigation";
+import type { Session } from "next-auth";
+import { auth } from "@/auth/auth";
 import Feed from "@/components/feed/feed";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
     const session: Session | null = await auth();

@@ -1,27 +1,27 @@
-import { Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuCheckboxItem,
-    DropdownMenuTrigger,
-    DropdownMenuShortcut,
-    DropdownMenuSeparator,
-    DropdownMenuLabel,
-} from "@/components/ui/dropdown-menu";
-import {
+    AlignCenter,
+    AlignLeft,
+    AlignRight,
     ChevronDown,
     Heading1,
     Heading2,
     Heading3,
-    ListTodo,
     List,
     ListOrdered,
+    ListTodo,
     Minus,
-    AlignLeft,
-    AlignCenter,
-    AlignRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {
     editor: Editor | null;

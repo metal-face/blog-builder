@@ -1,8 +1,8 @@
-import { ReactElement } from "react";
-import { prisma } from "@/lib/prisma";
-import { TypographyH1 } from "@/components/typography/typography-h1";
+import type { ReactElement } from "react";
 import { auth } from "@/auth/auth";
 import BlogBuilder from "@/components/editor/blog-builder";
+import { TypographyH1 } from "@/components/typography/typography-h1";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page({ params }: { params: { id: string } }): Promise<ReactElement> {
     const session = await auth();

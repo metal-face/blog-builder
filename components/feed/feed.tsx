@@ -1,10 +1,10 @@
 "use client";
 
-import { ReactElement, useEffect, useState } from "react";
+import type { BlogPosts } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { BlogPosts } from "@prisma/client";
-import CustomPagination from "@/components/pagination";
+import { type ReactElement, useEffect, useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
+import CustomPagination from "@/components/pagination";
 
 interface Props {
     numberOfPages: number;

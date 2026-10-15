@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Variants } from "@/models/variants";
-import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import type { Variants } from "@/models/variants";
 
 interface Props {
     name?: string;

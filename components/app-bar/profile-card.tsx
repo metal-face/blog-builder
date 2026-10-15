@@ -1,3 +1,7 @@
+import { LogOut } from "lucide-react";
+import Link from "next/link";
+import type { Session } from "next-auth";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -5,10 +9,6 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Session } from "next-auth";
-import { LogOut } from "lucide-react";
-import Link from "next/link";
 
 interface ProfileCardProps {
     session: Session | null;

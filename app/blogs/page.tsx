@@ -1,16 +1,16 @@
+import type { BlogPosts } from "@prisma/client";
+import { Hammer, Pencil } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import type { Session } from "next-auth";
+import React, { type ReactElement } from "react";
 import { auth } from "@/auth/auth";
+import BlogCards from "@/components/blogs/blog-cards";
 import { TypographyH1 } from "@/components/typography/typography-h1";
-import { Session } from "next-auth";
-import { BlogPosts } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
 import { TypographyP } from "@/components/typography/typography-p";
 import { Button } from "@/components/ui/button";
-import { Hammer, Pencil } from "lucide-react";
-import { redirect } from "next/navigation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import React, { ReactElement } from "react";
-import BlogCards from "@/components/blogs/blog-cards";
-import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 
 export default async function Page(): Promise<ReactElement> {
     const session: Session | null = await auth();

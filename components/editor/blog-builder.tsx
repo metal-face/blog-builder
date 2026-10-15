@@ -1,12 +1,18 @@
 "use client";
 
-import * as z from "zod";
-import { useState } from "react";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BlogPosts } from "@prisma/client";
+import type { BlogPosts } from "@prisma/client";
+import DOMPurify from "dompurify";
+import { Check, Save } from "lucide-react";
+import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import BlogTitle from "@/components/editor/blog-title";
+import TipTap from "@/components/editor/tip-tap";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -16,19 +22,13 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Check, Save } from "lucide-react";
-import { allowedStyles } from "@/models/allowed-styles";
-import DOMPurify from "dompurify";
-import BlogTitle from "@/components/editor/blog-title";
-import TipTap from "@/components/editor/tip-tap";
-import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
-import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useCreatePost } from "@/functions/blog/create-post";
-import { useUpdatePost } from "@/functions/blog/update-post";
 import { useCreatePostDraft } from "@/functions/blog/create-post-draft";
 import { useUpdateDraft } from "@/functions/blog/update-draft";
+import { useUpdatePost } from "@/functions/blog/update-post";
+import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
+import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
+import { allowedStyles } from "@/models/allowed-styles";
 
 interface Props {
     blog?: BlogPosts;

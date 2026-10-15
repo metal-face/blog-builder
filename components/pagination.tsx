@@ -1,6 +1,6 @@
-import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
+import type { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
-import { Dispatch, SetStateAction } from "react";
+import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/pagination";
 
 interface Props {
     numberOfPages: number;
