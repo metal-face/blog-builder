@@ -1,4 +1,5 @@
 import { useGLTF } from "@react-three/drei";
+import type { ThreeElements } from "@react-three/fiber";
 import React, { useRef } from "react";
 import type * as THREE from "three";
 import type { GLTF } from "three-stdlib";
@@ -20,8 +21,8 @@ type GLTFResult = GLTF & {
     };
 };
 
-export function RotatingPen(props: JSX.IntrinsicElements["group"]) {
-    const { nodes, materials } = useGLTF("/Fountain_Pen.gltf 2") as GLTFResult;
+export function RotatingPen(props: ThreeElements["group"]) {
+    const { nodes, materials } = useGLTF("/Fountain_Pen.gltf 2") as unknown as GLTFResult;
     return (
         <group {...props} dispose={null}>
             <mesh

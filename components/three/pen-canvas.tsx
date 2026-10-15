@@ -3,12 +3,10 @@
 import { A11y, A11yAnnouncer } from "@react-three/a11y";
 import { OrbitControls, Stage } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { type FC, Suspense, useRef } from "react";
+import { type FC, Suspense } from "react";
 import { RotatingPen } from "@/components/three/rotating-pen";
 
 const PenCanvas: FC = () => {
-    const ref = useRef();
-
     return (
         <div id="canvas-container" className="h-5/6 w-full">
             <Canvas
@@ -38,7 +36,6 @@ const PenCanvas: FC = () => {
                     </Stage>
                 </Suspense>
                 <OrbitControls
-                    ref={ref.current}
                     autoRotate
                     enableZoom={false}
                     enableRotate

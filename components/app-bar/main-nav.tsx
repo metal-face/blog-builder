@@ -1,20 +1,18 @@
 import { Hammer, Home, LogIn, Rss, Scroll } from "lucide-react";
-import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
 import React, { type ReactElement } from "react";
 import { auth } from "@/auth/auth";
+import Clock from "@/components/app-bar/client-clock";
 import ConditionalButton from "@/components/app-bar/conditional-button";
 import ProfileCard from "@/components/app-bar/profile-card";
 import { ThemeToggle } from "@/components/app-bar/theme-toggle";
 import { Variants } from "@/models/variants";
 
-const Clock = dynamic(() => import("@/components/app-bar/clock"), { ssr: false });
-
 export async function MainNav(): Promise<ReactElement> {
     const session: Session | null = await auth();
 
     return (
-        <div className="h-20 sticky top-0 z-40 inset-x-0 backdrop-blur-sm bg-transparent transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50/5 w-full border-b">
+        <div className="h-20 sticky top-0 z-40 inset-x-0 backdrop-blur-xs bg-transparent transition-colors duration-500 lg:border-b lg:border-slate-900/10 dark:border-slate-50/5 w-full border-b">
             <div className="py-4 h-full flex justify-between items-center border-slate-900/10 lg:px-8 lg:border-0 dark:border-slate-300/10 px-4">
                 <div className="h-full flex justify-start align-middle">
                     <Clock />

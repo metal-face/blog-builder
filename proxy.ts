@@ -4,7 +4,7 @@ export const config = {
     matcher: "/blog/:id*",
 };
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
     const ip: string = request.headers.get("x-forwarded-for") || "";
     const { nextUrl: url } = request;
 

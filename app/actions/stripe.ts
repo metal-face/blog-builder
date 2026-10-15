@@ -12,7 +12,7 @@ export async function createCheckoutSession(
 ): Promise<{ client_secret: string | null; url: string | null }> {
     const uiMode = data.get("uiMode") as Stripe.Checkout.SessionCreateParams.UiMode;
 
-    const origin: string = headers().get("origin") as string;
+    const origin: string = (await headers()).get("origin") as string;
 
     const checkoutSession: Stripe.Checkout.Session = await stripe.checkout.sessions.create({
         mode: "payment",

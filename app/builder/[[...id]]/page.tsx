@@ -4,7 +4,10 @@ import BlogBuilder from "@/components/editor/blog-builder";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { prisma } from "@/lib/prisma";
 
-export default async function Page({ params }: { params: { id: string } }): Promise<ReactElement> {
+export default async function Page(props: {
+    params: Promise<{ id?: string[] }>;
+}): Promise<ReactElement> {
+    const params = await props.params;
     const session = await auth();
 
     if (params.id) {
