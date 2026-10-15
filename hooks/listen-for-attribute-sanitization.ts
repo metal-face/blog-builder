@@ -1,8 +1,8 @@
-import type { DOMPurifyI } from "dompurify";
+import type { DOMPurify } from "dompurify";
 
 export default function listenForAttributeSanitization(
     allowedStyles: string[],
-    domPurifyInstance: DOMPurifyI
+    domPurifyInstance: DOMPurify
 ) {
     domPurifyInstance.addHook("uponSanitizeAttribute", (node, data) => {
         if (data.attrName === "style") {
