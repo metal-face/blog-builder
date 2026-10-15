@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { BlogPosts } from "@/generated/prisma/client";
 import DOMPurify from "dompurify";
 import { Check, Save } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
@@ -26,6 +25,7 @@ import { useCreatePost } from "@/functions/blog/create-post";
 import { useCreatePostDraft } from "@/functions/blog/create-post-draft";
 import { useUpdateDraft } from "@/functions/blog/update-draft";
 import { useUpdatePost } from "@/functions/blog/update-post";
+import type { BlogPosts } from "@/generated/prisma/client";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
 import { allowedStyles } from "@/models/allowed-styles";
@@ -191,7 +191,7 @@ export default function BlogBuilder({ blog }: Props) {
                     {!editable ? (
                         <div
                             onClick={() => setEditable(true)}
-                            className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline outline-1 outline-offset-8 outline-zinc-800 rounded"
+                            className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline-solid outline-1 outline-offset-8 outline-zinc-800 rounded"
                         >
                             <BlogTitle blogTitle={form.getValues().blogTitle} />
                         </div>
