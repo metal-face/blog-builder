@@ -1,12 +1,12 @@
-import { ThemeToggle } from "@/components/app-bar/theme-toggle";
-import { auth } from "@/auth/auth";
 import { Hammer, Home, LogIn, Rss, Scroll } from "lucide-react";
-import { Variants } from "@/models/variants";
-import { Session } from "next-auth";
+import dynamic from "next/dynamic";
+import type { Session } from "next-auth";
+import React, { type ReactElement } from "react";
+import { auth } from "@/auth/auth";
 import ConditionalButton from "@/components/app-bar/conditional-button";
 import ProfileCard from "@/components/app-bar/profile-card";
-import React, { ReactElement } from "react";
-import dynamic from "next/dynamic";
+import { ThemeToggle } from "@/components/app-bar/theme-toggle";
+import { Variants } from "@/models/variants";
 
 const Clock = dynamic(() => import("@/components/app-bar/clock"), { ssr: false });
 

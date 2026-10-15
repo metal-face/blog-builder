@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { type QueryClient, useMutation } from "@tanstack/react-query";
+import type { Dispatch, SetStateAction } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
 interface Props {

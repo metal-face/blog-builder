@@ -1,13 +1,13 @@
-import { prisma } from "@/lib/prisma";
-import { auth } from "@/auth/auth";
-import { Session } from "next-auth";
-import { BlogPosts } from "@prisma/client";
-import { NextRequest } from "next/server";
-import { allowedStyles } from "@/models/allowed-styles";
+import type { BlogPosts } from "@prisma/client";
 import createDOMPurify from "dompurify";
 import jsdom from "jsdom";
-import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
+import type { NextRequest } from "next/server";
+import type { Session } from "next-auth";
+import { auth } from "@/auth/auth";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
+import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
+import { prisma } from "@/lib/prisma";
+import { allowedStyles } from "@/models/allowed-styles";
 
 const { JSDOM } = jsdom;
 const window = new JSDOM("").window;

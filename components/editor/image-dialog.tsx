@@ -1,17 +1,17 @@
-import { Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
+import { Check, Image as ImageIcon } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Image as ImageIcon, Check } from "lucide-react";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogClose,
 } from "@/components/ui/dialog";
-import { useState } from "react";
+import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Props = {

@@ -1,4 +1,4 @@
-import { DOMPurifyI } from "dompurify";
+import type { DOMPurifyI } from "dompurify";
 
 export default function listenForAttributeSanitization(
     allowedStyles: string[],

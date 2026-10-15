@@ -1,9 +1,9 @@
 import { BlogPosts } from "@prisma/client";
-import React, { Dispatch, SetStateAction } from "react";
-import { QueryClient, UseMutateAsyncFunction, useMutation } from "@tanstack/react-query";
+import { type QueryClient, type UseMutateAsyncFunction, useMutation } from "@tanstack/react-query";
 import { Undo } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 
 interface Props {
     blogId?: string;

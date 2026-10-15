@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth/auth";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
     const session = await auth();

@@ -1,8 +1,8 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Pencil, TrashIcon } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
+import React, { type Dispatch, type SetStateAction, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Props {
     blogId: string;

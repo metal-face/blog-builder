@@ -1,21 +1,21 @@
-import { Editor } from "@tiptap/react";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuCheckboxItem,
-    DropdownMenuTrigger,
-    DropdownMenuShortcut,
-} from "@/components/ui/dropdown-menu";
+import type { Editor } from "@tiptap/react";
 import {
     Bold,
+    ChevronDown,
+    Code,
     Italic,
-    Underline,
     Strikethrough,
     Superscript,
-    Code,
-    ChevronDown,
+    Underline,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuShortcut,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {
     editor: Editor | null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, FC } from "react";
+import { type FC, useEffect, useRef } from "react";
 import * as Three from "three";
 
 const ThreeScene: FC = () => {

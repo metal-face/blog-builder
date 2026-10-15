@@ -1,10 +1,10 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { FC, Suspense, useRef } from "react";
-import { OrbitControls, Stage } from "@react-three/drei";
-import { RotatingPen } from "@/components/three/rotating-pen";
 import { A11y, A11yAnnouncer } from "@react-three/a11y";
+import { OrbitControls, Stage } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { type FC, Suspense, useRef } from "react";
+import { RotatingPen } from "@/components/three/rotating-pen";
 
 const PenCanvas: FC = () => {
     const ref = useRef();

@@ -1,10 +1,7 @@
 "use client";
 
-import { FaGithub } from "react-icons/fa";
-import { FaGoogle } from "react-icons/fa";
-import { FaDiscord } from "react-icons/fa";
-import { Providers } from "@/components/login/login-button";
-import LoginButton from "@/components/login/login-button";
+import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
+import LoginButton, { Providers } from "@/components/login/login-button";
 
 export function LoginButtons() {
     return (

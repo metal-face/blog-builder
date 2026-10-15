@@ -1,5 +1,5 @@
-import { useBlogStore } from "@/lib/zustand";
 import { useEffect } from "react";
+import { useBlogStore } from "@/lib/zustand";
 
 function useLocalPersistence() {
     const blogTitle = useBlogStore((state) => state.blogTitle);
