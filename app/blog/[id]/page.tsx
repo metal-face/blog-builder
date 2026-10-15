@@ -1,10 +1,10 @@
-import type { DislikeLog, LikeLog, ViewLog } from "@/generated/prisma/client";
 import type { Session } from "next-auth";
 import React, { type ReactElement } from "react";
 import { auth } from "@/auth/auth";
 import LikeDislikeButton from "@/components/blogs/like-dislike-button";
 import Tiptap from "@/components/editor/tip-tap";
 import { TypographyH1 } from "@/components/typography/typography-h1";
+import type { DislikeLog, LikeLog, ViewLog } from "@/generated/prisma/client";
 import { type BlogPosts, prisma } from "@/lib/prisma";
 
 interface SearchParams {
@@ -14,13 +14,12 @@ interface SearchParams {
 export const revalidate = 0;
 export const dynamic = "force-dynamic";
 
-export default async function Page({
-    params,
-    searchParams,
-}: {
-    params: { id: string };
-    searchParams: SearchParams;
+export default async function Page(props: {
+    params: Promise<{ id: string }>;
+    searchParams: Promise<SearchParams>;
 }): Promise<ReactElement> {
+    const params = await props.params;
+    const searchParams = await props.searchParams;
     const session: Session | null = await auth();
 
     if (params.id && searchParams.ip) {
