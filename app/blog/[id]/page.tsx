@@ -1,4 +1,4 @@
-import type { DislikeLog, LikeLog, ViewLog } from "@prisma/client";
+import type { DislikeLog, LikeLog, ViewLog } from "@/generated/prisma/client";
 import type { Session } from "next-auth";
 import React, { type ReactElement } from "react";
 import { auth } from "@/auth/auth";

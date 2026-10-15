@@ -1,7 +1,7 @@
 "use server";
 
-import type { LikeLog } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import type { LikeLog } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 interface ReturnValues {

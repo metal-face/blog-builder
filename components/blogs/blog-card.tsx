@@ -1,6 +1,6 @@
 "use client";
 
-import type { BlogPosts } from "@prisma/client";
+import type { BlogPosts } from "@/generated/prisma/client";
 import { format } from "date-fns";
 import { Eye } from "lucide-react";
 import Link from "next/link";
