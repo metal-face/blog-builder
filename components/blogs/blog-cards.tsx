@@ -1,6 +1,5 @@
 "use client";
 
-import type { BlogPosts } from "@prisma/client";
 import { type QueryClient, useQueryClient } from "@tanstack/react-query";
 import React, { type ReactElement, useEffect, useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
@@ -10,6 +9,7 @@ import { useDeletePost } from "@/functions/blog/delete-post";
 import { useUndoDelete } from "@/functions/blog/undo-delete";
 import { useFetchAllBlogs } from "@/functions/blogs/fetch-all-blogs";
 import { useFetchPostsCount } from "@/functions/blogs/fetch-count";
+import type { BlogPosts } from "@/generated/prisma/client";
 
 interface Props {
     initData: BlogPosts[];

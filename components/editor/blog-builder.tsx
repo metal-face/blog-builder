@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { BlogPosts } from "@prisma/client";
+import type { BlogPosts } from "@/generated/prisma/client";
 import DOMPurify from "dompurify";
 import { Check, Save } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";

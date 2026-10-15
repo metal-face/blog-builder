@@ -1,9 +1,9 @@
-import type { BlogPosts } from "@prisma/client";
 import createDOMPurify from "dompurify";
 import jsdom from "jsdom";
 import type { NextRequest } from "next/server";
 import type { Session } from "next-auth";
 import { auth } from "@/auth/auth";
+import type { BlogPosts } from "@/generated/prisma/client";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
 import { prisma } from "@/lib/prisma";

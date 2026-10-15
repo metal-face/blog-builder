@@ -1,5 +1,5 @@
-import type { BlogPosts } from "@prisma/client";
 import type { NextRequest } from "next/server";
+import type { BlogPosts } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest): Promise<Response> {

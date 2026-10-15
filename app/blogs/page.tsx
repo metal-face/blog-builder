@@ -1,4 +1,3 @@
-import type { BlogPosts } from "@prisma/client";
 import { Hammer, Pencil } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -10,6 +9,7 @@ import { TypographyH1 } from "@/components/typography/typography-h1";
 import { TypographyP } from "@/components/typography/typography-p";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import type { BlogPosts } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export default async function Page(): Promise<ReactElement> {
@@ -66,7 +66,7 @@ export default async function Page(): Promise<ReactElement> {
                         <TooltipTrigger asChild>
                             <Button
                                 className={
-                                    "rounded-full m-2 h-24 w-24 bg-green-500 dark:bg-green-400 hover:bg-green-400 dark:hover:bg-green-500 hover:rotate-[360deg] duration-500 ease-in-out transition-all transform-gpu"
+                                    "rounded-full m-2 h-24 w-24 bg-green-500 dark:bg-green-400 hover:bg-green-400 dark:hover:bg-green-500 hover:rotate-360 duration-500 ease-in-out transition-all transform-gpu"
                                 }
                             >
                                 <Pencil className={"w-8 h-8"} />
