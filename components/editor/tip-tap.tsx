@@ -15,7 +15,7 @@ import Superscript from "@tiptap/extension-superscript";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
 import TextAlign from "@tiptap/extension-text-align";
-import TextStyle from "@tiptap/extension-text-style";
+import { TextStyle } from "@tiptap/extension-text-style";
 import Typography from "@tiptap/extension-typography";
 import Underline from "@tiptap/extension-underline";
 import YouTube from "@tiptap/extension-youtube";
@@ -63,6 +63,10 @@ export default function Tiptap({
     editable: boolean;
 }) {
     const editor = useEditor({
+        // Avoid SSR hydration mismatches and keep Tiptap 2's re-render-per-transaction behavior
+        // so the toolbar and word counter stay in sync.
+        immediatelyRender: false,
+        shouldRerenderOnTransaction: true,
         extensions: [
             StarterKit.configure({
                 bulletList: false,
@@ -70,6 +74,9 @@ export default function Tiptap({
                 heading: false,
                 codeBlock: false,
                 horizontalRule: false,
+                // Tiptap 3 bundles these in StarterKit; they're configured separately below.
+                link: false,
+                underline: false,
             }),
             OrderedList.configure({
                 HTMLAttributes: {

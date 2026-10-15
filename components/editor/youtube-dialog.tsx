@@ -1,6 +1,7 @@
 import type { Editor } from "@tiptap/react";
-import { Check, Youtube } from "lucide-react";
+import { Check } from "lucide-react";
 import { useState } from "react";
+import { FaYoutube } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -42,7 +43,7 @@ export default function YoutubeDialog({ editor }: Props) {
                         className="bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 rounded-xl"
                     >
                         <Button variant={"ghost"} size={"sm"}>
-                            <Youtube />
+                            <FaYoutube />
                         </Button>
                     </DialogTrigger>
                 </TooltipTrigger>
