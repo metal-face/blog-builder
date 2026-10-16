@@ -269,33 +269,6 @@
         pointer-events: none;
     }
 
-    .discord::before {
-        inset: 0;
-        content: "";
-        --angle: 0deg;
-        position: absolute;
-        border-radius: inherit;
-        padding: 1.5px;
-        /* control the border thickness */
-        background: conic-gradient(
-            from var(--angle),
-            #5865f2,
-            #5865f272 35%,
-            #5865f291 40%,
-            #5865f2b5,
-            #5865f2c6 61%,
-            #5865f2de 65%,
-            #5865f2
-        );
-        -webkit-mask-composite: xor;
-        -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-        animation: 5s rotate linear infinite;
-        mask-composite: exclude;
-        pointer-events: none;
-    }
-
     .google::before {
         inset: 0;
         content: "";

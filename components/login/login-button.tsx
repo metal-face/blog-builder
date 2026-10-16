@@ -14,7 +14,6 @@ type State = "error" | "idle" | "pending" | "success";
 
 export enum Providers {
     GITHUB = "github",
-    DISCORD = "discord",
     GOOGLE = "google",
 }
 
@@ -22,8 +21,6 @@ function providerToSignInWith(provider: Providers) {
     switch (provider) {
         case Providers.GITHUB:
             return "GitHub";
-        case Providers.DISCORD:
-            return "Discord";
         case Providers.GOOGLE:
             return "Google";
     }
