@@ -2,18 +2,9 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { User } from "next-auth";
 import NextAuth from "next-auth";
 import type { Adapter, AdapterUser } from "next-auth/adapters";
-import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { prisma, RoleTypes } from "@/lib/prisma";
-
-if (!process.env.DISCORD_CLIENT_ID) {
-    throw new Error("No DISCORD_CLIENT_ID has been provided.");
-}
-
-if (!process.env.DISCORD_CLIENT_SECRET) {
-    throw new Error("No DISCORD_CLIENT_SECRET has been provided.");
-}
 
 if (!process.env.GITHUB_ID) {
     throw new Error("No GITHUB_ID has been provided.");
@@ -46,7 +37,6 @@ declare module "@auth/core/adapters" {
         role: RoleTypes;
     }
 }
-const scopes = ["identify", "email"];
 
 const useSecureCookies = process.env.VERCEL_ENV === "production";
 const cookiePrefix = useSecureCookies ? "__Secure-" : "";
@@ -94,37 +84,6 @@ export const { handlers, auth } = NextAuth({
         },
     },
     providers: [
-        DiscordProvider({
-            clientId: process.env.DISCORD_CLIENT_ID as string,
-            clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
-            authorization: { params: { scope: scopes.join(" ") } },
-            allowDangerousEmailAccountLinking: true,
-            token: "https://discord.com/api/oauth2/token",
-            userinfo: "https://discord.com/api/users/@me",
-            profile(profile) {
-                let role: RoleTypes = RoleTypes.USER;
-
-                if (adminEmails.includes(profile.email)) {
-                    role = RoleTypes.ADMIN;
-                }
-
-                if (profile.avatar === null) {
-                    const defaultAvatarNumber = parseInt(profile.discriminator) % 5;
-                    profile.image_url = `https://cdn.discordapp.com/embed/avatars/${defaultAvatarNumber}.png`;
-                } else {
-                    const format = profile.avatar.startsWith("a_") ? "gif" : "png";
-                    profile.image_url = `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${format}`;
-                }
-
-                return {
-                    id: profile.id,
-                    name: profile.username,
-                    email: profile.email,
-                    image: profile.image_url,
-                    role: role,
-                };
-            },
-        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
             clientSecret: process.env.GOOGLE_SECRET as string,
