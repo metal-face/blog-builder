@@ -1,17 +1,14 @@
-import { type QueryClient, type UseMutateAsyncFunction, useMutation } from "@tanstack/react-query";
-import { Undo } from "lucide-react";
-import React, { type Dispatch, type SetStateAction } from "react";
-import { ToastAction } from "@/components/ui/toast";
-import { useToast } from "@/components/ui/use-toast";
-import type { BlogPosts } from "@/generated/prisma/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
+import type { UndoDeletePost } from "@/functions/blog/undo-delete";
 
 interface Props {
     blogId?: string;
     setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
-    undoDeleteMutateAsync: UseMutateAsyncFunction<Response, Error, void, unknown>;
-    queryClient: QueryClient;
+    undoDeleteMutateAsync: UndoDeletePost["mutate"];
 }
 
 export function useDeletePost({
@@ -20,11 +17,10 @@ export function useDeletePost({
     setTriggerDelete,
     setBlogIdToDelete,
     undoDeleteMutateAsync,
-    queryClient,
 }: Props) {
-    const { toast } = useToast();
+    const queryClient = useQueryClient();
 
-    const deleteMutation = useMutation({
+    return useMutation({
         mutationKey: ["deletePost", blogId],
         mutationFn: async () => {
             return await fetch("/api/blogs", {
@@ -43,30 +39,21 @@ export function useDeletePost({
                 setFetchData(true);
             }
 
-            toast({
-                title: "Success!",
-                description: "You have successfully deleted the blog post!",
-                duration: 2500,
-                action: (
-                    <ToastAction
-                        altText={"Undo"}
-                        onClick={async () => {
-                            await undoDeleteMutateAsync();
-                        }}
-                    >
-                        Undo <Undo />
-                    </ToastAction>
-                ),
+            toast.success("Success 🎉️", {
+                description: "Your post has been deleted, to undo click the button below.",
+                action: {
+                    label: "Undo",
+                    onClick: async () => {
+                        undoDeleteMutateAsync();
+                        await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
+                    },
+                },
             });
         },
         onError: () => {
-            toast({
-                title: "Oops!",
+            toast.error("Oops 😬", {
                 description: "Something went wrong!",
-                variant: "destructive",
             });
         },
     });
-
-    return { deleteMutation };
 }
