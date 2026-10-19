@@ -9,7 +9,6 @@ import { useUndoDelete } from "@/functions/blog/undo-delete";
 import { useFetchAllBlogs } from "@/functions/blogs/fetch-all-blogs";
 import { useFetchPostsCount } from "@/functions/blogs/fetch-count";
 import type { BlogPosts } from "@/generated/prisma/client";
-import { useIsLoading } from "@/hooks/use-is-loading";
 
 interface Props {
     initData: BlogPosts[];
@@ -38,25 +37,13 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         undoDeleteMutateAsync: undoDeletePost,
     });
 
-    const {
-        data: blogs,
-        isSuccess: fetchBlogsIsSuccess,
-        isFetching: isFetchingBlogs,
-    } = useFetchAllBlogs({ fetchData, page });
+    const { data: blogs, isFetching: isFetchingBlogs } = useFetchAllBlogs({ fetchData, page });
 
     const {
         data: count,
         isSuccess: countIsSuccess,
-        refetch: refetchCount,
         isFetching: isFetchingCount,
     } = useFetchPostsCount();
-
-    const isLoading = useIsLoading({
-        undoDeletePending,
-        deletePending,
-        isFetchingBlogs,
-        isFetchingCount,
-    });
 
     useEffect(() => {
         if (countIsSuccess) {
@@ -64,38 +51,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         }
     }, [count, countIsSuccess]);
 
-    const InitBlogCards: ReactElement[] = initData.map((blog: BlogPosts) => (
-        <BlogCard
-            key={blog.id}
-            blog={blog}
-            setDialogVisibility={setDialogVisibility}
-            setBlogIdToDelete={setBlogIdToDelete}
-            loading={isLoading}
-        />
-    ));
-
-    const [blogData, setBlogData] = useState<ReactElement[]>(InitBlogCards);
-
-    useEffect(() => {
-        if (fetchBlogsIsSuccess && blogs?.length && blogs?.length > 0) {
-            const transformed: ReactElement[] = blogs.map((blog: BlogPosts) => (
-                <BlogCard
-                    key={blog.id}
-                    blog={blog}
-                    setDialogVisibility={setDialogVisibility}
-                    setBlogIdToDelete={setBlogIdToDelete}
-                    loading={isLoading}
-                />
-            ));
-
-            // TODO: return the count along with the blogs
-            refetchCount().then(() => {
-                setNumberOfPages(Math.ceil(count.count / 6));
-            });
-
-            setBlogData(transformed);
-        }
-    }, [blogs, fetchBlogsIsSuccess, refetchCount, count, isLoading]);
+    const posts = blogs?.length ? blogs : initData;
 
     useEffect(() => {
         if (triggerDelete && blogIdToDelete) {
@@ -120,7 +76,17 @@ export default function BlogCards({ initData, numOfPages }: Props) {
                 onConfirm={handleDeleteConfirm}
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-full w-full gap-2 ">
-                {blogData}
+                {posts.map((blog: BlogPosts) => (
+                    <BlogCard
+                        key={blog.id}
+                        blog={blog}
+                        setDialogVisibility={setDialogVisibility}
+                        setBlogIdToDelete={setBlogIdToDelete}
+                        loading={
+                            undoDeletePending || deletePending || isFetchingBlogs || isFetchingCount
+                        }
+                    />
+                ))}
             </div>
             <CustomPagination
                 numberOfPages={numberOfPages}
