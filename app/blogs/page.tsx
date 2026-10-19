@@ -66,7 +66,7 @@ export default async function Page(): Promise<ReactElement> {
                         <TooltipTrigger asChild>
                             <Button
                                 className={
-                                    "rounded-full m-2 h-24 w-24 bg-green-500 dark:bg-green-400 hover:bg-green-400 dark:hover:bg-green-500 hover:rotate-360 duration-500 ease-in-out transition-all transform-gpu"
+                                    "rounded-full m-2 h-24 w-24 dark:bg-green-400 hover:bg-green-400 dark:hover:bg-green-500 hover:rotate-360 duration-500 ease-in-out transition-all transform-gpu"
                                 }
                             >
                                 <Pencil className={"w-8 h-8"} />
