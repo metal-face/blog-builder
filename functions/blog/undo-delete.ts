@@ -1,18 +1,17 @@
-import { type QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 interface Props {
     setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
     blogId?: string;
-    queryClient: QueryClient;
 }
 
-export function useUndoDelete({ setFetchData, setTriggerDelete, blogId, queryClient }: Props) {
-    const { toast } = useToast();
+export function useUndoDelete({ setFetchData, setTriggerDelete, blogId }: Props) {
+    const queryClient = useQueryClient();
 
-    const undoDeleteMutation = useMutation({
+    return useMutation({
         mutationKey: ["undoDeletion", blogId],
         mutationFn: async () => {
             return await fetch("/api/blogs", {
@@ -31,19 +30,16 @@ export function useUndoDelete({ setFetchData, setTriggerDelete, blogId, queryCli
                 setTriggerDelete(false);
             }
 
-            toast({
-                title: "Success! 🎉",
+            toast.success("Success! 🎉", {
                 description: "Your deletion has been reverted!",
             });
         },
         onError: () => {
-            toast({
-                title: "Oops!",
+            toast.error("Oops 😬", {
                 description: "Something went wrong!",
-                variant: "destructive",
             });
         },
     });
-
-    return { undoDeleteMutation };
 }
+
+export type UndoDeletePost = ReturnType<typeof useUndoDelete>;
