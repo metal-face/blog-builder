@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner"
 
 interface Props {
     blogTitle: string;
@@ -9,8 +9,6 @@ interface Props {
 }
 
 export function useCreatePost() {
-    const { toast } = useToast();
-
     return useMutation({
         mutationKey: ["createPost"],
         mutationFn: async ({ blogTitle, blogPost, isDraft, isPrivate }: Props) => {
@@ -34,17 +32,10 @@ export function useCreatePost() {
             return await res.json();
         },
         onSuccess: () => {
-            toast({
-                title: "Success!",
-                description: "You have successfully saved your blog 🚀",
-            });
+            toast.success("You have successfully saved your blog 🚀");
         },
         onError: () => {
-            toast({
-                title: "Oops!",
-                description: "Something went wrong!",
-                variant: "destructive",
-            });
+            toast.error("Oops 😬", { description: "Something went wrong, please try again!" });
         },
     });
 }
