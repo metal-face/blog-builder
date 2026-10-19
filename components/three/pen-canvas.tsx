@@ -1,6 +1,6 @@
 "use client";
 
-import { A11y, A11yAnnouncer } from "@react-three/a11y";
+import { A11yAnnouncer } from "@react-three/a11y";
 import { OrbitControls, Stage } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { type FC, Suspense } from "react";
@@ -30,9 +30,7 @@ const PenCanvas: FC = () => {
                         adjustCamera
                         environment={"park"}
                     >
-                        <A11y role="content" description="A rotating fountain pen">
-                            <RotatingPen />
-                        </A11y>
+                        <RotatingPen />
                     </Stage>
                 </Suspense>
                 <OrbitControls
