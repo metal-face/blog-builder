@@ -1,6 +1,6 @@
 import { Pencil, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { type Dispatch, type SetStateAction, useState } from "react";
+import React, { type Dispatch, type SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -19,17 +19,17 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
                     <Button
                         onClick={(e) => {
                             e.preventDefault();
-                            setBlogIdToDelete(blogId);
-                            setDialogVisibility(true);
+                            router.push(`/builder/${blogId}`);
                         }}
                         size={"icon"}
-                        variant={"ghost"}
+                        className={"cursor-pointer"}
+                        variant={"secondary"}
                     >
-                        <TrashIcon />
+                        <Pencil />
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <span>Delete</span>
+                    <span>Update</span>
                 </TooltipContent>
             </Tooltip>
 
@@ -38,16 +38,18 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
                     <Button
                         onClick={(e) => {
                             e.preventDefault();
-                            router.push(`/builder/${blogId}`);
+                            setBlogIdToDelete(blogId);
+                            setDialogVisibility(true);
                         }}
                         size={"icon"}
-                        variant={"ghost"}
+                        className={"cursor-pointer"}
+                        variant={"destructive"}
                     >
-                        <Pencil />
+                        <TrashIcon />
                     </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <span>Update</span>
+                    <span>Delete</span>
                 </TooltipContent>
             </Tooltip>
         </div>
