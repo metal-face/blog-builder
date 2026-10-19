@@ -1,23 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import type { BlogPosts } from "@/generated/prisma/client";
 
 interface Props {
     fetchData: boolean;
-    enabled: boolean;
-    setEnabled: Dispatch<SetStateAction<boolean>>;
     page: number;
 }
 
-export function useFetchAllBlogs({ fetchData, enabled, setEnabled, page }: Props) {
-    useEffect(() => {
-        if (fetchData) {
-            setEnabled(true);
-        }
-    }, [setEnabled, fetchData]);
-
-    const fetchAllQuery = useQuery({
+export function useFetchAllBlogs({ fetchData, page }: Props) {
+    return useQuery({
         queryKey: ["fetchBlogs"],
-        enabled: enabled,
+        enabled: fetchData,
         queryFn: async () => {
             const res = await fetch(`/api/blogs?take=${6}&page=${page}`, {
                 method: "GET",
@@ -26,13 +18,9 @@ export function useFetchAllBlogs({ fetchData, enabled, setEnabled, page }: Props
                 },
             });
 
-            if (!res.ok) {
-                throw new Error("Unable to fetch blogs");
+            if (res.ok) {
+                return (await res.json()) as BlogPosts[];
             }
-
-            return await res.json();
         },
     });
-
-    return { fetchAllQuery };
 }
