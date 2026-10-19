@@ -1,5 +1,5 @@
 "use client";
-import React, { type Dispatch, type SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,7 @@ import {
 interface Props {
     visible: boolean;
     setVisibility: Dispatch<SetStateAction<boolean>>;
-    onConfirm: () => Promise<void>;
+    onConfirm: () => void;
 }
 
 function ResponsiveDialog({ visible, setVisibility, onConfirm }: Props) {
