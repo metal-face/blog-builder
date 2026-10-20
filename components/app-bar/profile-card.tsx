@@ -21,13 +21,6 @@ export default function ProfileCard({ session }: ProfileCardProps) {
                 {session?.user?.image ? (
                     <Avatar className="ml-1 cursor-pointer">
                         <AvatarImage src={session.user.image} alt="User Profile Image" />
-                        {/* <AvatarFallback>
-                                    <Image
-                                        src={session.user.image}
-                                        alt="User Profile Image"
-                                        layout="fill"
-                                    />
-                                </AvatarFallback> */}
                     </Avatar>
                 ) : (
                     <p className="hover:underline text-xs cursor-default mr-1">
