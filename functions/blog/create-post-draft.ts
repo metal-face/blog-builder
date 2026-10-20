@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 interface Props {
     blogTitle: string;
@@ -9,8 +9,6 @@ interface Props {
 }
 
 export function useCreatePostDraft() {
-    const { toast } = useToast();
-
     return useMutation({
         mutationKey: ["createPostDraft"],
         mutationFn: async ({ blogTitle, blogPost, isDraft, isPrivate }: Props) => {
@@ -29,16 +27,13 @@ export function useCreatePostDraft() {
             return await res.json();
         },
         onSuccess: () => {
-            toast({
-                title: "Success! 🎉",
+            toast.success("Success! 🎉", {
                 description: "You have successfully saved this post as a draft!",
             });
         },
         onError: () => {
-            toast({
-                title: "Oops!",
+            toast.error("Oops 😬", {
                 description: "Something went wrong!",
-                variant: "destructive",
             });
         },
     });
