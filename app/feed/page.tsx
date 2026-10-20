@@ -49,7 +49,7 @@ export default async function Page() {
     }
 
     return (
-        <div className={"w-5/6 mx-auto h-[90%] items-center justify-center space-y-2"}>
+        <div className={"w-full h-[90%] grid space-y-2"}>
             <Feed numberOfPages={numOfPages} initData={blogs} />
         </div>
     );
