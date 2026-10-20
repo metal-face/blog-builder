@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
 import CustomPagination from "@/components/pagination";
 import ResponsiveDialog from "@/components/responsive-dialog";
@@ -51,7 +51,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         }
     }, [count, countIsSuccess]);
 
-    const posts = blogs?.length ? blogs : initData;
+    const posts = blogs ?? (page === 0 ? initData : []);
 
     useEffect(() => {
         if (triggerDelete && blogIdToDelete) {
@@ -64,7 +64,6 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         if (blogIdToDelete) {
             setDialogVisibility(false);
             deletePost();
-            setFetchData(true);
         }
     };
 
@@ -88,12 +87,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
                     />
                 ))}
             </div>
-            <CustomPagination
-                numberOfPages={numberOfPages}
-                setPage={setPage}
-                setEnabled={setFetchData}
-                page={page}
-            />
+            <CustomPagination numberOfPages={numberOfPages} setPage={setPage} page={page} />
         </>
     );
 }
