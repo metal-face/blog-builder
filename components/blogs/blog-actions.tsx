@@ -1,6 +1,6 @@
 import { Pencil, TrashIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { type Dispatch, type SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -8,10 +8,17 @@ interface Props {
     blogId: string;
     setDialogVisibility: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete: Dispatch<SetStateAction<string>>;
+    loading: boolean;
 }
 
-export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDelete }: Props) {
+export default function BlogActions({
+    blogId,
+    setDialogVisibility,
+    setBlogIdToDelete,
+    loading,
+}: Props) {
     const router = useRouter();
+
     return (
         <div className={"gap-2 flex w-full items-center justify-end"}>
             <Tooltip>
@@ -24,6 +31,7 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
                         size={"icon"}
                         className={"cursor-pointer"}
                         variant={"secondary"}
+                        disabled={loading}
                     >
                         <Pencil />
                     </Button>
@@ -44,6 +52,7 @@ export default function BlogActions({ blogId, setDialogVisibility, setBlogIdToDe
                         size={"icon"}
                         className={"cursor-pointer"}
                         variant={"destructive"}
+                        disabled={loading}
                     >
                         <TrashIcon />
                     </Button>
