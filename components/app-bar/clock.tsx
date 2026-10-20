@@ -23,9 +23,17 @@ export default function Clock() {
         return () => clearInterval(intervalID);
     }, [options]);
 
-    return time ? (
+    if (!time) {
+        return (
+            <div className="ml-2 flex items-center justify-start">
+                <TypographyH4 text={"00:00"} />
+            </div>
+        );
+    }
+
+    return (
         <div className="ml-2 flex items-center justify-start">
             <TypographyH4 text={time} />
         </div>
-    ) : null;
+    );
 }
