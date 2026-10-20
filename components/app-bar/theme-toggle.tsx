@@ -12,32 +12,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-function determineTheme(theme?: string, systemTheme?: string) {
-    switch (theme) {
-        case "system":
-            return systemTheme;
-        case "light":
-            return "light";
-        case "dark":
-            return "dark";
-        default:
-            return "dark";
-    }
-}
-
 export function ThemeToggle() {
-    const { setTheme, systemTheme, theme } = useTheme();
+    const { setTheme, theme } = useTheme();
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="link" size="default" className="p-0">
                     Theme
-                    {determineTheme(theme, systemTheme) === "light" ? (
-                        <Sun className="ml-1 scale-75" />
-                    ) : (
-                        <Moon className="dark:visible ml-1 dark:scale-75" />
-                    )}
+                    <Sun className="ml-1 scale-75 dark:hidden" />
+                    <Moon className="ml-1 scale-75 hidden dark:block" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
