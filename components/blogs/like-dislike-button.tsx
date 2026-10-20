@@ -2,7 +2,7 @@
 
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { decrementLike } from "@/app/actions/decrement-like";
 import { incrementLike } from "@/app/actions/increment-likes";
 import { Button } from "@/components/ui/button";
