@@ -15,12 +15,7 @@ const queryClient = new QueryClient();
 
 export function Providers({ children }: ProviderProps) {
     return (
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
             <TooltipProvider>
                 <SessionProvider>
                     <QueryClientProvider client={queryClient}>
