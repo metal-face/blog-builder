@@ -1,7 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { type ReactElement, useEffect, useState } from "react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
 import CustomPagination from "@/components/pagination";
 import type { BlogPosts } from "@/generated/prisma/client";
@@ -11,12 +11,15 @@ interface Props {
     initData: BlogPosts[];
 }
 
+const take = 6;
+
 export default function Feed({ numberOfPages, initData }: Props) {
     const [page, setPage] = useState<number>(0);
-    const [take, _] = useState<number>(6);
 
-    const { data } = useQuery({
+    const { data: blogs = [] } = useQuery({
         queryKey: ["paginatedFetchAllFeed", page],
+        initialData: page === 0 ? initData : undefined,
+        placeholderData: keepPreviousData,
         queryFn: async () => {
             const res = await fetch(`/api/feed?page=${page}&take=${take}`, {
                 method: "GET",
@@ -25,15 +28,11 @@ export default function Feed({ numberOfPages, initData }: Props) {
                 },
             });
 
-            if (!res.ok) {
-                throw new Error("Failed to fetch blogs");
-            }
+            if (!res.ok) throw new Error("Failed to fetch blogs");
 
-            return await res.json();
+            return (await res.json()).blogs as BlogPosts[];
         },
     });
-
-    const blogs = initData?.length > 0 ? initData : (data.blogs as BlogPosts[]);
 
     return (
         <div className={"w-full m-4 h-full flex flex-col"}>
@@ -44,7 +43,10 @@ export default function Feed({ numberOfPages, initData }: Props) {
                     </div>
                 ))}
             </div>
-            <CustomPagination numberOfPages={numberOfPages} setPage={setPage} page={page} />
+
+            <div className={"shrink mb-4"}>
+                <CustomPagination numberOfPages={numberOfPages} setPage={setPage} page={page} />
+            </div>
         </div>
     );
 }
