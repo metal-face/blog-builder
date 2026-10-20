@@ -5,11 +5,10 @@ import { Pagination, PaginationContent, PaginationItem } from "@/components/ui/p
 interface Props {
     numberOfPages: number;
     setPage: Dispatch<SetStateAction<number>>;
-    setEnabled: Dispatch<SetStateAction<boolean>>;
     page: number;
 }
 
-export default function CustomPagination({ numberOfPages, setPage, setEnabled, page }: Props) {
+export default function CustomPagination({ numberOfPages, setPage, page }: Props) {
     return (
         <Pagination>
             <PaginationContent>
@@ -17,7 +16,6 @@ export default function CustomPagination({ numberOfPages, setPage, setEnabled, p
                     <Button
                         onClick={() => {
                             setPage(page - 1);
-                            setEnabled(true);
                         }}
                         variant={"ghost"}
                         disabled={page - 1 < 0}
@@ -29,7 +27,6 @@ export default function CustomPagination({ numberOfPages, setPage, setEnabled, p
                     <Button
                         onClick={() => {
                             setPage(page + 1);
-                            setEnabled(true);
                         }}
                         variant={"ghost"}
                         disabled={page + 1 + 1 > numberOfPages}
