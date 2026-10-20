@@ -12,20 +12,11 @@ interface Props {
 }
 
 export default function Feed({ numberOfPages, initData }: Props) {
-    const transformed = initData.map((blog) => (
-        <div className={"w-full mx-auto m-0 p-0"} key={blog.id}>
-            <BlogCard blog={blog} />
-        </div>
-    ));
-
     const [page, setPage] = useState<number>(0);
-    const [take, setTake] = useState<number>(6);
-    const [blogData, setBlogData] = useState<ReactElement[]>(transformed);
-    const [enabled, setEnabled] = useState<boolean>(false);
+    const [take, _] = useState<number>(6);
 
-    const { data, isSuccess } = useQuery({
+    const { data } = useQuery({
         queryKey: ["paginatedFetchAllFeed", page],
-        enabled: enabled,
         queryFn: async () => {
             const res = await fetch(`/api/feed?page=${page}&take=${take}`, {
                 method: "GET",
@@ -42,33 +33,18 @@ export default function Feed({ numberOfPages, initData }: Props) {
         },
     });
 
-    useEffect(() => {
-        if (isSuccess && data) {
-            const payload = data.blogs as BlogPosts[];
-            const transformed = payload.map((blog) => (
-                <div className={"w-full mx-auto m-0 p-0"} key={blog.id}>
-                    <BlogCard blog={blog} />
-                </div>
-            ));
+    const blogs = initData?.length > 0 ? initData : (data.blogs as BlogPosts[]);
 
-            setBlogData(transformed);
-        }
-    }, [data, isSuccess]);
-
-    if (blogData.length > 0) {
-        return (
-            <div className={"w-full space-y-2 h-full flex flex-col justify-center"}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 h-full w-full gap-2 place-content-center">
-                    {blogData}
-                </div>
-
-                <CustomPagination
-                    numberOfPages={numberOfPages}
-                    setPage={setPage}
-                    setEnabled={setEnabled}
-                    page={page}
-                />
+    return (
+        <div className={"w-full m-4 h-full flex flex-col"}>
+            <div className={"grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"}>
+                {blogs.map((blog) => (
+                    <div className={"w-full mx-auto m-0 p-0"} key={blog.id}>
+                        <BlogCard blog={blog} loading={false} />
+                    </div>
+                ))}
             </div>
-        );
-    }
+            <CustomPagination numberOfPages={numberOfPages} setPage={setPage} page={page} />
+        </div>
+    );
 }
