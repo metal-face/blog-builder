@@ -2,8 +2,6 @@
 
 import { Cpu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import * as React from "react";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
@@ -14,35 +12,28 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ThemeToggle() {
-    const { setTheme, theme, systemTheme } = useTheme();
-    const [mounted, setMounted] = useState<boolean>(false);
-
-    useEffect(() => {
-        setMounted(true);
-    }, [setMounted]);
-
-    function determineTheme(): string | undefined {
-        switch (theme) {
-            case "system":
-                return systemTheme;
-            case "light":
-                return theme;
-            case "dark":
-                return theme;
-            default:
-                break;
-        }
+function determineTheme(theme?: string, systemTheme?: string) {
+    switch (theme) {
+        case "system":
+            return systemTheme;
+        case "light":
+            return "light";
+        case "dark":
+            return "dark";
+        default:
+            return "dark";
     }
+}
 
-    if (!mounted) return null;
+export function ThemeToggle() {
+    const { setTheme, systemTheme, theme } = useTheme();
 
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="link" size="default" className="p-0">
                     Theme
-                    {determineTheme() === "light" ? (
+                    {determineTheme(theme, systemTheme) === "light" ? (
                         <Sun className="ml-1 scale-75" />
                     ) : (
                         <Moon className="dark:visible ml-1 dark:scale-75" />
