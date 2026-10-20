@@ -6,7 +6,6 @@ import Link from "next/link";
 import type { Dispatch, SetStateAction } from "react";
 import BlogActions from "@/components/blogs/blog-actions";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import type { BlogPosts } from "@/generated/prisma/client";
 
@@ -14,13 +13,12 @@ interface Props {
     blog: BlogPosts;
     setDialogVisibility?: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
-    loading?: boolean;
+    loading: boolean;
 }
 
 export default function BlogCard({ blog, setDialogVisibility, setBlogIdToDelete, loading }: Props) {
     return (
-        <Card className="flex flex-col w-full justify-between h-[180px] hover:shadow-md drop-shadow-3xl">
-            {loading ? <Skeleton className={"h-full w-full absolute"} /> : null}
+        <Card className="flex flex-col w-full justify-between h-48 hover:shadow-md drop-shadow-3xl">
             <CardHeader>
                 <Link href={`/blog/${blog.id}`}>
                     <CardTitle className="text-left hover:underline text-lg sm:text-sm md:text-md lg:text-lg">
@@ -46,16 +44,15 @@ export default function BlogCard({ blog, setDialogVisibility, setBlogIdToDelete,
                 </p>
             </CardContent>
 
-            {setDialogVisibility && setBlogIdToDelete ? (
+            {setDialogVisibility && setBlogIdToDelete && (
                 <CardFooter>
                     <BlogActions
                         setDialogVisibility={setDialogVisibility}
                         blogId={blog.id}
                         setBlogIdToDelete={setBlogIdToDelete}
+                        loading={loading}
                     />
                 </CardFooter>
-            ) : (
-                <></>
             )}
         </Card>
     );
