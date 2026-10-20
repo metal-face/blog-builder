@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import React, { type ReactNode } from "react";
 import { MainNav } from "@/components/app-bar/main-nav";
 import { Providers } from "@/components/providers";
-import { Toaster } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 import "@/app/login/style.css";
 
@@ -44,9 +44,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                     <Providers>
                         <MainNav />
                         {children}
+                        <Toaster richColors />
                     </Providers>
                 </main>
-                <Toaster richColors />
             </body>
         </html>
     );
