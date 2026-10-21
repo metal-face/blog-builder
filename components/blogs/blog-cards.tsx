@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BlogCard from "@/components/blogs/blog-card";
 import CustomPagination from "@/components/pagination";
 import ResponsiveDialog from "@/components/responsive-dialog";
@@ -15,18 +15,13 @@ interface Props {
 }
 
 export default function BlogCards({ initData, numOfPages }: Props) {
-    const [triggerDelete, setTriggerDelete] = useState<boolean>(false);
     const [dialogVisibility, setDialogVisibility] = useState<boolean>(false);
     const [blogIdToDelete, setBlogIdToDelete] = useState<string>("");
     const [page, setPage] = useState<number>(0);
 
-    const { mutate: undoDeletePost, isPending: undoDeletePending } = useUndoDelete({
-        setTriggerDelete,
-    });
+    const { mutate: undoDeletePost, isPending: undoDeletePending } = useUndoDelete();
 
     const { mutate: deletePost, isPending: deletePending } = useDeletePost({
-        setTriggerDelete,
-        setBlogIdToDelete,
         undoDeleteMutateAsync: undoDeletePost,
     });
 
@@ -34,12 +29,6 @@ export default function BlogCards({ initData, numOfPages }: Props) {
 
     const posts = data?.blogs ?? (page === 0 ? initData : []);
     const numberOfPages = data ? Math.ceil(data.count / 6) : numOfPages;
-
-    useEffect(() => {
-        if (triggerDelete && blogIdToDelete) {
-            setTriggerDelete(false);
-        }
-    }, [triggerDelete, blogIdToDelete]);
 
     const handleDeleteConfirm = () => {
         if (blogIdToDelete) {

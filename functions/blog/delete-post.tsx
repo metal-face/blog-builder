@@ -1,20 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
 import { deletePost } from "@/axios/blog/delete-post";
 import type { UndoDeletePost } from "@/functions/blog/undo-delete";
 
 interface Props {
-    setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
-    setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
     undoDeleteMutateAsync: UndoDeletePost["mutate"];
 }
 
-export function useDeletePost({
-    setTriggerDelete,
-    setBlogIdToDelete,
-    undoDeleteMutateAsync,
-}: Props) {
+export function useDeletePost({ undoDeleteMutateAsync }: Props) {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -22,10 +15,6 @@ export function useDeletePost({
         mutationFn: deletePost,
         onSuccess: async (_res, blogId) => {
             await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
-
-            if (setBlogIdToDelete && setTriggerDelete) {
-                setTriggerDelete(false);
-            }
 
             toast.success("Success 🎉️", {
                 description: "Your post has been deleted, to undo click the button below.",
