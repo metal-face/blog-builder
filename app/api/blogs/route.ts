@@ -115,20 +115,18 @@ export async function GET(req: NextRequest): Promise<Response> {
     }
 
     try {
-        const posts: BlogPosts[] = await prisma.blogPosts.findMany({
-            skip: parseInt(page, 10) * parseInt(take, 10),
-            take: parseInt(take, 10),
-            where: {
-                userId: session.user.id,
-                deletedAt: null,
-            },
-        });
+        const where = { userId: session.user.id, deletedAt: null };
 
-        if (!posts) {
-            return Response.json({}, { status: 404, statusText: "Not Found" });
-        }
+        const [blogs, count]: [BlogPosts[], number] = await prisma.$transaction([
+            prisma.blogPosts.findMany({
+                skip: parseInt(page, 10) * parseInt(take, 10),
+                take: parseInt(take, 10),
+                where,
+            }),
+            prisma.blogPosts.count({ where }),
+        ]);
 
-        return Response.json(posts satisfies FetchBlogsResponse);
+        return Response.json({ blogs, count } satisfies FetchBlogsResponse);
     } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
