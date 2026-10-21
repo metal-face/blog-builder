@@ -1,4 +1,3 @@
-import { Hammer } from "lucide-react";
 import { ImageResponse } from "next/og";
 
 // Image metadata

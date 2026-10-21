@@ -12,8 +12,8 @@ export async function GET(request: NextRequest): Promise<Response> {
 
     try {
         const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
-            skip: parseInt(take) * parseInt(page),
-            take: parseInt(take),
+            skip: parseInt(take, 10) * parseInt(page, 10),
+            take: parseInt(take, 10),
             where: {
                 AND: [
                     {
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest): Promise<Response> {
         }
 
         return Response.json({}, { status: 404, statusText: "Not Found" });
-    } catch (err: any) {
+    } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }

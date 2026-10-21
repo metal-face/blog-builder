@@ -1,4 +1,3 @@
-import React from "react";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 
 const Denied = () => {

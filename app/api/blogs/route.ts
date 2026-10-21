@@ -42,7 +42,7 @@ export async function POST(req: Request): Promise<Response> {
     const updatedAt: Date = new Date();
     const { blogTitle, blogPost, isDraft, isPrivate }: PostData = (await req.json()) as PostData;
 
-    if (!session || !session.user.id) {
+    if (!session?.user.id) {
         return Response.json({}, { status: 401, statusText: "Unauthorized" });
     }
 
@@ -106,7 +106,7 @@ export async function DELETE(req: Request): Promise<Response> {
         }
 
         return Response.json({}, { status: 404, statusText: "Not Found" });
-    } catch (err: any) {
+    } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }
@@ -123,8 +123,8 @@ export async function GET(req: NextRequest): Promise<Response> {
 
     try {
         const posts: BlogPosts[] = await prisma.blogPosts.findMany({
-            skip: parseInt(page) * parseInt(take),
-            take: parseInt(take),
+            skip: parseInt(page, 10) * parseInt(take, 10),
+            take: parseInt(take, 10),
             where: {
                 userId: session.user.id,
                 deletedAt: null,
@@ -136,7 +136,7 @@ export async function GET(req: NextRequest): Promise<Response> {
         }
 
         return Response.json(posts);
-    } catch (err: any) {
+    } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }

@@ -2,7 +2,7 @@ import { Hammer, Pencil } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import type { Session } from "next-auth";
-import React, { type ReactElement } from "react";
+import type { ReactElement } from "react";
 import { auth } from "@/auth/auth";
 import BlogCards from "@/components/blogs/blog-cards";
 import { TypographyH1 } from "@/components/typography/typography-h1";
