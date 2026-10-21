@@ -1,0 +1,32 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:recommended"],
+    "schedule": ["before 6am on monday"],
+    "prConcurrentLimit": 10,
+    "packageRules": [
+        { "groupName": "tiptap", "matchPackageNames": ["@tiptap/**"] },
+        { "groupName": "radix", "matchPackageNames": ["@radix-ui/**"] },
+        {
+            "groupName": "react-three",
+            "matchPackageNames": ["@react-three/**", "three", "three-stdlib", "@types/three"]
+        },
+        { "groupName": "tanstack", "matchPackageNames": ["@tanstack/**"] },
+        { "groupName": "prisma", "matchPackageNames": ["prisma", "@prisma/**"] },
+        {
+            "groupName": "react",
+            "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"]
+        },
+        { "groupName": "auth", "matchPackageNames": ["next-auth", "@auth/**", "openid-client"] },
+        {
+            "groupName": "tailwind",
+            "matchPackageNames": [
+                "tailwindcss",
+                "@tailwindcss/**",
+                "tailwind-merge",
+                "tailwindcss-animate"
+            ]
+        },
+        { "groupName": "emotion-mui", "matchPackageNames": ["@emotion/**", "@mui/**"] },
+        { "groupName": "github-actions", "matchManagers": ["github-actions"] }
+    ]
+}
