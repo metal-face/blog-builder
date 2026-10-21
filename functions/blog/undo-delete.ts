@@ -15,10 +15,7 @@ export function useUndoDelete({ setFetchData, setTriggerDelete }: Props) {
         mutationKey: ["undoDeletion"],
         mutationFn: undoDelete,
         onSuccess: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] }),
-                queryClient.invalidateQueries({ queryKey: ["postCount"] }),
-            ]);
+            await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
 
             if (setFetchData && setTriggerDelete) {
                 setFetchData(true);
