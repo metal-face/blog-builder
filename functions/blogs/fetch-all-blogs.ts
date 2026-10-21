@@ -8,8 +8,8 @@ interface Props {
 
 export function useFetchAllBlogs({ fetchData, page }: Props) {
     return useQuery({
-        queryKey: ["fetchBlogs"],
-        enabled: fetchData,
+        queryKey: ["fetchBlogs", page],
+        enabled: fetchData || page > 0,
         queryFn: async () => {
             const res = await fetch(`/api/blogs?take=${6}&page=${page}`, {
                 method: "GET",
@@ -18,9 +18,11 @@ export function useFetchAllBlogs({ fetchData, page }: Props) {
                 },
             });
 
-            if (res.ok) {
-                return (await res.json()) as BlogPosts[];
+            if (!res.ok) {
+                throw new Error("Unable to fetch blogs");
             }
+
+            return (await res.json()) as BlogPosts[];
         },
     });
 }
