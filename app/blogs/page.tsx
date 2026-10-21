@@ -25,7 +25,7 @@ export default async function Page(): Promise<ReactElement> {
         },
     });
 
-    const numOfPages = numOfBlogs / 5;
+    const numOfPages = Math.ceil(numOfBlogs / 6);
 
     const blogs: BlogPosts[] = await prisma.blogPosts.findMany({
         skip: 0,
