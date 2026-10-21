@@ -41,6 +41,8 @@ jobs:
 
   build:
     name: Build
+    # Fork PRs don't receive repository secrets, so DOPPLER_TOKEN would be empty.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

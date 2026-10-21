@@ -5,7 +5,7 @@ import DOMPurify from "dompurify";
 import { Check, Save } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import BlogTitle from "@/components/editor/blog-title";
@@ -156,6 +156,13 @@ export default function BlogBuilder({ blog }: Props) {
 
         setEditable(!editable);
     }
+
+    // Move focus into the title input when it replaces the clickable title.
+    useEffect(() => {
+        if (editable) {
+            form.setFocus("blogTitle");
+        }
+    }, [editable, form]);
 
     return (
         <>
