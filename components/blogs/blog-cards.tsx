@@ -7,7 +7,6 @@ import ResponsiveDialog from "@/components/responsive-dialog";
 import { useDeletePost } from "@/functions/blog/delete-post";
 import { useUndoDelete } from "@/functions/blog/undo-delete";
 import { useFetchAllBlogs } from "@/functions/blogs/fetch-all-blogs";
-import { useFetchPostsCount } from "@/functions/blogs/fetch-count";
 import type { BlogPosts } from "@/generated/prisma/client";
 
 interface Props {
@@ -21,7 +20,6 @@ export default function BlogCards({ initData, numOfPages }: Props) {
     const [dialogVisibility, setDialogVisibility] = useState<boolean>(false);
     const [blogIdToDelete, setBlogIdToDelete] = useState<string>("");
     const [page, setPage] = useState<number>(0);
-    const [numberOfPages, setNumberOfPages] = useState(numOfPages);
 
     const { mutate: undoDeletePost, isPending: undoDeletePending } = useUndoDelete({
         setTriggerDelete,
@@ -35,21 +33,10 @@ export default function BlogCards({ initData, numOfPages }: Props) {
         undoDeleteMutateAsync: undoDeletePost,
     });
 
-    const { data: blogs, isFetching: isFetchingBlogs } = useFetchAllBlogs({ fetchData, page });
+    const { data, isFetching: isFetchingBlogs } = useFetchAllBlogs({ fetchData, page });
 
-    const {
-        data: count,
-        isSuccess: countIsSuccess,
-        isFetching: isFetchingCount,
-    } = useFetchPostsCount();
-
-    useEffect(() => {
-        if (countIsSuccess) {
-            setNumberOfPages(Math.ceil(count.count / 6));
-        }
-    }, [count, countIsSuccess]);
-
-    const posts = blogs ?? (page === 0 ? initData : []);
+    const posts = data?.blogs ?? (page === 0 ? initData : []);
+    const numberOfPages = data ? Math.ceil(data.count / 6) : numOfPages;
 
     useEffect(() => {
         if (triggerDelete && blogIdToDelete) {
@@ -79,9 +66,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
                         blog={blog}
                         setDialogVisibility={setDialogVisibility}
                         setBlogIdToDelete={setBlogIdToDelete}
-                        loading={
-                            undoDeletePending || deletePending || isFetchingBlogs || isFetchingCount
-                        }
+                        loading={undoDeletePending || deletePending || isFetchingBlogs}
                     />
                 ))}
             </div>
