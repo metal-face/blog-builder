@@ -4,7 +4,6 @@ import { toast } from "sonner";
 import type { UndoDeletePost } from "@/functions/blog/undo-delete";
 
 interface Props {
-    blogId?: string;
     setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
@@ -12,7 +11,6 @@ interface Props {
 }
 
 export function useDeletePost({
-    blogId,
     setFetchData,
     setTriggerDelete,
     setBlogIdToDelete,
@@ -21,8 +19,8 @@ export function useDeletePost({
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ["deletePost", blogId],
-        mutationFn: async () => {
+        mutationKey: ["deletePost"],
+        mutationFn: async (blogId: string) => {
             return await fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
@@ -31,8 +29,11 @@ export function useDeletePost({
                 body: JSON.stringify({ blogId: blogId }),
             });
         },
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
+        onSuccess: async (_res, blogId) => {
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] }),
+                queryClient.invalidateQueries({ queryKey: ["postCount"] }),
+            ]);
 
             if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
                 setTriggerDelete(false);
@@ -43,7 +44,7 @@ export function useDeletePost({
                 description: "Your post has been deleted, to undo click the button below.",
                 action: {
                     label: "Undo",
-                    onClick: () => undoDeleteMutateAsync(),
+                    onClick: () => undoDeleteMutateAsync(blogId),
                 },
             });
         },

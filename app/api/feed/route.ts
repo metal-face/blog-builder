@@ -20,6 +20,9 @@ export async function GET(request: NextRequest): Promise<Response> {
                         private: false,
                     },
                     {
+                        draft: false,
+                    },
+                    {
                         deletedAt: null,
                     },
                 ],

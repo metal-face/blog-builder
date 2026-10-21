@@ -5,15 +5,14 @@ import { toast } from "sonner";
 interface Props {
     setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
-    blogId?: string;
 }
 
-export function useUndoDelete({ setFetchData, setTriggerDelete, blogId }: Props) {
+export function useUndoDelete({ setFetchData, setTriggerDelete }: Props) {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationKey: ["undoDeletion", blogId],
-        mutationFn: async () => {
+        mutationKey: ["undoDeletion"],
+        mutationFn: async (blogId: string) => {
             return await fetch("/api/blogs", {
                 method: "PATCH",
                 headers: {
@@ -23,7 +22,10 @@ export function useUndoDelete({ setFetchData, setTriggerDelete, blogId }: Props)
             });
         },
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] }),
+                queryClient.invalidateQueries({ queryKey: ["postCount"] }),
+            ]);
 
             if (setFetchData && setTriggerDelete) {
                 setFetchData(true);
