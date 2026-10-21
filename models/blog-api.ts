@@ -35,9 +35,8 @@ export interface PatchPostResponse {
     res: BlogPosts;
 }
 
-export type FetchBlogsResponse = BlogPosts[];
-
-export interface PostsCountResponse {
+export interface FetchBlogsResponse {
+    blogs: BlogPosts[];
     count: number;
 }
 
