@@ -261,10 +261,10 @@
             #c2ccd6e2 65%,
             #c2ccd6
         );
-        -webkit-mask-composite: xor;
         -webkit-mask:
             linear-gradient(#fff 0 0) content-box,
             linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
         mask-composite: exclude;
         pointer-events: none;
     }
@@ -287,10 +287,10 @@
             #34a853,
             #fbbc05 85%
         );
-        -webkit-mask-composite: xor;
         -webkit-mask:
             linear-gradient(#fff 0 0) content-box,
             linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
         animation: 6s rotate linear infinite;
         mask-composite: exclude;
         pointer-events: none;
