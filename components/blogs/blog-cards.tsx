@@ -26,11 +26,9 @@ export default function BlogCards({ initData, numOfPages }: Props) {
     const { mutate: undoDeletePost, isPending: undoDeletePending } = useUndoDelete({
         setTriggerDelete,
         setFetchData,
-        blogId: blogIdToDelete,
     });
 
     const { mutate: deletePost, isPending: deletePending } = useDeletePost({
-        blogId: blogIdToDelete,
         setFetchData,
         setTriggerDelete,
         setBlogIdToDelete,
@@ -63,7 +61,7 @@ export default function BlogCards({ initData, numOfPages }: Props) {
     const handleDeleteConfirm = () => {
         if (blogIdToDelete) {
             setDialogVisibility(false);
-            deletePost();
+            deletePost(blogIdToDelete);
         }
     };
 

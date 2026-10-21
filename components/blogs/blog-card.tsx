@@ -18,7 +18,7 @@ interface Props {
 
 export default function BlogCard({ blog, setDialogVisibility, setBlogIdToDelete, loading }: Props) {
     return (
-        <Card className="flex flex-col w-full justify-between h-48 hover:shadow-md drop-shadow-3xl">
+        <Card className="relative flex flex-col w-full justify-between h-48 hover:shadow-md drop-shadow-3xl">
             <CardHeader>
                 <Link href={`/blog/${blog.id}`}>
                     <CardTitle className="text-left hover:underline text-lg sm:text-sm md:text-md lg:text-lg">
