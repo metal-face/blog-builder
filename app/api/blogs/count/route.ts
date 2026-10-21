@@ -1,5 +1,6 @@
 import { auth } from "@/auth/auth";
 import { prisma } from "@/lib/prisma";
+import type { PostsCountResponse } from "@/models/blog-api";
 
 export async function GET() {
     const session = await auth();
@@ -22,11 +23,10 @@ export async function GET() {
             },
         });
 
-        if (!count) {
-            return Response.json({}, { status: 500, statusText: "Internal Server Error" });
-        }
-
-        return Response.json({ count }, { status: 200, statusText: "Success" });
+        return Response.json({ count } satisfies PostsCountResponse, {
+            status: 200,
+            statusText: "Success",
+        });
     } catch {
         return Response.error();
     }
