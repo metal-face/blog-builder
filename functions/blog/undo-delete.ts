@@ -4,11 +4,10 @@ import { toast } from "sonner";
 import { undoDelete } from "@/axios/blog/undo-delete";
 
 interface Props {
-    setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
 }
 
-export function useUndoDelete({ setFetchData, setTriggerDelete }: Props) {
+export function useUndoDelete({ setTriggerDelete }: Props) {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -17,8 +16,7 @@ export function useUndoDelete({ setFetchData, setTriggerDelete }: Props) {
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
 
-            if (setFetchData && setTriggerDelete) {
-                setFetchData(true);
+            if (setTriggerDelete) {
                 setTriggerDelete(false);
             }
 

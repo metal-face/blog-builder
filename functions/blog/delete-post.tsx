@@ -5,14 +5,12 @@ import { deletePost } from "@/axios/blog/delete-post";
 import type { UndoDeletePost } from "@/functions/blog/undo-delete";
 
 interface Props {
-    setFetchData?: Dispatch<SetStateAction<boolean>>;
     setTriggerDelete?: Dispatch<SetStateAction<boolean>>;
     setBlogIdToDelete?: Dispatch<SetStateAction<string>>;
     undoDeleteMutateAsync: UndoDeletePost["mutate"];
 }
 
 export function useDeletePost({
-    setFetchData,
     setTriggerDelete,
     setBlogIdToDelete,
     undoDeleteMutateAsync,
@@ -25,9 +23,8 @@ export function useDeletePost({
         onSuccess: async (_res, blogId) => {
             await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
 
-            if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
+            if (setBlogIdToDelete && setTriggerDelete) {
                 setTriggerDelete(false);
-                setFetchData(true);
             }
 
             toast.success("Success 🎉️", {
