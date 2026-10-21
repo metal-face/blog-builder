@@ -43,10 +43,7 @@ export function useDeletePost({
                 description: "Your post has been deleted, to undo click the button below.",
                 action: {
                     label: "Undo",
-                    onClick: async () => {
-                        undoDeleteMutateAsync();
-                        await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
-                    },
+                    onClick: () => undoDeleteMutateAsync(),
                 },
             });
         },
