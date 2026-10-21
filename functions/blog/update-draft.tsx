@@ -31,7 +31,7 @@ export function useUpdateDraft() {
             toast.success("Success! 🎉");
         },
         onError: () => {
-            toast("Oops! 😬", { description: "Something went wrong!" });
+            toast.error("Oops! 😬", { description: "Something went wrong!" });
         },
     });
 }
