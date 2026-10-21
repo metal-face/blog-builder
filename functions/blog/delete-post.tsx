@@ -23,10 +23,7 @@ export function useDeletePost({
         mutationKey: ["deletePost"],
         mutationFn: deletePost,
         onSuccess: async (_res, blogId) => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] }),
-                queryClient.invalidateQueries({ queryKey: ["postCount"] }),
-            ]);
+            await queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] });
 
             if (setBlogIdToDelete && setTriggerDelete && setFetchData) {
                 setTriggerDelete(false);
