@@ -39,6 +39,7 @@ export async function GET() {
                     blog-builder.com
                 </span>
                 <svg
+                    aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"

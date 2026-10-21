@@ -189,8 +189,17 @@ export default function BlogBuilder({ blog }: Props) {
                         </div>
                     ) : null}
                     {!editable ? (
+                        // biome-ignore lint/a11y/useSemanticElements: BlogTitle renders an <h2>, which is invalid inside <button>
                         <div
+                            role="button"
+                            tabIndex={0}
                             onClick={() => setEditable(true)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setEditable(true);
+                                }
+                            }}
                             className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline-solid outline-1 outline-offset-8 outline-zinc-800 rounded"
                         >
                             <BlogTitle blogTitle={form.getValues().blogTitle} />
