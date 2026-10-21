@@ -15,7 +15,6 @@ interface Props {
 }
 
 export default function BlogCards({ initData, numOfPages }: Props) {
-    const [fetchData, setFetchData] = useState<boolean>(false);
     const [triggerDelete, setTriggerDelete] = useState<boolean>(false);
     const [dialogVisibility, setDialogVisibility] = useState<boolean>(false);
     const [blogIdToDelete, setBlogIdToDelete] = useState<string>("");
@@ -23,24 +22,21 @@ export default function BlogCards({ initData, numOfPages }: Props) {
 
     const { mutate: undoDeletePost, isPending: undoDeletePending } = useUndoDelete({
         setTriggerDelete,
-        setFetchData,
     });
 
     const { mutate: deletePost, isPending: deletePending } = useDeletePost({
-        setFetchData,
         setTriggerDelete,
         setBlogIdToDelete,
         undoDeleteMutateAsync: undoDeletePost,
     });
 
-    const { data, isFetching: isFetchingBlogs } = useFetchAllBlogs({ fetchData, page });
+    const { data, isFetching: isFetchingBlogs } = useFetchAllBlogs({ page });
 
     const posts = data?.blogs ?? (page === 0 ? initData : []);
     const numberOfPages = data ? Math.ceil(data.count / 6) : numOfPages;
 
     useEffect(() => {
         if (triggerDelete && blogIdToDelete) {
-            setFetchData(true);
             setTriggerDelete(false);
         }
     }, [triggerDelete, blogIdToDelete]);
