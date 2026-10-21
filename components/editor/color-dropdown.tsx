@@ -1,12 +1,10 @@
 import type { Editor } from "@tiptap/react";
-import { Baseline, ChevronDown, Palette } from "lucide-react";
+import { Baseline, ChevronDown } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";

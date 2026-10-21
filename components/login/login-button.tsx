@@ -34,7 +34,7 @@ export default function LoginButton({ provider, children, colorCode }: LoginButt
         try {
             setState("pending");
             await signIn(provider, { callbackUrl: "/" });
-        } catch (error) {
+        } catch {
             setState("error");
         }
     }

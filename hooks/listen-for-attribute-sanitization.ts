@@ -4,7 +4,7 @@ export default function listenForAttributeSanitization(
     allowedStyles: string[],
     domPurifyInstance: DOMPurify
 ) {
-    domPurifyInstance.addHook("uponSanitizeAttribute", (node, data) => {
+    domPurifyInstance.addHook("uponSanitizeAttribute", (_node, data) => {
         if (data.attrName === "style") {
             const styles = data.attrValue
                 .split(";")

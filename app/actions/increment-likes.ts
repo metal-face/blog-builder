@@ -88,7 +88,7 @@ export async function incrementLike(
 
         revalidatePath("/blogs");
         return { updatedLikeCount: increment.likes, hasLiked: true, hasToggledDislike: false };
-    } catch (err: any) {
+    } catch (err) {
         console.error(err);
     }
 

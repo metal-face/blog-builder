@@ -1,5 +1,5 @@
 import type { Session } from "next-auth";
-import React, { type ReactElement } from "react";
+import type { ReactElement } from "react";
 import { auth } from "@/auth/auth";
 import LikeDislikeButton from "@/components/blogs/like-dislike-button";
 import Tiptap from "@/components/editor/tip-tap";
@@ -58,7 +58,7 @@ export default async function Page(props: {
                     },
                 });
             }
-        } catch (err: any) {
+        } catch (err) {
             console.error(err);
         }
     }
@@ -67,7 +67,7 @@ export default async function Page(props: {
         where: { id: params.id },
     });
 
-    if (blogPost && blogPost.blogPost && blogPost.blogTitle && searchParams.ip) {
+    if (blogPost?.blogPost && blogPost.blogTitle && searchParams.ip) {
         let hasLiked: LikeLog | null = null;
         let hasDisliked: DislikeLog | null = null;
 
@@ -109,9 +109,7 @@ export default async function Page(props: {
                                 dislikeStatus={!!hasDisliked}
                             />
                         </div>
-                    ) : (
-                        <></>
-                    )}
+                    ) : null}
                 </div>
                 <Tiptap editable={false} blogPost={blogPost.blogPost} />
             </div>

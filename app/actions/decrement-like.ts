@@ -90,7 +90,7 @@ export async function decrementLike(
 
         revalidatePath("/blogs");
         return { updatedLikeCount: dislike.likes, hasToggledLike: false, hasDisliked: true };
-    } catch (err: any) {
+    } catch (err) {
         console.error(err);
     }
 

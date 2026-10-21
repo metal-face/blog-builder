@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { NextFont } from "next/dist/compiled/@next/font";
 import { Inter } from "next/font/google";
-import React, { type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { MainNav } from "@/components/app-bar/main-nav";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <link rel="icon" href="/icon.tsx" type="image/png" sizes="32x32" />
                 <title>Blog Builder</title>
             </head>
-            <body className={inter.className + " overflow-x-hidden bg-zinc-100 dark:bg-zinc-900"}>
+            <body className={`${inter.className} overflow-x-hidden bg-zinc-100 dark:bg-zinc-900`}>
                 <Analytics />
                 <main className="h-screen w-screen">
                     <Providers>

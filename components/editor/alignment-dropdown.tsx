@@ -1,5 +1,5 @@
 import type { Editor } from "@tiptap/react";
-import { AlignCenter, AlignLeft, AlignRight, ChevronDown } from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
