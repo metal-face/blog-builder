@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
+import { undoDelete } from "@/axios/blog/undo-delete";
 
 interface Props {
     setFetchData?: Dispatch<SetStateAction<boolean>>;
@@ -12,15 +13,7 @@ export function useUndoDelete({ setFetchData, setTriggerDelete }: Props) {
 
     return useMutation({
         mutationKey: ["undoDeletion"],
-        mutationFn: async (blogId: string) => {
-            return await fetch("/api/blogs", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ blogId: blogId, revertDelete: true }),
-            });
-        },
+        mutationFn: undoDelete,
         onSuccess: async () => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] }),
