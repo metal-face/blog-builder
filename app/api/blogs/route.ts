@@ -8,39 +8,29 @@ import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitiz
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
 import { prisma } from "@/lib/prisma";
 import { allowedStyles } from "@/models/allowed-styles";
+import type {
+    CreatePostPayload,
+    CreatePostResponse,
+    FetchBlogsResponse,
+    PatchPostPayload,
+    PatchPostResponse,
+    UpdatePostPayload,
+    UpdatePostResponse,
+} from "@/models/blog-api";
 
 const { JSDOM } = jsdom;
 const window = new JSDOM("").window;
 const DOMPurify = createDOMPurify(window);
 
-interface PostData {
-    blogTitle: string;
-    blogPost: string;
-    isDraft: boolean;
-    isPrivate: boolean;
-}
-
 interface DeleteData {
     blogId: string;
-}
-
-interface PatchData {
-    blogId: string;
-    revertDelete?: boolean;
-}
-
-interface PutPayload {
-    blogId: string;
-    blogPost: string;
-    blogTitle: string;
-    isDraft: boolean;
-    isPrivate: boolean;
 }
 
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
-    const { blogTitle, blogPost, isDraft, isPrivate }: PostData = (await req.json()) as PostData;
+    const { blogTitle, blogPost, isDraft, isPrivate }: CreatePostPayload =
+        (await req.json()) as CreatePostPayload;
 
     if (!session?.user.id) {
         return Response.json({}, { status: 401, statusText: "Unauthorized" });
@@ -77,7 +67,10 @@ export async function POST(req: Request): Promise<Response> {
         });
 
         if (res) {
-            return Response.json({}, { status: 201, statusText: "Success" });
+            return Response.json({} satisfies CreatePostResponse, {
+                status: 201,
+                statusText: "Success",
+            });
         }
 
         return Response.json({}, { status: 400, statusText: "Bad Request" });
@@ -135,7 +128,7 @@ export async function GET(req: NextRequest): Promise<Response> {
             return Response.json({}, { status: 404, statusText: "Not Found" });
         }
 
-        return Response.json(posts);
+        return Response.json(posts satisfies FetchBlogsResponse);
     } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
@@ -143,8 +136,8 @@ export async function GET(req: NextRequest): Promise<Response> {
 
 export async function PUT(req: NextRequest): Promise<Response> {
     const session = await auth();
-    const { blogId, blogPost, blogTitle, isDraft, isPrivate }: PutPayload =
-        (await req.json()) as PutPayload;
+    const { blogId, blogPost, blogTitle, isDraft, isPrivate }: UpdatePostPayload =
+        (await req.json()) as UpdatePostPayload;
 
     if (!session || !blogId || !blogPost || !blogTitle) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
@@ -174,7 +167,10 @@ export async function PUT(req: NextRequest): Promise<Response> {
             return Response.json({}, { status: 500, statusText: "Internal Server Error" });
         }
 
-        return Response.json({ data: res }, { status: 200, statusText: "Success" });
+        return Response.json({ data: res } satisfies UpdatePostResponse, {
+            status: 200,
+            statusText: "Success",
+        });
     } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
@@ -182,7 +178,7 @@ export async function PUT(req: NextRequest): Promise<Response> {
 
 export async function PATCH(req: NextRequest): Promise<Response> {
     const session: Session | null = await auth();
-    const { blogId, revertDelete }: PatchData = (await req.json()) as PatchData;
+    const { blogId, revertDelete }: PatchPostPayload = (await req.json()) as PatchPostPayload;
 
     if (!blogId || !session) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
@@ -203,7 +199,10 @@ export async function PATCH(req: NextRequest): Promise<Response> {
             return Response.json({}, { status: 400, statusText: "Bad Request" });
         }
 
-        return Response.json({ res }, { status: 200, statusText: "Success" });
+        return Response.json({ res } satisfies PatchPostResponse, {
+            status: 200,
+            statusText: "Success",
+        });
     } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
