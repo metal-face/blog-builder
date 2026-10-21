@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { Dispatch, SetStateAction } from "react";
 import { toast } from "sonner";
+import { deletePost } from "@/axios/blog/delete-post";
 import type { UndoDeletePost } from "@/functions/blog/undo-delete";
 
 interface Props {
@@ -20,15 +21,7 @@ export function useDeletePost({
 
     return useMutation({
         mutationKey: ["deletePost"],
-        mutationFn: async (blogId: string) => {
-            return await fetch("/api/blogs", {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ blogId: blogId }),
-            });
-        },
+        mutationFn: deletePost,
         onSuccess: async (_res, blogId) => {
             await Promise.all([
                 queryClient.invalidateQueries({ queryKey: ["fetchBlogs"] }),
