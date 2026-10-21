@@ -2,6 +2,7 @@
 
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { fetchFeed } from "@/axios/feed/fetch-feed";
 import BlogCard from "@/components/blogs/blog-card";
 import CustomPagination from "@/components/pagination";
 import type { BlogPosts } from "@/generated/prisma/client";
@@ -20,18 +21,7 @@ export default function Feed({ numberOfPages, initData }: Props) {
         queryKey: ["paginatedFetchAllFeed", page],
         initialData: page === 0 ? initData : undefined,
         placeholderData: keepPreviousData,
-        queryFn: async () => {
-            const res = await fetch(`/api/feed?page=${page}&take=${take}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (!res.ok) throw new Error("Failed to fetch blogs");
-
-            return (await res.json()).blogs as BlogPosts[];
-        },
+        queryFn: () => fetchFeed({ page, take }),
     });
 
     return (
