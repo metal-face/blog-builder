@@ -79,6 +79,7 @@ model RelatedBlogPosts {
   createdAt DateTime @default(now())
   originBlogId String @relation("OriginBlogPostId", fields: [originBlogId], references: [id])
   relatedBlogId BlogPosts @relation("RelatedBlogId", fields: [relatedBlogId], references: [blogId])
+  @@unique([originBlogId, relatedBlogId])
 }
 
 model ViewLog {
