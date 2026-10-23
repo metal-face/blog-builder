@@ -74,6 +74,13 @@ model BlogPosts {
   viewLogs   ViewLog[]
 }
 
+model RelatedBlogPosts {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  originBlogId String @relation("OriginBlogPostId", fields: [originBlogId], references: [id])
+  relatedBlogId BlogPosts @relation("RelatedBlogId", fields: [relatedBlogId], references: [blogId])
+}
+
 model ViewLog {
   id        Int       @id @default(autoincrement())
   postId    String
