@@ -72,15 +72,17 @@ model BlogPosts {
   DislikeLog DislikeLog[]
   likeLogs   LikeLog[]
   viewLogs   ViewLog[]
+  blogsThisBlogReferences RelatedBlogPosts[] @relation("OriginBlogId")
+  blogsThatReferenceThisBlog RelatedBlogPosts[] @relation("RelatedBlogId")
 }
 
 model RelatedBlogPosts {
   id String @id @default(cuid())
-  originBlog String
-  relatedBlog String
+  originBlogId String
+  relatedBlogId String
   createdAt DateTime @default(now())
-  originBlogId BlogPosts @relation("OriginBlogPostId", fields: [originBlogId], references: [id], onDelete: Cascade)
-  relatedBlogId BlogPosts @relation("RelatedBlogId", fields: [relatedBlogId], references: [id], onDelete: Cascade)
+  originBlog BlogPosts @relation("OriginBlogId", fields: [originBlogId], references: [id], onDelete: Cascade)
+  relatedBlog BlogPosts @relation("RelatedBlogId", fields: [relatedBlogId], references: [id], onDelete: Cascade)
   @@unique([originBlogId, relatedBlogId])
 }
 
