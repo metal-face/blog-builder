@@ -8,7 +8,12 @@ import { RotatingPen } from "@/components/three/rotating-pen";
 
 const PenCanvas: FC = () => {
     return (
-        <div id="canvas-container" className="h-5/6 w-full">
+        <div
+            id="canvas-container"
+            className="h-5/6 w-full"
+            role={"img"}
+            aria-label={"A rotating fountain pen"}
+        >
             <Canvas
                 gl={{ preserveDrawingBuffer: true }}
                 shadows
