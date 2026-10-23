@@ -1,12 +1,15 @@
 "use client";
 
-import { A11y, A11yAnnouncer } from "@react-three/a11y";
-import { OrbitControls, Stage } from "@react-three/drei";
+import { Float, OrbitControls, Stage } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { type FC, Suspense } from "react";
-import { RotatingPen } from "@/components/three/rotating-pen";
+import { type FC, Suspense, useState } from "react";
+import { FountainPen } from "@/components/three/fountain-pen";
+import { createInk, Ink, PenWriter, usePenKeys } from "@/components/three/pen-writing";
 
 const PenCanvas: FC = () => {
+    const { positioned: writing, inking } = usePenKeys();
+    const [ink] = useState(createInk);
+
     return (
         <div
             id="canvas-container"
@@ -15,34 +18,36 @@ const PenCanvas: FC = () => {
             aria-label={"A rotating fountain pen"}
         >
             <Canvas
-                gl={{ preserveDrawingBuffer: true }}
                 shadows
                 dpr={[1, 1.5]}
-                camera={{
-                    position: [50, 200, 150],
-                    near: 0,
-                    far: 100,
-                    fov: 50,
-                    zoom: 1,
-                }}
+                gl={{ toneMappingExposure: 1.1 }}
+                camera={{ position: [80, 200, 200], fov: 40 }}
             >
                 <Suspense fallback={null}>
                     <Stage
-                        intensity={23}
-                        shadows
-                        castShadow
-                        receiveShadow
+                        intensity={4}
+                        preset={"rembrandt"}
+                        shadows={"contact"}
                         adjustCamera
-                        environment={"park"}
+                        environment={{ preset: "park", environmentIntensity: 1.2 }}
                     >
-                        {/* biome-ignore lint/a11y/useValidAriaRole: role is an @react-three/a11y prop, not an ARIA role */}
-                        <A11y role="content" description="A rotating fountain pen">
-                            <RotatingPen />
-                        </A11y>
+                        <Float
+                            enabled={!writing}
+                            speed={1.5}
+                            rotationIntensity={0.3}
+                            floatIntensity={2}
+                            floatingRange={[-0.4, 0.4]}
+                        >
+                            <PenWriter writing={writing} inking={inking} ink={ink}>
+                                <FountainPen />
+                            </PenWriter>
+                        </Float>
                     </Stage>
+                    <Ink writing={writing} ink={ink} />
                 </Suspense>
                 <OrbitControls
-                    autoRotate
+                    enabled={!writing}
+                    autoRotate={!writing}
                     enableZoom={false}
                     enableRotate
                     enablePan
@@ -50,7 +55,6 @@ const PenCanvas: FC = () => {
                     autoRotateSpeed={1.5}
                 />
             </Canvas>
-            <A11yAnnouncer />
         </div>
     );
 };
