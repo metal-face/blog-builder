@@ -76,9 +76,11 @@ model BlogPosts {
 
 model RelatedBlogPosts {
   id String @id @default(cuid())
+  originBlog String
+  relatedBlog String
   createdAt DateTime @default(now())
   originBlogId BlogPosts @relation("OriginBlogPostId", fields: [originBlogId], references: [id], onDelete: Cascade)
-  relatedBlogId BlogPosts @relation("RelatedBlogId", fields: [relatedBlogId], references: [blogId], onDelete: Cascade)
+  relatedBlogId BlogPosts @relation("RelatedBlogId", fields: [relatedBlogId], references: [id], onDelete: Cascade)
   @@unique([originBlogId, relatedBlogId])
 }
 
