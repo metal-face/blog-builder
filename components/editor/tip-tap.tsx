@@ -51,22 +51,32 @@ export const Heading = BaseHeading.configure({ levels: [1, 2, 3] }).extend({
 });
 
 import CharacterCount from "@tiptap/extension-character-count";
-import { useEffect } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+
+interface Props {
+    blogPost: string;
+    onChange?: (richText: string) => void;
+    editable: boolean;
+    showPrivateToggle: boolean;
+    isPrivate?: boolean;
+    onPrivateChange?: (val: boolean) => void;
+}
 
 export default function Tiptap({
     blogPost,
     onChange,
     editable,
-}: {
-    blogPost: string;
-    onChange?: (richText: string) => void;
-    editable: boolean;
-}) {
+    showPrivateToggle,
+    isPrivate,
+    onPrivateChange,
+}: Props) {
     const editor = useEditor({
         // Avoid SSR hydration mismatches and keep Tiptap 2's re-render-per-transaction behavior
         // so the toolbar and word counter stay in sync.
         immediatelyRender: false,
         shouldRerenderOnTransaction: true,
+        editable: editable,
         extensions: [
             StarterKit.configure({
                 bulletList: false,
@@ -154,32 +164,30 @@ export default function Tiptap({
         },
     });
 
-    useEffect(() => {
-        if (!editor) {
-            return undefined;
-        }
-
-        editor.setEditable(editable);
-    }, [editor, editable]);
-
-    if (!editor) {
-        return null;
-    }
-
-    if (editable) {
-        return (
-            <div className="my-2 overflow-x-hidden overflow-y-hidden">
-                <Toolbar editor={editor} />
-                <EditorContent editor={editor} />
-                <WordCounter editor={editor} />
-            </div>
-        );
-    }
-
     return (
         <div className="my-2 overflow-x-hidden overflow-y-hidden">
+            {editable && <Toolbar editor={editor} />}
             <EditorContent editor={editor} />
-            <WordCounter editor={editor} />
+            <div className="w-full flex items-center justify-between">
+                <WordCounter editor={editor} />
+                {showPrivateToggle && (
+                    <div className="flex items-center space-x-2">
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <p>Private</p>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>When checked, only you will be able to see this post.</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Checkbox
+                            disabled={!editable}
+                            checked={isPrivate}
+                            onCheckedChange={onPrivateChange}
+                        />
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
