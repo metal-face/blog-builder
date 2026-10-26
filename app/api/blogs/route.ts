@@ -29,12 +29,15 @@ interface DeleteData {
 export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
-    const { blogTitle, blogPost, isDraft, isPrivate }: CreatePostPayload =
+
+    const { blogTitle, blogPost, isDraft, isPrivate, relatedPosts }: CreatePostPayload =
         (await req.json()) as CreatePostPayload;
 
     if (!session?.user.id) {
         return Response.json({}, { status: 401, statusText: "Unauthorized" });
     }
+
+    const userId = session.user.id;
 
     if (blogTitle.length < 4 || blogTitle.length > 32) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
@@ -55,25 +58,27 @@ export async function POST(req: Request): Promise<Response> {
     });
 
     try {
-        const res = await prisma.blogPosts.create({
-            data: {
-                blogTitle: blogTitle,
-                blogPost: cleanPost,
-                private: isPrivate,
-                draft: isDraft,
-                userId: session.user.id,
-                updatedAt: updatedAt,
-            },
-        });
+        return await prisma.$transaction(async (tx) => {
+            const post = await tx.blogPosts.create({
+                data: {
+                    blogTitle: blogTitle,
+                    blogPost: cleanPost,
+                    private: isPrivate,
+                    draft: isDraft,
+                    userId: userId,
+                    updatedAt: updatedAt,
+                },
+            });
 
-        if (res) {
+            await tx.relatedBlogPosts.createMany({
+                data: relatedPosts.map((id) => ({ relatedBlogId: id, originBlogId: post.id })),
+            });
+
             return Response.json({} satisfies CreatePostResponse, {
                 status: 201,
                 statusText: "Success",
             });
-        }
-
-        return Response.json({}, { status: 400, statusText: "Bad Request" });
+        });
     } catch (error) {
         console.error("Request error", error);
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
