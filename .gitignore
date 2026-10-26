@@ -5,6 +5,10 @@
 
 /.idea
 
+/.agents
+/.claude
+/.windsurf
+
 # testing
 /coverage
 
