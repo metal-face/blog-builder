@@ -5,13 +5,12 @@ import DOMPurify from "dompurify";
 import { Check, Save } from "lucide-react";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
     Form,
     FormControl,
@@ -29,6 +28,7 @@ import type { BlogPosts } from "@/generated/prisma/client";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
 import { allowedStyles } from "@/models/allowed-styles";
+import { RelatedPostsSelector } from "./related-posts-selector";
 
 interface Props {
     blog?: BlogPosts;
@@ -53,6 +53,9 @@ export default function BlogBuilder({ blog }: Props) {
             .max(20000)
             .trim(),
         isPrivate: z.boolean(),
+        relatedBlogPosts: z
+            .array(z.uuid({ version: "v4" }))
+            .max(20, { error: "You cannot have more than 20 related posts." }),
     });
 
     const form = useForm<z.infer<typeof schema>>({
@@ -62,11 +65,11 @@ export default function BlogBuilder({ blog }: Props) {
             blogTitle: blog?.blogTitle || "Write a Blog Title!",
             blogPost: blog?.blogPost || "Hello World 🌎",
             isPrivate: blog?.private || false,
+            relatedBlogPosts: [],
         },
     });
 
     async function onSubmit(data: z.infer<typeof schema>) {
-        console.log("triggered submit");
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             FORBID_TAGS: ["script", "svg"],
             ADD_TAGS: ["iframe"],
@@ -83,6 +86,7 @@ export default function BlogBuilder({ blog }: Props) {
                 blogPost: sanitizedPost,
                 isDraft: false,
                 isPrivate: data.isPrivate,
+                relatedPosts: [],
             });
 
             if (updatePostMutation.isError) {
@@ -93,11 +97,13 @@ export default function BlogBuilder({ blog }: Props) {
         }
 
         if (!blog) {
+            console.log(data.relatedBlogPosts, relatedPosts);
             await createPostMutation.mutateAsync({
                 blogTitle: data.blogTitle,
                 blogPost: sanitizedPost,
                 isDraft: false,
                 isPrivate: data.isPrivate,
+                relatedPosts: data.relatedBlogPosts,
             });
 
             if (createPostMutation.isError) {
@@ -109,7 +115,6 @@ export default function BlogBuilder({ blog }: Props) {
     }
 
     async function handleSaveDraft(data: z.infer<typeof schema>) {
-        console.log("triggered draft save");
         const sanitizedPost = DOMPurify.sanitize(data.blogPost, {
             FORBID_TAGS: ["script", "svg"],
             ADD_TAGS: ["iframe"],
@@ -126,6 +131,7 @@ export default function BlogBuilder({ blog }: Props) {
                 blogPost: sanitizedPost,
                 isDraft: true,
                 isPrivate: data.isPrivate,
+                relatedPosts: [],
             });
         }
 
@@ -139,11 +145,8 @@ export default function BlogBuilder({ blog }: Props) {
                 blogPost: sanitizedPost,
                 isPrivate: data.isPrivate,
                 isDraft: true,
+                relatedPosts: data.relatedBlogPosts,
             });
-        }
-
-        if (createPostDraft.isError || createPostDraft.isSuccess) {
-            return;
         }
     }
 
@@ -157,119 +160,106 @@ export default function BlogBuilder({ blog }: Props) {
         setEditable(!editable);
     }
 
-    // Move focus into the title input when it replaces the clickable title.
-    useEffect(() => {
-        if (editable) {
-            form.setFocus("blogTitle");
-        }
-    }, [editable, form]);
+    const isPrivate = form.watch("isPrivate");
+    const relatedPosts = form.watch("relatedBlogPosts");
 
     return (
-        <>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} id={"blogForm"}>
-                    {editable ? (
-                        <div className="sm:w-3/5 w-5/5 my-3 sm:mx-auto mx-4 flex h-fit">
-                            <div className="w-full">
-                                <FormField
-                                    control={form.control}
-                                    name="blogTitle"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormControl>
-                                                <Input
-                                                    type="text"
-                                                    placeholder="Enter a blog title"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage className="text-xs" />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div className="ml-2">
-                                <Button variant={"outline"} onClick={handleTitleClick}>
-                                    <Check />
-                                </Button>
-                            </div>
-                        </div>
-                    ) : null}
-                    {!editable ? (
-                        // biome-ignore lint/a11y/useSemanticElements: BlogTitle renders an <h2>, which is invalid inside <button>
-                        <div
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setEditable(true)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    setEditable(true);
-                                }
-                            }}
-                            className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline-solid outline-1 outline-offset-8 outline-zinc-800 rounded"
-                        >
-                            <BlogTitle blogTitle={form.getValues().blogTitle} />
-                        </div>
-                    ) : null}
-                    <div className="w-full sm:w-11/12 sm:mx-auto mx-2">
-                        <FormField
-                            control={form.control}
-                            name="blogPost"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <TipTap
-                                            editable={true}
-                                            blogPost={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs text-right" />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                    <div className="w-full sm:w-11/12 mx-auto flex justify-between items-center">
-                        <FormField
-                            name={"isPrivate"}
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <div className={"flex items-center space-x-2"}>
-                                        <FormLabel>Private</FormLabel>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} id={"blogForm"}>
+                {editable && (
+                    <div className="sm:w-3/5 w-5/5 my-3 sm:mx-auto mx-4 flex h-fit">
+                        <div className="w-full">
+                            <FormField
+                                control={form.control}
+                                name="blogTitle"
+                                render={({ field }) => (
+                                    <FormItem>
                                         <FormControl>
-                                            <Checkbox
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
+                                            <Input
+                                                type="text"
+                                                placeholder="Enter a blog title"
+                                                {...field}
                                             />
                                         </FormControl>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
+                                        <FormMessage className="text-xs" />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="ml-2">
+                            <Button variant={"outline"} onClick={handleTitleClick}>
+                                <Check />
+                            </Button>
+                        </div>
                     </div>
-                </form>
-            </Form>
-            <div className={"flex justify-end space-x-2 w-full sm:w-11/12 sm:mx-auto"}>
-                <Button
-                    onClick={async () => await handleSaveDraft(form.getValues())}
-                    size={"lg"}
-                    variant={"secondary"}
-                >
-                    Save Draft
-                    <Save className={"ml-2"} />
-                </Button>
-                <Button
-                    form={"blogForm"}
-                    size={"lg"}
-                    type="submit"
-                    variant="secondary"
-                    className="py-1 text-green-700 bg-green-500/20 dark:text-white hover:bg-green-400 hover:text-black"
-                >
-                    Submit
-                </Button>
-            </div>
-        </>
+                )}
+                {!editable && (
+                    // biome-ignore lint/a11y/useSemanticElements: BlogTitle renders an <h2>, which is invalid inside <button>
+                    <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => setEditable(true)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                setEditable(true);
+                            }
+                        }}
+                        className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline-solid outline-1 outline-offset-8 outline-zinc-800 rounded"
+                    >
+                        <BlogTitle blogTitle={form.getValues().blogTitle} />
+                    </div>
+                )}
+                <div className="w-200 max-w-full sm:mx-auto mx-2">
+                    <FormField
+                        control={form.control}
+                        name="blogPost"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <TipTap
+                                        editable={true}
+                                        blogPost={field.value}
+                                        onChange={field.onChange}
+                                        showPrivateToggle={true}
+                                        isPrivate={isPrivate}
+                                        onPrivateChange={(val) => {
+                                            form.setValue("isPrivate", val);
+                                        }}
+                                    />
+                                </FormControl>
+                                <FormMessage className="text-xs text-right" />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className={"flex items-center justify-between space-x-2 w-200 sm:mx-auto"}>
+                    <RelatedPostsSelector
+                        value={relatedPosts}
+                        onValueChange={(val) => form.setValue("relatedBlogPosts", val)}
+                    />
+                    <div className="space-x-2">
+                        <Button
+                            onClick={async () => await handleSaveDraft(form.getValues())}
+                            size={"sm"}
+                            variant={"secondary"}
+                        >
+                            Save Draft
+                            <Save className={"ml-2"} />
+                        </Button>
+                        <Button
+                            form={"blogForm"}
+                            size={"sm"}
+                            type="submit"
+                            variant="secondary"
+                            className="py-1 text-green-700 bg-green-500/20 dark:text-white hover:bg-green-400 hover:text-black"
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                </div>
+            </form>
+        </Form>
     );
 }
