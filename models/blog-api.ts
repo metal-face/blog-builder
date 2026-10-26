@@ -7,6 +7,7 @@ export interface CreatePostPayload {
     blogPost: string;
     isDraft: boolean;
     isPrivate: boolean;
+    relatedPosts: string[];
 }
 
 export interface UpdatePostPayload extends CreatePostPayload {
@@ -42,4 +43,13 @@ export interface FetchBlogsResponse {
 
 export interface FeedResponse {
     blogs: BlogPosts[];
+}
+
+export interface BlogPostInfo {
+    id: string;
+    blogTitle: string | null;
+}
+
+export interface BlogPostInfoResponse {
+    blogPosts: BlogPostInfo[];
 }
