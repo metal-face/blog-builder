@@ -9,7 +9,8 @@
         "lint": "biome lint .",
         "postinstall": "prisma generate",
         "format": "biome format --write .",
-        "check": "biome check ."
+        "check": "biome check .",
+        "biome": "biome check --write"
     },
     "dependencies": {
         "@auth/core": "0.41.3",
