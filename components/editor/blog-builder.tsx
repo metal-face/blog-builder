@@ -11,14 +11,7 @@ import * as z from "zod";
 import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
 import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useCreatePost } from "@/functions/blog/create-post";
 import { useCreatePostDraft } from "@/functions/blog/create-post-draft";
@@ -86,7 +79,7 @@ export default function BlogBuilder({ blog }: Props) {
                 blogPost: sanitizedPost,
                 isDraft: false,
                 isPrivate: data.isPrivate,
-                relatedPosts: [],
+                relatedPosts: data.relatedBlogPosts,
             });
 
             if (updatePostMutation.isError) {
@@ -97,7 +90,6 @@ export default function BlogBuilder({ blog }: Props) {
         }
 
         if (!blog) {
-            console.log(data.relatedBlogPosts, relatedPosts);
             await createPostMutation.mutateAsync({
                 blogTitle: data.blogTitle,
                 blogPost: sanitizedPost,
@@ -151,7 +143,7 @@ export default function BlogBuilder({ blog }: Props) {
     }
 
     function handleTitleClick(): void {
-        const watcher: string = form.watch("blogTitle");
+        const watcher = form.watch("blogTitle");
 
         if (watcher.length < 4) {
             return;
