@@ -39,7 +39,7 @@ export async function GET(_req: Request, props: { params: Promise<{ id: string }
         });
 
         if (!res) {
-            return Response.json({}, { status: 404, statusText: "Bad Request" });
+            return Response.json({}, { status: 404, statusText: "Not found" });
         }
 
         const { blogsThisBlogReferences, ...blog } = res;
