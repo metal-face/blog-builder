@@ -61,6 +61,7 @@ interface Props {
     showPrivateToggle: boolean;
     isPrivate?: boolean;
     onPrivateChange?: (val: boolean) => void;
+    showWordCounter: boolean;
 }
 
 export default function Tiptap({
@@ -70,6 +71,7 @@ export default function Tiptap({
     showPrivateToggle,
     isPrivate,
     onPrivateChange,
+    showWordCounter,
 }: Props) {
     const editor = useEditor({
         // Avoid SSR hydration mismatches and keep Tiptap 2's re-render-per-transaction behavior
@@ -169,7 +171,7 @@ export default function Tiptap({
             {editable && <Toolbar editor={editor} />}
             <EditorContent editor={editor} />
             <div className="w-full flex items-center justify-between">
-                <WordCounter editor={editor} />
+                {showWordCounter && <WordCounter editor={editor} />}
                 {showPrivateToggle && (
                     <div className="flex items-center space-x-2">
                         <Tooltip>
