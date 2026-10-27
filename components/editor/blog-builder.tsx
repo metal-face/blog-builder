@@ -17,14 +17,14 @@ import { useCreatePost } from "@/functions/blog/create-post";
 import { useCreatePostDraft } from "@/functions/blog/create-post-draft";
 import { useUpdateDraft } from "@/functions/blog/update-draft";
 import { useUpdatePost } from "@/functions/blog/update-post";
-import type { BlogPosts } from "@/generated/prisma/client";
 import listenForAttributeSanitization from "@/hooks/listen-for-attribute-sanitization";
 import listenForElementSanitization from "@/hooks/listen-for-element-sanitization";
 import { allowedStyles } from "@/models/allowed-styles";
+import type { BlogPostWithRelatedPosts } from "@/models/blog-api";
 import { RelatedPostsSelector } from "./related-posts-selector";
 
 interface Props {
-    blog?: BlogPosts;
+    blog?: BlogPostWithRelatedPosts;
 }
 
 export default function BlogBuilder({ blog }: Props) {
@@ -58,7 +58,7 @@ export default function BlogBuilder({ blog }: Props) {
             blogTitle: blog?.blogTitle || "Write a Blog Title!",
             blogPost: blog?.blogPost || "Hello World 🌎",
             isPrivate: blog?.private || false,
-            relatedBlogPosts: [],
+            relatedBlogPosts: blog?.relatedPosts.map((r) => r.id),
         },
     });
 
@@ -123,7 +123,7 @@ export default function BlogBuilder({ blog }: Props) {
                 blogPost: sanitizedPost,
                 isDraft: true,
                 isPrivate: data.isPrivate,
-                relatedPosts: [],
+                relatedPosts: data.relatedBlogPosts,
             });
         }
 
@@ -159,7 +159,7 @@ export default function BlogBuilder({ blog }: Props) {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} id={"blogForm"}>
                 {editable && (
-                    <div className="sm:w-3/5 w-5/5 my-3 sm:mx-auto mx-4 flex h-fit">
+                    <div className="w-200  my-3 sm:mx-auto mx-4 flex h-fit">
                         <div className="w-full">
                             <FormField
                                 control={form.control}
@@ -179,27 +179,25 @@ export default function BlogBuilder({ blog }: Props) {
                             />
                         </div>
                         <div className="ml-2">
-                            <Button variant={"outline"} onClick={handleTitleClick}>
+                            <Button
+                                variant={"outline"}
+                                className="cursor-pointer"
+                                onClick={handleTitleClick}
+                            >
                                 <Check />
                             </Button>
                         </div>
                     </div>
                 )}
                 {!editable && (
-                    // biome-ignore lint/a11y/useSemanticElements: BlogTitle renders an <h2>, which is invalid inside <button>
-                    <div
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => setEditable(true)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
-                                setEditable(true);
-                            }
-                        }}
-                        className="sm:w-2/5 w-5/5 h-fit my-4 sm:mx-auto mx-4 cursor-pointer hover:outline-solid outline-1 outline-offset-8 outline-zinc-800 rounded"
-                    >
-                        <BlogTitle blogTitle={form.getValues().blogTitle} />
+                    <div className="w-200 mx-auto">
+                        <Button
+                            variant={"ghost"}
+                            onClick={() => setEditable(true)}
+                            className="w-200 h-fit my-4  cursor-pointer  "
+                        >
+                            <BlogTitle blogTitle={form.getValues().blogTitle} />
+                        </Button>
                     </div>
                 )}
                 <div className="w-200 max-w-full sm:mx-auto mx-2">
@@ -227,7 +225,9 @@ export default function BlogBuilder({ blog }: Props) {
                     />
                 </div>
 
-                <div className={"flex items-center justify-between space-x-2 w-200 sm:mx-auto"}>
+                <div
+                    className={"mt-4 flex items-center justify-between space-x-2 w-200 sm:mx-auto"}
+                >
                     <RelatedPostsSelector
                         value={relatedPosts}
                         onValueChange={(val) => form.setValue("relatedBlogPosts", val)}
