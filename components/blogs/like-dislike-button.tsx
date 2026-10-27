@@ -120,7 +120,7 @@ export default function LikeDislikeButton({
                 variant={"ghost"}
                 size={"sm"}
                 className="cursor-pointer"
-                disabled={disliked || loading}
+                disabled={loading}
                 onClick={async () => await handleDecrementLike()}
             >
                 <ThumbsDown
