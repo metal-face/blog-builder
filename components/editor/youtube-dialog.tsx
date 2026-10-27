@@ -19,16 +19,28 @@ type Props = {
     editor: Editor | null;
 };
 
+function isYoutubeVideoUrl(value: string): boolean {
+    try {
+        const url = new URL(value);
+        if (url.protocol !== "https:") return false;
+        if (url.hostname === "youtu.be") return url.pathname.length > 1;
+        return (
+            (url.hostname === "youtube.com" || url.hostname === "www.youtube.com") &&
+            url.pathname === "/watch" &&
+            url.searchParams.has("v")
+        );
+    } catch {
+        return false;
+    }
+}
+
 export default function YoutubeDialog({ editor }: Props) {
     const [videoUrl, setVideoUrl] = useState<string>("");
 
     if (!editor) return null;
 
     function addYoutubeVideo() {
-        if (
-            videoUrl.includes("https://youtu.be") ||
-            videoUrl.includes("https://youtube.com/watch?v=")
-        ) {
+        if (isYoutubeVideoUrl(videoUrl)) {
             editor?.commands.setYoutubeVideo({ src: videoUrl });
         }
         return;
