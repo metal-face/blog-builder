@@ -218,6 +218,7 @@ export default function BlogBuilder({ blog }: Props) {
                                         onPrivateChange={(val) => {
                                             form.setValue("isPrivate", val);
                                         }}
+                                        showWordCounter
                                     />
                                 </FormControl>
                                 <FormMessage className="text-xs text-right" />
