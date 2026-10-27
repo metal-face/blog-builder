@@ -139,10 +139,20 @@ export async function GET(req: NextRequest): Promise<Response> {
 
 export async function PUT(req: NextRequest): Promise<Response> {
     const session = await auth();
-    const { blogId, blogPost, blogTitle, isDraft, isPrivate }: UpdatePostPayload =
+
+    if (!session?.user.id) {
+        return Response.json(
+            {},
+            { status: 401, statusText: "You are not authorized to perform this action." }
+        );
+    }
+
+    const userId = session.user.id;
+
+    const { blogId, blogPost, blogTitle, isDraft, isPrivate, relatedPosts }: UpdatePostPayload =
         (await req.json()) as UpdatePostPayload;
 
-    if (!session || !blogId || !blogPost || !blogTitle) {
+    if (!blogId || !blogPost || !blogTitle) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
@@ -156,31 +166,43 @@ export async function PUT(req: NextRequest): Promise<Response> {
     listenForElementSanitization(DOMPurify);
 
     try {
-        const res = await prisma.blogPosts.update({
-            where: { id: blogId, userId: session.user.id },
-            data: {
-                blogTitle: blogTitle,
-                blogPost: cleanedBlogPost,
-                draft: isDraft,
-                private: isPrivate,
-            },
-        });
+        return await prisma.$transaction(async (tx) => {
+            await tx.relatedBlogPosts.deleteMany({
+                where: {
+                    originBlogId: blogId,
+                    relatedBlogId: { notIn: relatedPosts },
+                },
+            });
 
-        if (!res) {
-            return Response.json({}, { status: 500, statusText: "Internal Server Error" });
-        }
+            const post = await tx.blogPosts.update({
+                where: { id: blogId, userId: userId },
+                data: {
+                    blogTitle: blogTitle,
+                    blogPost: cleanedBlogPost,
+                    draft: isDraft,
+                    private: isPrivate,
+                },
+            });
 
-        return Response.json({ data: res } satisfies UpdatePostResponse, {
-            status: 200,
-            statusText: "Success",
+            await tx.relatedBlogPosts.createMany({
+                skipDuplicates: true,
+                data: relatedPosts.map((post) => ({ relatedBlogId: post, originBlogId: blogId })),
+            });
+
+            return Response.json({ data: post } satisfies UpdatePostResponse, {
+                status: 200,
+                statusText: "Success",
+            });
         });
     } catch {
         return Response.json({}, { status: 500, statusText: "Internal Server Error" });
     }
 }
 
+// Used for undo delete
 export async function PATCH(req: NextRequest): Promise<Response> {
-    const session: Session | null = await auth();
+    const session = await auth();
+
     const { blogId, revertDelete }: PatchPostPayload = (await req.json()) as PatchPostPayload;
 
     if (!blogId || !session) {
@@ -190,7 +212,7 @@ export async function PATCH(req: NextRequest): Promise<Response> {
     try {
         const res = await prisma.blogPosts.update({
             where: {
-                id: blogId.toString(),
+                id: blogId,
                 userId: session.user.id,
             },
             data: {
