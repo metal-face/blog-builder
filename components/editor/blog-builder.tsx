@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import BlogTitle from "@/components/editor/blog-title";
 import TipTap from "@/components/editor/tip-tap";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -43,7 +42,7 @@ export default function BlogBuilder({ blog }: Props) {
             .trim(),
         isPrivate: z.boolean(),
         relatedBlogPosts: z
-            .array(z.uuid({ version: "v4" }))
+            .array(z.string().min(1))
             .max(20, { error: "You cannot have more than 20 related posts." }),
     });
 
@@ -51,10 +50,10 @@ export default function BlogBuilder({ blog }: Props) {
         mode: "all",
         resolver: zodResolver(schema),
         defaultValues: {
-            blogTitle: blog?.blogTitle || "Write a Blog Title!",
-            blogPost: blog?.blogPost || "Hello World 🌎",
-            isPrivate: blog?.private || false,
-            relatedBlogPosts: blog?.relatedPosts.map((r) => r.id),
+            blogTitle: blog?.blogTitle ?? "Write a Blog Title!",
+            blogPost: blog?.blogPost ?? "Hello World 🌎",
+            isPrivate: blog?.private ?? false,
+            relatedBlogPosts: blog?.relatedPosts.map((r) => r.id) ?? [],
         },
     });
 
@@ -152,11 +151,12 @@ export default function BlogBuilder({ blog }: Props) {
                 {!editable && (
                     <div className="w-200 mx-auto">
                         <Button
+                            type="button"
                             variant={"ghost"}
                             onClick={() => setEditable(true)}
-                            className="w-200 h-fit my-4  cursor-pointer  "
+                            className="w-200 h-fit my-4 cursor-pointer text-3xl"
                         >
-                            <BlogTitle blogTitle={form.getValues().blogTitle} />
+                            {form.getValues("blogTitle")}
                         </Button>
                     </div>
                 )}
