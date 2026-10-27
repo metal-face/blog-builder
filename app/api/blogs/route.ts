@@ -30,8 +30,13 @@ export async function POST(req: Request): Promise<Response> {
     const session: Session | null = await auth();
     const updatedAt: Date = new Date();
 
-    const { blogTitle, blogPost, isDraft, isPrivate, relatedPosts }: CreatePostPayload =
-        (await req.json()) as CreatePostPayload;
+    const {
+        blogTitle,
+        blogPost,
+        isDraft,
+        isPrivate,
+        relatedPosts = [],
+    }: CreatePostPayload = (await req.json()) as CreatePostPayload;
 
     if (!session?.user.id) {
         return Response.json({}, { status: 401, statusText: "Unauthorized" });
@@ -39,12 +44,16 @@ export async function POST(req: Request): Promise<Response> {
 
     const userId = session.user.id;
 
+    if (relatedPosts.length > 20) {
+        return Response.json({}, { status: 400, statusText: "Too many related posts" });
+    }
+
     if (blogTitle.length < 4 || blogTitle.length > 32) {
-        return Response.json({}, { status: 400, statusText: "Bad Request" });
+        return Response.json({}, { status: 400, statusText: "Invalid blog title length" });
     }
 
     if (blogPost.length < 20 || blogPost.length > 20000) {
-        return Response.json({}, { status: 400, statusText: "Bad Request" });
+        return Response.json({}, { status: 400, statusText: "Invalid blog post length" });
     }
 
     listenForAttributeSanitization(allowedStyles, DOMPurify);
@@ -70,8 +79,20 @@ export async function POST(req: Request): Promise<Response> {
                 },
             });
 
+            const allowed = await tx.blogPosts.findMany({
+                select: { id: true },
+                where: {
+                    id: { in: relatedPosts, not: post.id },
+                    userId: userId,
+                    deletedAt: null,
+                    private: false,
+                    draft: false,
+                },
+            });
+
             await tx.relatedBlogPosts.createMany({
-                data: relatedPosts.map((id) => ({ relatedBlogId: id, originBlogId: post.id })),
+                skipDuplicates: true,
+                data: allowed.map(({ id }) => ({ relatedBlogId: id, originBlogId: post.id })),
             });
 
             return Response.json({} satisfies CreatePostResponse, {
@@ -149,10 +170,16 @@ export async function PUT(req: NextRequest): Promise<Response> {
 
     const userId = session.user.id;
 
-    const { blogId, blogPost, blogTitle, isDraft, isPrivate, relatedPosts }: UpdatePostPayload =
-        (await req.json()) as UpdatePostPayload;
+    const {
+        blogId,
+        blogPost,
+        blogTitle,
+        isDraft,
+        isPrivate,
+        relatedPosts = [],
+    }: UpdatePostPayload = (await req.json()) as UpdatePostPayload;
 
-    if (!blogId || !blogPost || !blogTitle) {
+    if (!blogId || !blogPost || !blogTitle || relatedPosts.length > 20) {
         return Response.json({}, { status: 400, statusText: "Bad Request" });
     }
 
@@ -184,9 +211,20 @@ export async function PUT(req: NextRequest): Promise<Response> {
                 },
             });
 
+            const allowed = await tx.blogPosts.findMany({
+                select: { id: true },
+                where: {
+                    id: { in: relatedPosts, not: blogId },
+                    userId: userId,
+                    deletedAt: null,
+                    private: false,
+                    draft: false,
+                },
+            });
+
             await tx.relatedBlogPosts.createMany({
                 skipDuplicates: true,
-                data: relatedPosts.map((post) => ({ relatedBlogId: post, originBlogId: blogId })),
+                data: allowed.map(({ id }) => ({ relatedBlogId: id, originBlogId: blogId })),
             });
 
             return Response.json({ data: post } satisfies UpdatePostResponse, {
