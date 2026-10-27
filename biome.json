@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": ["**", "!.idea", "!pnpm-lock.yaml"]
+        "includes": ["**", "!.idea", "!pnpm-lock.yaml", "!components/ui", "!skills-lock.json"]
     },
     "formatter": {
         "enabled": true,
