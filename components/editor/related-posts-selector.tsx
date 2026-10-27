@@ -41,7 +41,7 @@ export function RelatedPostsSelector({ value, onValueChange }: Props) {
                 <ComboboxChipsInput placeholder="Related posts" />
             </ComboboxChips>
             <ComboboxContent>
-                <ComboboxEmpty>You other posts found.</ComboboxEmpty>
+                <ComboboxEmpty>No other posts found.</ComboboxEmpty>
                 <ComboboxList>
                     {(item) => (
                         <ComboboxItem value={item.id} key={item.id}>
