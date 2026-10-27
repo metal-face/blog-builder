@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Session } from "next-auth";
 import type { ReactElement } from "react";
 import { auth } from "@/auth/auth";
@@ -5,6 +6,7 @@ import LikeDislikeButton from "@/components/blogs/like-dislike-button";
 import Tiptap from "@/components/editor/tip-tap";
 import { TypographyH1 } from "@/components/typography/typography-h1";
 import { prisma } from "@/lib/prisma";
+import type { BlogPostWithRelatedPosts } from "@/models/blog-api";
 
 interface SearchParams {
     ip: string | undefined;
@@ -62,8 +64,8 @@ export default async function Page(props: {
         }
     }
 
-    const blogPost = await prisma.blogPosts.findFirst({
-        where: { id: params.id },
+    const res = await prisma.blogPosts.findFirst({
+        where: { id: params.id, deletedAt: null },
         include: {
             blogsThisBlogReferences: {
                 select: {
@@ -78,6 +80,13 @@ export default async function Page(props: {
             },
         },
     });
+
+    const blogPost: BlogPostWithRelatedPosts | null = res
+        ? (({ blogsThisBlogReferences, ...blog }) => ({
+              ...blog,
+              relatedPosts: blogsThisBlogReferences.map((r) => r.relatedBlog),
+          }))(res)
+        : null;
 
     if (!blogPost?.blogPost || !blogPost?.blogTitle || !searchParams.ip) {
         return (
@@ -134,6 +143,18 @@ export default async function Page(props: {
                 showPrivateToggle={false}
                 showWordCounter={false}
             />
+            <div>
+                {blogPost.relatedPosts.length > 0 && <p className="text-sm">Related Posts:</p>}
+                {blogPost.relatedPosts.map((post) => (
+                    <Link
+                        key={post.id}
+                        href={`/blog/${post.id}`}
+                        className="text-xs text-blue-600 underline underline-offset-4 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                    >
+                        {post.blogTitle}
+                    </Link>
+                ))}
+            </div>
         </div>
     );
 }
