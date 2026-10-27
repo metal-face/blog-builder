@@ -6,9 +6,11 @@ export function useUpdatePost() {
     return useMutation({
         mutationKey: ["updatePost"],
         mutationFn: updatePost,
-        onSuccess: () => {
+        onSuccess: (_data, { isDraft }) => {
             toast.success("Success 🎉", {
-                description: "You have successfully updated your blog 🚀",
+                description: isDraft
+                    ? "You have successfully updated your draft!"
+                    : "You have successfully updated your blog 🚀",
             });
         },
         onError: () => {
