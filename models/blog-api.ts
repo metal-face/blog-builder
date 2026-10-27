@@ -53,3 +53,7 @@ export interface BlogPostInfo {
 export interface BlogPostInfoResponse {
     blogPosts: BlogPostInfo[];
 }
+
+export interface BlogPostWithRelatedPosts extends BlogPosts {
+    relatedPosts: BlogPostInfo[];
+}
